@@ -8,7 +8,6 @@ import static com.mongodb.client.model.Filters.*;
 import csci310.models.User;
 import org.bson.Document;
 
-// singleton
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager;
@@ -17,7 +16,7 @@ public class DatabaseManager {
     private MongoDatabase db;
 
     private DatabaseManager() {
-        mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+        mongoClient = new MongoClient(new MongoClientURI("mongodb://mongo:27017"));
         db = mongoClient.getDatabase("groupie-team-31");
     }
 
@@ -28,10 +27,10 @@ public class DatabaseManager {
         return databaseManager;
     }
 
-    public Boolean verifyUser(User user) {
+    public String verifyUser(User user) {
         MongoCollection<Document> collection = db.getCollection("user");
-        Document document = collection.find(and(eq("username",user.getUsername()), eq("password",user.getPsw()))).first();
-        return document != null;
+        Document document = collection.find(and(eq("username",user.getUsername()), eq("psw",user.getPsw()))).first();
+        return document == null ? null : document.toJson();
     }
 
     public Boolean checkUserExists(String username) {
@@ -44,7 +43,4 @@ public class DatabaseManager {
         MongoCollection collection = db.getCollection("user");
         collection.insertOne(user.toDocument());
     }
-
-
-
 }

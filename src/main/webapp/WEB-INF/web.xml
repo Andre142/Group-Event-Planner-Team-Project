@@ -14,10 +14,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/login</url-pattern>
+        <url-pattern>/auth/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
-        <url-pattern>/signUp</url-pattern>
+        <url-pattern>/auth/signUp</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -2,13 +2,23 @@ package csci310.models;
 
 import org.bson.Document;
 
+import java.util.UUID;
+
 public class User {
     private String username;
     private String psw;
+    private String uuid;
 
     public User(String username, String psw) {
         this.username = username;
         this.psw = psw;
+        this.uuid = UUID.randomUUID().toString();
+    }
+
+    public User(String username, String psw, String uuid) {
+        this.username = username;
+        this.psw = psw;
+        this.uuid = uuid;
     }
 
     public void setUsername(String username) {
@@ -17,6 +27,14 @@ public class User {
 
     public void setPsw(String psw) {
         this.psw = psw;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public String getUsername() {
@@ -29,7 +47,8 @@ public class User {
 
     public final Document toDocument() {
         return new Document("username", getUsername())
-                .append("password", getPsw());
+                .append("psw", getPsw())
+                .append("uuid", getUuid());
     }
 
 }
