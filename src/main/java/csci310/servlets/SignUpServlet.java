@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 public class SignUpServlet extends HttpServlet {
@@ -27,7 +28,11 @@ public class SignUpServlet extends HttpServlet {
         }
 
         user.setUuid(UUID.randomUUID().toString());
-        DatabaseManager.shared().insertUser(user);
+        try {
+            DatabaseManager.shared().insertUser(user);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         resp.setStatus(HttpServletResponse.SC_OK);
         Response response = new Response(true,null,user);
         resp.getWriter().println(JsonHelper.shared().toJson(response));
