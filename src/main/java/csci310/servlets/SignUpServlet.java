@@ -34,6 +34,7 @@ public class SignUpServlet extends HttpServlet {
             e.printStackTrace();
         }
         resp.setStatus(HttpServletResponse.SC_OK);
+        user.setPsw(null);
         Response response = new Response(true,null,user);
         resp.getWriter().println(JsonHelper.shared().toJson(response));
     }

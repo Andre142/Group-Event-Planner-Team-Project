@@ -1,13 +1,11 @@
 package csci310.utilities;
 
-import com.google.gson.JsonObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
 import csci310.models.User;
-import jdk.nashorn.internal.ir.debug.ClassHistogramElement;
 import org.bson.Document;
 
 import java.nio.charset.StandardCharsets;
@@ -23,8 +21,8 @@ public class DatabaseManager {
     private MongoDatabase db;
 
     private DatabaseManager() {
-        mongoClient = new MongoClient(new MongoClientURI("mongodb://mongo:27017"));
-        db = mongoClient.getDatabase("groupie-team-31");
+        mongoClient = new MongoClient(new MongoClientURI(K.mongoClientURI));
+        db = mongoClient.getDatabase(K.dbName);
     }
 
     public static DatabaseManager shared() {
@@ -83,9 +81,7 @@ public class DatabaseManager {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        } catch (NoSuchAlgorithmException e) {}
         return generatedPassword;
     }
 }
