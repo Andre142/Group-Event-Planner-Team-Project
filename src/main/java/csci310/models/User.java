@@ -2,9 +2,10 @@ package csci310.models;
 
 import org.bson.Document;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private String username;
     private String psw;
     private String uuid;
