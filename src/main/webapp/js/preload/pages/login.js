@@ -20,6 +20,8 @@ function login(username, password) {
             document.querySelector(".error-msg").classList.remove("hidden");
         } else {
             document.querySelector(".error-msg").classList.add("hidden");
+            localStorage.setItem("uuid", json.uuid)
+            window.location.href = "./dashboard.html"
         }
     });
 }
