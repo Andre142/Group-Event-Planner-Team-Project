@@ -87,7 +87,6 @@ public class SignUpServletTest extends Mockito {
         assertTrue(res.getStatus());
         assertEquals(null,res.getMessage());
 //      check databse
-        System.out.println(res.getData());
         assertTrue(DatabaseManager.shared().checkUserExists(username));
     }
 }
