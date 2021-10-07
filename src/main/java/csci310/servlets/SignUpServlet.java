@@ -18,10 +18,10 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = JsonHelper.shared().fromJson(req.getReader(), User.class);
+        resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
 
         if (DatabaseManager.shared().checkUserExists(user.getUsername())) {
-            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
             Response response = new Response(false, "The username has been associated with an account.");
             resp.getWriter().println(JsonHelper.shared().toJson(response));
             return;
@@ -33,7 +33,7 @@ public class SignUpServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        resp.setStatus(HttpServletResponse.SC_OK);
+
         user.setPsw(null);
         Response response = new Response(true,null,user);
         resp.getWriter().println(JsonHelper.shared().toJson(response));

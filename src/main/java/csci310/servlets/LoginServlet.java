@@ -15,18 +15,17 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
         String username = req.getParameter("username");
         String psw = req.getParameter("psw");
         String dbResponse = DatabaseManager.shared().verifyUser(new User(username, psw));
         if (dbResponse != null) {
-            resp.setStatus(HttpServletResponse.SC_OK);
             User user =  JsonHelper.shared().fromJson(dbResponse, User.class);
             Response response = new Response(true,null,user);
             resp.getWriter().println(JsonHelper.shared().toJson(response));
 
         } else {
-            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
             Response response = new Response<>(false, "Either username or password is wrong.");
             resp.getWriter().println(JsonHelper.shared().toJson(response));
         }

@@ -7,7 +7,7 @@ public class K {
     public static String mongoClientURI = "mongodb://mongo:27017";
 
     // Use this URI when running in Terminal/IntelliJ
-//    publicj static String mongoClientURI = "mongodb://localhost:27017";
+//    public static String mongoClientURI = "mongodb://localhost:27017";
 
     public static String dbName = "groupie-team-31";
 }
