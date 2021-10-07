@@ -3,6 +3,7 @@ package csci310.servlets;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
+import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
@@ -55,6 +56,38 @@ public class SignUpServletTest extends Mockito {
         when(response.getWriter()).thenReturn(writer);
         servlet.doPost(request,response);
         writer.flush();
-        assertTrue(stringWriter.toString().contains("The username has been associated with an account."));
+        Response res = JsonHelper.shared().fromJson(stringWriter.toString(), Response.class);
+        assertFalse(res.getStatus());
+        assertEquals("The username has been associated with an account.",res.getMessage());
+    }
+
+    @Test
+    public void testdoPost_SignUpSuccessful() throws IOException {
+        String username = "NonExistingName";
+        String psw = "RandomPsw";
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+//      create a mock sign_up user with an existing user name
+        User SignUpUser = new User(username,psw);
+//      create a buffer reader
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(SignUpUser)));
+//      return the created buffer reader
+        when(request.getReader()).thenReturn(bufferedReader);
+//      create a string writer
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+        servlet.doPost(request,response);
+//      start checking
+        writer.flush();
+        String ResponseString = stringWriter.toString();
+//      check response object
+        assertTrue(ResponseString.contains(username));
+        Response res = JsonHelper.shared().fromJson(ResponseString, Response.class);
+        assertTrue(res.getStatus());
+        assertEquals(null,res.getMessage());
+//      check databse
+        System.out.println(res.getData());
+        assertTrue(DatabaseManager.shared().checkUserExists(username));
     }
 }
