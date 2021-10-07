@@ -32,6 +32,6 @@ COPY docker/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME ["/root/.m2", "/usr/local/310-project"]

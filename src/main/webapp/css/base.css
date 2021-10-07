@@ -151,3 +151,23 @@ footer > p {
 #nav > div > a:not(.mobile-hide) {
   display: none;
 }
+
+.hidden {
+ display: none;
+}
+
+.error-msg {
+  /*background-color: #fffaf0;*/
+  /*border-width: 4px;*/
+  /*border-color: #ed8936;*/
+  color: #c05621;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 16px;
+  text-align: left;
+  font-weight: bold;
+  /*padding: 1rem;*/
+}
+/*<div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert"> */
+/*<p className="font-bold">Something Went Wrong</p> */
+/*<p>{errorMessage}</p> */
+/*</div>*/

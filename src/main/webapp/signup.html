@@ -61,8 +61,17 @@
     </header>
     <div class="login">
       <h3>Create an account</h3>
+      <div class="error-msg hidden">
+        <p></p>
+      </div>
       <input type="text" spellcheck="false" id="input-username" placeholder="Username" maxlength="64">
+      <div class="error-msg hidden">
+        <p>Username cannot be empty!</p>
+      </div>
       <input type="password" id="input-password" placeholder="Password" maxlength="64">
+      <div class="error-msg hidden">
+        <p>Password cannot be empty!</p>
+      </div>
       <button class="on-enter-target">Sign Up</button>
     </div>
     <footer>
