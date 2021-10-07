@@ -1,16 +1,16 @@
 function signup(username, password) {
+    document.querySelector("#input-password").classList.remove("invalid");
+    document.querySelector("#input-username").classList.remove("invalid");
     if(username.length == 0 || password.length == 0) {
         if (username.length == 0) {
-            document.querySelector("#input-username + .error-msg").classList.remove("hidden");
+            document.querySelector("#input-username").classList.add("invalid");
         }
         if (password.length == 0) {
-            document.querySelector("#input-password + .error-msg").classList.remove("hidden");
+            document.querySelector("#input-password").classList.add("invalid");
         }
         document.querySelector(".error-msg").classList.add("hidden");
         return;
     }
-    document.querySelector("#input-password + .error-msg").classList.add("hidden");
-    document.querySelector("#input-username + .error-msg").classList.add("hidden");
 
     ajaxPost(ENDPOINT_URL + "/auth/signUp", {"username": username, "psw": password}, function (response) {
         let json = JSON.parse(response);
