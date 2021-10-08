@@ -74,6 +74,5 @@ public class DatabaseManagerTest {
         User user1 = JsonHelper.shared().fromJson(userJson, User.class);
         // user is inserted into db
         assertEquals(user.getUsername(),user1.getUsername());
-
     }
 }

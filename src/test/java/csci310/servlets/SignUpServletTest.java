@@ -8,6 +8,7 @@ import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
 import csci310.utilities.K;
+import org.junit.After;
 import csci310.utilities.UserDatabaseUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,5 +88,11 @@ public class SignUpServletTest extends Mockito {
         assertEquals(null,res.getMessage());
 //      check databse
         assertTrue(UserDatabaseUtil.checkUserExists(username));
+    }
+
+    @After
+    public void tearDown() {
+        mongoDatabase.drop();
+        mongoClient.close();
     }
 }
