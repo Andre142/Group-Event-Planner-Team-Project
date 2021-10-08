@@ -39,7 +39,7 @@ public class DatabaseManager {
     }
 
     public void insertInCollection(String collectionName, Document document) {
-        MongoCollection collection = db.getCollection("user");
+        MongoCollection collection = db.getCollection(collectionName);
         collection.insertOne(document);
     }
 }
