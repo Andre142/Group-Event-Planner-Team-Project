@@ -15,6 +15,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 /**
  * Step definitions for Cucumber tests.
  */
@@ -74,19 +75,15 @@ public class StepDefinitions {
         driver.get(ROOT_URL + "login.html");
     }
 
-    @Then("I should see no errors")
-    public void iShouldSeeNoErrors() {
-        List<WebElement> l = driver.findElements(By.cssSelector(".error-msg"));
-        for(WebElement w : l) {
-            assertTrue(w.getAttribute("class").contains("hidden"));
-        }
+    @Then("I should be taken to the dashboard")
+    public void iShouldBeTakenToTheDashboard() {
+        assertEquals(driver.getCurrentUrl(), ROOT_URL+"dashboard.html");
     }
 
-    @Then("I should see errors under the username and password field")
+    @Then("I should see errors in the username and password field")
     public void iShouldSeeErrorsUnderTheUsernameAndPasswordField() {
-        List<WebElement> l = driver.findElements(By.cssSelector(".error-msg"));
-        assertFalse(l.get(1).getAttribute("class").contains("hidden"));
-        assertFalse(l.get(2).getAttribute("class").contains("hidden"));
+        assertTrue(driver.findElement(By.cssSelector("#input-username")).getAttribute("class").contains("invalid"));
+        assertTrue(driver.findElement(By.cssSelector("#input-password")).getAttribute("class").contains("invalid"));
     }
 
     @Given("I am on the login page")
@@ -99,8 +96,8 @@ public class StepDefinitions {
         driver.get(ROOT_URL + "signup.html");
     }
 
-    @Then("I should see an error at the top of the screen")
-    public void iShouldSeeAnErrorAtTheTopOfTheScreen() {
+    @Then("I should see an error at the bottom of the screen")
+    public void iShouldSeeAnErrorAtTheBottomOfTheScreen() {
         assertFalse(driver.findElement(By.cssSelector(".error-msg")).getAttribute("class").contains("hidden"));
     }
 
