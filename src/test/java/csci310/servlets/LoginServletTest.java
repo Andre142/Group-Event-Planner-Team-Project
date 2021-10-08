@@ -8,6 +8,7 @@ import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
 import csci310.utilities.K;
+import csci310.utilities.UserDatabaseUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -36,9 +37,7 @@ public class LoginServletTest extends Mockito{
         mongoDatabase = mongoClient.getDatabase(K.dbName);
         mongoDatabase.drop();
         user.setUuid(UUID.randomUUID().toString());
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
+        UserDatabaseUtil.insertUser(user);
         servlet = new LoginServlet();
     }
 

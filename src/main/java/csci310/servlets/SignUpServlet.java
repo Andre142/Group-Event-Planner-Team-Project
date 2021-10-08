@@ -5,6 +5,7 @@ import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
+import csci310.utilities.UserDatabaseUtil;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,16 +22,14 @@ public class SignUpServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
 
-        if (DatabaseManager.shared().checkUserExists(user.getUsername())) {
+        if (UserDatabaseUtil.checkUserExists(user.getUsername())) {
             Response response = new Response(false, "The username has been associated with an account.");
             resp.getWriter().println(JsonHelper.shared().toJson(response));
             return;
         }
 
         user.setUuid(UUID.randomUUID().toString());
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
+        UserDatabaseUtil.insertUser(user);
 
         user.setPsw(null);
         Response response = new Response(true,null,user);

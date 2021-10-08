@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 import csci310.models.User;
+import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,76 +38,42 @@ public class DatabaseManagerTest {
     }
 
     @Test
-    public void testverifyUser_doesExist() {
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
-        String userJson = DatabaseManager.shared().verifyUser(user);
+    public void testFindInCollection() {
+        UserDatabaseUtil.insertUser(user);
+        String userJson = null;
+        Document document = DatabaseManager.shared().findInCollection("user", "username", user.getUsername());
+        if(document != null) {
+            String salt = document.getString("salt");
+            String hash = UserDatabaseUtil.get_SHA_512_SecurePassword(user.getPsw(),salt);
+            if(hash.equals(document.getString("hash"))){
+//               password is correct
+                userJson = document.toJson();
+            }
+        }
         User user1 = JsonHelper.shared().fromJson(userJson, User.class);
         // user is inserted into db
         assertEquals(user.getUsername(),user1.getUsername());
     }
 
     @Test
-    public void testverifyUser_doesNotExist() {
-        User nonExistentUser = new User(UUID.randomUUID().toString(),"12345678");
-        String userJson = DatabaseManager.shared().verifyUser(nonExistentUser);
-        assertTrue(userJson == null);
-    }
-
-    @Test
-    public void testverifyUser_incorrectPsw() {
-        user.setUsername("newName");
-        user.setPsw("abcdefgh");
-        user.setUuid(UUID.randomUUID().toString());
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
-        User incorrectPswUser = new User(user.getUsername(), "incorrect");
-        String userJson = DatabaseManager.shared().verifyUser(incorrectPswUser);
-        assertTrue(userJson == null);
-    }
-
-    @Test
-    public void testcheckUserExists_doesExist() {
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
-        assertTrue(DatabaseManager.shared().checkUserExists(user.getUsername()));
-    }
-
-    @Test
-    public void testcheckUserExists_doesNotExist() {
-        User randomUser = new User(UUID.randomUUID().toString(),"12345678");
-        assertTrue(!DatabaseManager.shared().checkUserExists(randomUser.getUsername()));
-    }
-
-    @Test
-    public void testinsertUser() {
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
-        String userJson = DatabaseManager.shared().verifyUser(user);
-        User user1 = JsonHelper.shared().fromJson(userJson, User.class);
-        // user is inserted into db
-        assertEquals(user.getUsername(),user1.getUsername());
-    }
-
-    @Test
-    public void testget_SHA_512_SecurePassword() {
-        String psw = "abcdefgh";
+    public void insertInCollection() {
+        //      generate salt
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[16];
         random.nextBytes(bytes);
         String salt = bytes.toString();
-        String hashedPsw = DatabaseManager.shared().get_SHA_512_SecurePassword(psw,salt);
-        assertTrue(hashedPsw.length() > 50);
-        assertTrue(hashedPsw != psw);
-    }
+//      hashing
+        String hash = UserDatabaseUtil.get_SHA_512_SecurePassword(user.getPsw(),salt);
+        Document newUser = new Document().
+                append("username",user.getUsername()).
+                append("uuid", user.getUuid()).
+                append("hash",hash).
+                append("salt",salt);
+        DatabaseManager.shared().insertInCollection("user", newUser);
+        String userJson = UserDatabaseUtil.verifyUser(user);
+        User user1 = JsonHelper.shared().fromJson(userJson, User.class);
+        // user is inserted into db
+        assertEquals(user.getUsername(),user1.getUsername());
 
-    @After
-    public void tearDown() {
-        mongoDatabase.drop();
-        mongoClient.close();
     }
 }
