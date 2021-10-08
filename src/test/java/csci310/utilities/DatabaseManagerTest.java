@@ -44,7 +44,7 @@ public class DatabaseManagerTest {
         Document document = DatabaseManager.shared().findInCollection("user", "username", user.getUsername());
         if(document != null) {
             String salt = document.getString("salt");
-            String hash = UserDatabaseUtil.get_SHA_512_SecurePassword(user.getPsw(),salt);
+            String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
             if(hash.equals(document.getString("hash"))){
 //               password is correct
                 userJson = document.toJson();
@@ -63,7 +63,7 @@ public class DatabaseManagerTest {
         random.nextBytes(bytes);
         String salt = bytes.toString();
 //      hashing
-        String hash = UserDatabaseUtil.get_SHA_512_SecurePassword(user.getPsw(),salt);
+        String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
         Document newUser = new Document().
                 append("username",user.getUsername()).
                 append("uuid", user.getUuid()).
