@@ -30,9 +30,7 @@ public class SignUpServlet extends HttpServlet {
         user.setUuid(UUID.randomUUID().toString());
         try {
             DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        } catch (NoSuchAlgorithmException e) {}
 
         user.setPsw(null);
         Response response = new Response(true,null,user);

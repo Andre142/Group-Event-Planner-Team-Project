@@ -70,7 +70,7 @@ public class DatabaseManager {
         collection.insertOne(newUser);
     }
 
-    public String get_SHA_512_SecurePassword(String passwordToHash, String salt){
+    public String get_SHA_512_SecurePassword(String passwordToHash, String salt) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
