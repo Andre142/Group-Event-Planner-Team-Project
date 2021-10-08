@@ -5,6 +5,7 @@ import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
+import csci310.utilities.UserDatabaseUtil;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class LoginServlet extends HttpServlet {
         resp.setContentType("application/json");
         String username = req.getParameter("username");
         String psw = req.getParameter("psw");
-        String dbResponse = DatabaseManager.shared().verifyUser(new User(username, psw));
+        String dbResponse = UserDatabaseUtil.verifyUser(new User(username, psw));
         if (dbResponse != null) {
             User user =  JsonHelper.shared().fromJson(dbResponse, User.class);
             Response response = new Response(true,null,user);

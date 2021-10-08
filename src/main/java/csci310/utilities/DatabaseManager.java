@@ -32,42 +32,14 @@ public class DatabaseManager {
         return databaseManager;
     }
 
-    public String verifyUser(User user) {
-        MongoCollection<Document> collection = db.getCollection("user");
-        Document document = collection.find(eq("username",user.getUsername())).first();
-//      user exists
-        if (document != null){
-            String salt = document.getString("salt");
-            String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
-            if(hash.equals(document.getString("hash"))){
-//               password is correct
-                return document.toJson();
-            }
-        }
-        return null;
+    public Document findInCollection(String collectionName, String field, String value) {
+        MongoCollection<Document> collection = db.getCollection(collectionName);
+        Document document = collection.find(eq(field,value)).first();
+        return document;
     }
 
-    public Boolean checkUserExists(String username) {
-        MongoCollection<Document> collection = db.getCollection("user");
-        Document document = collection.find(eq("username",username)).first();
-        return document != null;
-    }
-
-    public void insertUser(User user) throws NoSuchAlgorithmException {
-//      generate salt
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[16];
-        random.nextBytes(bytes);
-        String salt = bytes.toString();
-//      hashing
-        String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
+    public void insertInCollection(String collectionName, Document document) {
         MongoCollection collection = db.getCollection("user");
-        Document newUser = new Document().
-                append("username",user.getUsername()).
-                append("uuid", user.getUuid()).
-                append("hash",hash).
-                append("salt",salt);
-        collection.insertOne(newUser);
+        collection.insertOne(document);
     }
-
 }

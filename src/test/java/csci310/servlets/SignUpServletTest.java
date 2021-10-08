@@ -9,6 +9,7 @@ import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
 import csci310.utilities.K;
 import org.junit.After;
+import csci310.utilities.UserDatabaseUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -35,9 +36,7 @@ public class SignUpServletTest extends Mockito {
         mongoDatabase = mongoClient.getDatabase(K.dbName);
         mongoDatabase.drop();
         user.setUuid(UUID.randomUUID().toString());
-        try {
-            DatabaseManager.shared().insertUser(user);
-        } catch (NoSuchAlgorithmException e) {}
+        UserDatabaseUtil.insertUser(user);
         servlet = new SignUpServlet();
     }
 
@@ -88,7 +87,7 @@ public class SignUpServletTest extends Mockito {
         assertTrue(res.getStatus());
         assertEquals(null,res.getMessage());
 //      check databse
-        assertTrue(DatabaseManager.shared().checkUserExists(username));
+        assertTrue(UserDatabaseUtil.checkUserExists(username));
     }
 
     @After
