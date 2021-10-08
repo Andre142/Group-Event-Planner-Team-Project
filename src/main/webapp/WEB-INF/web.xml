@@ -3,13 +3,21 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Project2</display-name>
-  <servlet>
-  	<servlet-name>GreetingServlet</servlet-name>
-  	<servlet-class>csci310.servlets.GreetingServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>GreetingServlet</servlet-name>
-  	<url-pattern>/greeting</url-pattern>
-  </servlet-mapping>
+    <display-name>Project</display-name>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>csci310.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SignUpServlet</servlet-name>
+        <servlet-class>csci310.servlets.SignUpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/auth/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUpServlet</servlet-name>
+        <url-pattern>/auth/signUp</url-pattern>
+    </servlet-mapping>
 </web-app>

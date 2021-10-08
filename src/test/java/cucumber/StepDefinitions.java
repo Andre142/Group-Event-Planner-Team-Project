@@ -1,16 +1,21 @@
 package cucumber;
 
 import io.cucumber.java.After;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static org.junit.Assert.assertTrue;
+import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 /**
  * Step definitions for Cucumber tests.
  */
@@ -43,4 +48,73 @@ public class StepDefinitions {
 	public void after() {
 		driver.quit();
 	}
+
+    @Given("I am on the signup page")
+    public void iAmOnTheSignupPage() {
+        driver.get(ROOT_URL + "signup.html");
+    }
+
+    @When("I fill out my credentials")
+    public void iFillOutMyCredentials() {
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("asdf");
+    }
+
+    @And("I click on the button at the bottom of the form")
+    public void iClickOnTheButtonAtTheBottomOfTheForm() {
+        driver.findElement(By.cssSelector(".on-enter-target")).click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    @And("I go to the login page")
+    public void iGoToTheLoginPage() {
+        driver.get(ROOT_URL + "login.html");
+    }
+
+    @Then("I should be taken to the dashboard")
+    public void iShouldBeTakenToTheDashboard() {
+        assertEquals(driver.getCurrentUrl(), ROOT_URL+"dashboard.html");
+    }
+
+    @Then("I should see errors in the username and password field")
+    public void iShouldSeeErrorsUnderTheUsernameAndPasswordField() {
+        assertTrue(driver.findElement(By.cssSelector("#input-username")).getAttribute("class").contains("invalid"));
+        assertTrue(driver.findElement(By.cssSelector("#input-password")).getAttribute("class").contains("invalid"));
+    }
+
+    @Given("I am on the login page")
+    public void iAmOnTheLoginPage() {
+        driver.get(ROOT_URL + "login.html");
+    }
+
+    @And("I go to the signup page")
+    public void iGoToTheSignupPage() {
+        driver.get(ROOT_URL + "signup.html");
+    }
+
+    @Then("I should see an error at the bottom of the screen")
+    public void iShouldSeeAnErrorAtTheBottomOfTheScreen() {
+        assertFalse(driver.findElement(By.cssSelector(".error-msg")).getAttribute("class").contains("hidden"));
+    }
+
+    @And("I fill out the wrong username")
+    public void iFillOutTheWrongUsername() {
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("o");
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("asdf");
+    }
+    @And("I fill out the wrong password")
+    public void iFillOutTheWrongPassword() {
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
+    }
+
+    @And("I fill out new credentials")
+    public void iFillOutNewCredentials() {
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf" + Integer.toString( (int)Math.random()*100000));
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
+    }
 }
