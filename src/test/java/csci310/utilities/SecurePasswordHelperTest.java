@@ -10,6 +10,7 @@ public class SecurePasswordHelperTest {
 
     @Test
     public void testgetSHA512SecurePassword() {
+        new SecurePasswordHelper();
         String psw = "abcdefgh";
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[16];
