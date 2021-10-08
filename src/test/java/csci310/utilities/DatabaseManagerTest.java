@@ -92,18 +92,6 @@ public class DatabaseManagerTest {
         assertEquals(user.getUsername(),user1.getUsername());
     }
 
-    @Test
-    public void testget_SHA_512_SecurePassword() {
-        String psw = "abcdefgh";
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[16];
-        random.nextBytes(bytes);
-        String salt = bytes.toString();
-        String hashedPsw = DatabaseManager.shared().get_SHA_512_SecurePassword(psw,salt);
-        assertTrue(hashedPsw.length() > 50);
-        assertTrue(hashedPsw != psw);
-    }
-
     @After
     public void tearDown() {
         mongoDatabase.drop();
