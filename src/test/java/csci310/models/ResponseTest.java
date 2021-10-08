@@ -1,0 +1,24 @@
+package csci310.models;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class ResponseTest {
+
+    @Test
+    public void testToString() {
+        User user = new User("user1","12345678");
+        Response<User> response = new Response<>(true);
+        response.setMessage("new message");
+        response.setData(user);
+        response.setStatus(false);
+        User retrievedUser = response.getData();
+        assertEquals("user1",retrievedUser.getUsername());
+        assertEquals("Response{" +
+                "status=" + false +
+                ", message='" + "new message" + '\'' +
+                ", data=" + retrievedUser +
+                '}',response.toString());
+    }
+}

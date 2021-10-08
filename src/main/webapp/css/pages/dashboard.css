@@ -1,0 +1,3 @@
+#nav > div > a:not(.mobile-hide) {
+  display: inline-block;
+}
