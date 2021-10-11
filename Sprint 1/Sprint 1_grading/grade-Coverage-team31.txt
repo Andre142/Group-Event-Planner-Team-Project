@@ -1,0 +1,6 @@
+Best Practice Coverage Report
+Owner: team31
+Grade: 0/12
+Comments: 
+Using commit: https://github.com/CSCI310/20213-project-team31/commit/ebc5ca72e9f74939983b96d01095c819aa66dec4
+	Maven clean/test failed. Check the included maven log file.
