@@ -1,0 +1,15 @@
+Best Practice Refactor Report
+Owner: team31
+Grade: 10.7/12
+Comments: 
+Issue 11: https://github.com/CSCI310/20213-project-team31/issues/11
+	YangYue2000 satisfied 7 of 7 requirements for this issue.
+Issue 9: https://github.com/CSCI310/20213-project-team31/issues/9
+	The comment is empty
+	Issue was not closed by assignee
+	ryankwei satisfied 5 of 7 requirements for this issue.
+Issue 5: https://github.com/CSCI310/20213-project-team31/issues/5
+	MKevinn satisfied 7 of 7 requirements for this issue.
+Issue 3: https://github.com/CSCI310/20213-project-team31/issues/3
+	The comment is empty
+	jackmandelkorn satisfied 6 of 7 requirements for this issue.
