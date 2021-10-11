@@ -1,0 +1,25 @@
+Best Practice TDD Report
+Owner: team31
+Grade: 4.3/12
+Comments: 
+	Test method was not created before method : databasemanager.shared
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	No test method found for: databasemanager.insertincollection
+		Commit: https://github.com/CSCI310/20213-project-team31/commit/1ccdbea75ccbdcf87c2dd9ff435aab5ef7d9e197
+	Test method was not created before method : loginservlet.doget
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	Test method was not created before method : signupservlet.dopost
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	Test method was not created before method : databasemanager.verifyuser
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	Test method was not created before method : databasemanager.checkuserexists
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	Test method was not created before method : databasemanager.insertuser
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	Test method was not created before method : user.todocument
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/8a3cac77673658792c30d9118d1878c24fb5d4b4
+	Test method was not created before method : jsonhelper.shared
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/118fe9ea59a0ee71f8422b686b44f211d67c709b
+Correct TDD methods: 5
+Incorrect TDD methods: 9
+Total methods evaluated for TDD: 14
