@@ -1,0 +1,35 @@
+Sprint Retrospective
+
+
+Attendants: Kevin, Jack, Ryan, Yang
+
+
+Process Changes:
+- Pay more attention to
+   * TDD, making sure we create test methods before implementation
+   * Scrum Meeting Questions, making sure we answer all the questions
+   * Double check our product backlog, sprint backlog, and task charts meet requirements
+- Provide explanations if the task chart is not updated in each scrum
+- Move task chart to Google Sheets
+
+
+New Task(s) Added to Product Backlog:
+- Users should be able to search events by date range, location, and keyword
+- Minor changes to login / sign up UI
+
+
+Address Feedback:
+- There are some UI related issues we need to address, for example, making the background color of the button to match the tint color of the website so that the theme of the website is more consistent and visually appealing. Minor Changes to Login / Sign Up UI are listed below:
+   * Add “Confirm password” field on sign up page
+   * Change “Sign Up” button to say “Create User”
+   * Redirect to “Login” page instead of “Dashboard” following sign up
+   * Make “Login” button blue
+   * Add red “Cancel” button to the left of “Create User” button which redirects to login
+   * Make “Create User” button green
+   * Add descriptive error text when login/sign up inputs are invalid instead of red border
+
+
+- The navigation process needs to be adjusted slightly, i.e. directing users to login page after signing up successfully, to reduce the navigation complexity.
+
+
+- Investigate reasons for losing points on coverage/CI (regrade or  configuration change or test change)
