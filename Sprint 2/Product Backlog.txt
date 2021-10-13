@@ -1,0 +1,24 @@
+﻿Product Backlog 2 - Feature numbers in parentheses
+* Create group date (1)
+   * Select events
+   * Select recipients (search for users in the app)
+   * Let creator decide how best date gets chosen
+* Respond to group date (2)
+   * Indicate whether you’re available for each event
+   * Preference ranking for the events (1 - 5)
+   * Visualize others’ availabilities
+* System determines best overall group date based on preferences and availability (3)
+* Dashboard (4)
+   * Visualize group date invites received
+   * Visualize group dates invites you’ve sent
+* Privacy Settings / Account Management (7)
+   * Set himself unavailable for all events using date time range
+   * Block/unblock users
+* Search events for proposal (1)
+   * By keyword(s)        
+   * By date(s)
+* Search users to invite to proposal (1)
+   * By username
+* Minor changes to login / sign up UI (7)
+
+Note: We completed 9, protecting confidentiality of users’ data. 10 and 11 are not mentioned because they aren’t individual tasks, and “login” and “sign up” tasks were removed and replaced with “Minor changes to login / sign up UI”
