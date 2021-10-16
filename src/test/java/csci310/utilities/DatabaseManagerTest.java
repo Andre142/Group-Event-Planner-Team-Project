@@ -38,7 +38,7 @@ public class DatabaseManagerTest {
     }
 
     @Test
-    public void testFindInCollection() {
+    public void testfindInCollection() {
         UserDatabaseUtil.insertUser(user);
         String userJson = null;
         Document document = DatabaseManager.shared().findInCollection("user", "username", user.getUsername());
@@ -56,7 +56,7 @@ public class DatabaseManagerTest {
     }
 
     @Test
-    public void insertInCollection() {
+    public void testinsertInCollection() {
         //      generate salt
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[16];

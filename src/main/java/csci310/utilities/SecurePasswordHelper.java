@@ -17,9 +17,7 @@ public class SecurePasswordHelper {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        }
+        } catch (NoSuchAlgorithmException e) {}
         return generatedPassword;
     }
 

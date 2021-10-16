@@ -4,10 +4,12 @@ package csci310.utilities;
 public class K {
 
     // Use this URI when running in Docker container
-    public static String mongoClientURI = "mongodb://mongo:27017";
+//    public static String mongoClientURI = "mongodb://mongo:27017";
 
     // Use this URI when running in Terminal/IntelliJ
-//    public static String mongoClientURI = "mongodb://localhost:27017";
+    public static String mongoClientURI = "mongodb://localhost:27017";
 
     public static String dbName = "groupie-team-31";
+
+    public static String rootUrl = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=s2fLKhgGgWbFn03ukLklx4J491GKcQWp";
 }
