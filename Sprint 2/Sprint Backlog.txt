@@ -1,4 +1,4 @@
-﻿Sprint Backlog
+Sprint Backlog
 
 
 Backend: User will be able to search for and select events
@@ -7,9 +7,7 @@ Support searching by keyword, date range, and location
 Store event information of a certain user into the database
 
 
-Backend: Senders can send proposals to specific users
-Store the id of event to the sender/receiver when it is sent
-Store all the existing proposals that a user has received to database
+Backend: Switch to SQLite database
 
 
 Backend: Write unit tests first
