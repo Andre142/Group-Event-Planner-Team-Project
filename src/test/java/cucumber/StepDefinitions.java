@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,16 +59,9 @@ public class StepDefinitions {
     public void iFillOutMyCredentials() {
         driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
         driver.findElement(By.cssSelector("#input-password")).sendKeys("asdf");
-    }
-
-    @And("I click on the button at the bottom of the form")
-    public void iClickOnTheButtonAtTheBottomOfTheForm() {
-        driver.findElement(By.cssSelector(".on-enter-target")).click();
         try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-
-        }
+            driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("asdf");
+        } catch(NoSuchElementException e) {}
     }
 
     @And("I go to the login page")
@@ -116,5 +110,36 @@ public class StepDefinitions {
     public void iFillOutNewCredentials() {
         driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf" + Integer.toString( (int)Math.random()*100000));
         driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
+    }
+
+    @Then("I should be taken to the login page")
+    public void iShouldBeTakenToTheLoginPage() {
+        assertEquals(ROOT_URL + "login.html", driver.getCurrentUrl());
+    }
+
+    @And("I click on the log in button")
+    public void iClickOnTheLogInButton() {
+        driver.findElement(By.cssSelector(".on-enter-target")).click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {}
+    }
+
+    @When("I click on the create account button")
+    public void iClickOnTheCreateAccountButton() {
+        driver.findElement(By.cssSelector("#create-account")).click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {}
+    }
+
+    @And("I change the confirm password field to not match my password")
+    public void iChangeTheConfirmPasswordFieldToNotMatchMyPassword() {
+        driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("12345");
+    }
+
+    @And("I click the cancel button")
+    public void iClickTheCancelButton() {
+        driver.findElement(By.cssSelector("#cancel")).click();
     }
 }
