@@ -23,6 +23,10 @@ public class DatabaseManager {
     private PreparedStatement insertUserPs;
     private PreparedStatement verifyUserPs;
 
+    // for unit tests purpose
+    public static void setDatabaseManager(DatabaseManager databaseManager) {DatabaseManager.databaseManager = databaseManager;}
+    public void setCheckUserExistsPs(PreparedStatement checkUserExistsPs) {this.checkUserExistsPs = checkUserExistsPs;}
+
     private DatabaseManager() {
         try {
             con = DriverManager.getConnection(K.sqliteUrl);
@@ -62,7 +66,7 @@ public class DatabaseManager {
 
     public void insertUser(User user) {
         String salt = SecurePasswordHelper.getSalt();
-        String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
+        String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt,"SHA-512");
         try {
             insertUserPs.setString(1,user.getUsername());
             insertUserPs.setString(2,salt);
@@ -78,7 +82,7 @@ public class DatabaseManager {
             if (rs.next()) {
                 verifyUserPs.setString(1,user.getUsername());
                 String salt = rs.getString(1);
-                String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
+                String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt,"SHA-512");
                 verifyUserPs.setString(2,hash);
                 ResultSet rs2 = verifyUserPs.executeQuery();
                 if (rs2.next())

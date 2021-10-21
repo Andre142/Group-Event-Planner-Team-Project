@@ -14,10 +14,10 @@ public class SecurePasswordHelper {
         return bytes.toString();
     }
 
-    public static String getSHA512SecurePassword(String passwordToHash, String salt) {
+    public static String getSHA512SecurePassword(String passwordToHash, String salt, String algorithm) {
         String generatedPassword = null;
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            MessageDigest md = MessageDigest.getInstance(algorithm);
             md.update(salt.getBytes(StandardCharsets.UTF_8));
             byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();

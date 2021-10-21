@@ -1,19 +1,36 @@
 package csci310.utilities;
 
 import csci310.models.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class DatabaseManagerTest {
 
-    User user;
+    private User user;
+
+    @Mock
+    PreparedStatement preparedStatementMock;
 
     @Before
     public void setUp() throws Exception {
         user = new User("user1","13579qwerty");
         new K();
+        MockitoAnnotations.initMocks(this);
+        when(preparedStatementMock.executeQuery()).thenThrow(new SQLException());
+    }
+
+    // clean up after using Mock statement
+    private void cleanUp() {
+        DatabaseManager.setDatabaseManager(null);
     }
 
     @Test
@@ -29,7 +46,15 @@ public class DatabaseManagerTest {
 
     @Test
     public void testCheckUserExists_doesNotExist() {
-        assertNull(DatabaseManager.shared().checkUserExists("12345"));
+        assertNull(DatabaseManager.shared().checkUserExists("false"));
+    }
+
+    @Test
+    public void testCheckUserExists_throwsException() {
+        DatabaseManager.shared().setCheckUserExistsPs(preparedStatementMock);
+        DatabaseManager.shared().checkUserExists("false");
+        cleanUp();
+        assertNull(DatabaseManager.shared().checkUserExists("false"));
     }
 
     @Test
@@ -60,4 +85,18 @@ public class DatabaseManagerTest {
         User newUser = new User(user.getUsername(),"false");
         DatabaseManager.shared().verifyUser(newUser);
     }
+
+    @Test
+    public void testVerifyUser_throwsException() {
+        DatabaseManager.shared().setCheckUserExistsPs(preparedStatementMock);
+        User user4 = new User("user4","123456");
+        DatabaseManager.shared().verifyUser(user4);
+        K.sqliteUrl = "";
+        cleanUp();
+        DatabaseManager.shared();
+        K.sqliteUrl = "jdbc:sqlite:groupie.db";
+        cleanUp();
+        assertNull(DatabaseManager.shared().verifyUser(user4));
+    }
+
 }
