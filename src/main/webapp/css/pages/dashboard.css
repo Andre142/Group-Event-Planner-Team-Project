@@ -3,15 +3,15 @@
 }
 
 .main {
-  position: absolute;
   box-sizing: border-box;
   left: 0px;
-  top: 96px;
+  margin-top: 96px;
   width: 100vw;
+  min-height: calc(100vh - 192px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 8vh;
+  padding-top: calc(50vh - 384px);
   flex-direction: column;
 }
 
@@ -21,7 +21,7 @@
   text-align: center;
 }
 
-.dates, .dates-titles {
+.grouping, .titles {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,18 +30,17 @@
   box-sizing: border-box;
 }
 
-.dates-titles {
+.titles {
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
-.dates-titles > p {
+.titles > p {
   margin: 0px;
 }
 
 p.subtitle {
-  opacity: 0.4;
-  color: black;
+  color: rgba(0,0,0,0.4);
   font-weight: bold;
   text-transform: uppercase;
   font-size: 14px;
@@ -57,27 +56,6 @@ input[type=date]::placeholder {
   color: rgba(0,0,0,0.4);
 }
 
-button {
-  background: black;
-  background-color: black;
-  box-sizing: border-box;
-  font-size: 18px;
-  line-height: 18px;
-  font-weight: 500;
-  text-decoration: none;
-  color: white;
-  padding: 15px 24px;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: 100px;
-  margin: 0px 8px;
-  cursor: pointer;
-  border: none;
-  font-family: "IBM Plex Sans", sans-serif;
-  outline: none;
-  margin-top: 24px;
-}
-
 .results {
   width: 352px;
   display: flex;
@@ -86,7 +64,7 @@ button {
   flex-direction: column;
   margin-top: 16px;
   box-sizing: border-box;
-  padding-bottom: 100px;
+  padding-bottom: 64px;
 }
 
 .results > .result {
@@ -94,7 +72,7 @@ button {
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  margin: 8px 0px;
+  margin: 16px 0px;
   box-sizing: border-box;
 }
 
@@ -110,6 +88,34 @@ button {
   margin: 0px;
 }
 
+.results > p {
+  align-self: center;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.grouping > input[type=text] {
+  margin: 0px;
+}
+
+#keywords {
+  width: 244px;
+}
+
+#country {
+  width: 92px;
+  text-align: right;
+  background-image: url("../../assets/images/dummy-flag.png");
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: 16px center;
+}
+
+footer {
+  position: relative;
+}
+
 @media only screen and (max-width : 894px) {
   input[type=text] {
     width: 320px;
@@ -117,7 +123,7 @@ button {
   input[type=date] {
     width: 152px;
   }
-  .dates, .dates-titles {
+  .grouping, .titles {
     width: 320px;
   }
   .results {
@@ -125,5 +131,8 @@ button {
   }
   .result {
     width: 320px !important;
+  }
+  #keywords {
+    width: 212px;
   }
 }

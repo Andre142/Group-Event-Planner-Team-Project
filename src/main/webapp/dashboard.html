@@ -39,6 +39,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!--SCRIPTS-->
     <script src="js/auth/mustBeLoggedIn.js"></script>
+    <script src="js/preload/countries.js"></script>
     <script src="js/base.js"></script>
     <script src="js/preload/pages/dashboard.js"></script>
     <title>Groupie - Dashboard</title>
@@ -62,18 +63,28 @@
     </header>
     <div class="main">
       <h3>Search Events</h3>
-      <input id="keywords" maxlength="64" type="text" placeholder="Type here..." class="search-bar">
-      <div class="dates-titles">
+      <div class="titles">
+        <p class="subtitle">Keywords<span class="required">*</span></p>
+        <p class="subtitle">Country</p>
+      </div>
+      <div class="grouping">
+        <input id="keywords" maxlength="64" type="text" placeholder="Type here..." class="search-bar" onenter="search()">
+        <input id="country" maxlength="2" type="text" placeholder="US" class="search-bar" onenter="search()" onpaste="country()" onkeyup="country" onkeypress="country" onkeydown="country" oninput="country()">
+      </div>
+      <div class="titles">
         <p class="subtitle">Start Date</p>
         <p class="subtitle">End Date</p>
       </div>
-      <div class="dates">
-        <input id="start-date" type="date">
-        <input id="end-date" type="date">
+      <div class="grouping">
+        <input id="start-date" type="date" placeholder="YYYY-MM-DD">
+        <input id="end-date" type="date" placeholder="YYYY-MM-DD">
       </div>
-      <button onclick="search()">Search</button>
+      <button onclick="search()" id="search-button">Search</button>
       <div class="results" id="results"></div>
     </div>
+    <footer>
+        <p>&copy; Groupie 2021</p>
+    </footer>
     <script src="js/postload/pages/dashboard.js"></script>
   </body>
 </html>
