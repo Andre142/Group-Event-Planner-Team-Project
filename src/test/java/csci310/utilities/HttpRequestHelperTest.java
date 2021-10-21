@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class HttpRequestHelperTest {
 
     @Test
-    public void testget_success() {
+    public void testGet_success() {
         new HttpRequestHelper();
         String res = null;
         try {
@@ -19,7 +19,7 @@ public class HttpRequestHelperTest {
     }
 
     @Test
-    public void testget_fail() {
+    public void testGet_fail() {
         String res = null;
         try {
             res = HttpRequestHelper.get("https://www.google2.com");

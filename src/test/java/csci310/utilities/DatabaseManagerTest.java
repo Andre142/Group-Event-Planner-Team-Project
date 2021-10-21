@@ -1,78 +1,63 @@
 package csci310.utilities;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoDatabase;
 import csci310.models.User;
-import org.bson.Document;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.UUID;
-
 import static org.junit.Assert.*;
 
 public class DatabaseManagerTest {
 
-    MongoClient mongoClient;
-    MongoDatabase mongoDatabase;
-
-    User user;
+    private User user;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         user = new User("user1","13579qwerty");
-
         new K();
-        mongoClient = new MongoClient(new MongoClientURI(K.mongoClientURI));
-        mongoDatabase = mongoClient.getDatabase(K.dbName);
-        mongoDatabase.drop();
     }
 
     @Test
-    public void testshared() {
-        assertTrue(DatabaseManager.shared() != null);
+    public void testShared() {
+        assertNotNull(DatabaseManager.shared());
+     }
+
+    @Test
+    public void testCheckUserExists_doesExist() {
+        DatabaseManager.shared().insertUser(user);
+        assertNotNull(DatabaseManager.shared().checkUserExists(user.getUsername()));
     }
 
     @Test
-    public void testfindInCollection() {
-        UserDatabaseUtil.insertUser(user);
-        String userJson = null;
-        Document document = DatabaseManager.shared().findInCollection("user", "username", user.getUsername());
-        if(document != null) {
-            String salt = document.getString("salt");
-            String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
-            if(hash.equals(document.getString("hash"))){
-//               password is correct
-                userJson = document.toJson();
-            }
-        }
-        User user1 = JsonHelper.shared().fromJson(userJson, User.class);
-        // user is inserted into db
-        assertEquals(user.getUsername(),user1.getUsername());
+    public void testCheckUserExists_doesNotExist() {
+        assertNull(DatabaseManager.shared().checkUserExists("false"));
     }
 
     @Test
-    public void testinsertInCollection() {
-        //      generate salt
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[16];
-        random.nextBytes(bytes);
-        String salt = bytes.toString();
-//      hashing
-        String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt);
-        Document newUser = new Document().
-                append("username",user.getUsername()).
-                append("uuid", user.getUuid()).
-                append("hash",hash).
-                append("salt",salt);
-        DatabaseManager.shared().insertInCollection("user", newUser);
-        String userJson = UserDatabaseUtil.verifyUser(user);
-        User user1 = JsonHelper.shared().fromJson(userJson, User.class);
-        // user is inserted into db
-        assertEquals(user.getUsername(),user1.getUsername());
+    public void testInsertUser() {
+        User user2 = new User("user2","123456");
+        DatabaseManager.shared().insertUser(user2);
+        User retrievedUser = DatabaseManager.shared().verifyUser(user2);
+        assertEquals(retrievedUser.getUsername(),user2.getUsername());
     }
+
+    @Test
+    public void testVerifyUser_doesExist() {
+        User user3 = new User("user3","123456");
+        DatabaseManager.shared().insertUser(user3);
+        User retrievedUser = DatabaseManager.shared().verifyUser(user3);
+        assertEquals(retrievedUser.getUsername(),user3.getUsername());
+    }
+
+    @Test
+    public void testVerifyUser_doesNotExist() {
+        User user4 = new User("user4","123456");
+        assertNull(DatabaseManager.shared().verifyUser(user4));
+    }
+
+    @Test
+    public void testVerifyUser_incorrectPsw() {
+        DatabaseManager.shared().insertUser(user);
+        User newUser = new User(user.getUsername(),"false");
+        DatabaseManager.shared().verifyUser(newUser);
+    }
+
 }
