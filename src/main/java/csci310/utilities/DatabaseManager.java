@@ -23,10 +23,6 @@ public class DatabaseManager {
     private PreparedStatement insertUserPs;
     private PreparedStatement verifyUserPs;
 
-    // for unit tests purpose
-    public static void setDatabaseManager(DatabaseManager databaseManager) {DatabaseManager.databaseManager = databaseManager;}
-    public void setCheckUserExistsPs(PreparedStatement checkUserExistsPs) {this.checkUserExistsPs = checkUserExistsPs;}
-
     private DatabaseManager() {
         try {
             con = DriverManager.getConnection(K.sqliteUrl);
