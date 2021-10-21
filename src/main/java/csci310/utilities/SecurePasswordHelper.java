@@ -3,8 +3,16 @@ package csci310.utilities;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public class SecurePasswordHelper {
+
+    public static String getSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[16];
+        random.nextBytes(bytes);
+        return bytes.toString();
+    }
 
     public static String getSHA512SecurePassword(String passwordToHash, String salt) {
         String generatedPassword = null;

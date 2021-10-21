@@ -9,6 +9,12 @@ import static org.junit.Assert.*;
 public class SecurePasswordHelperTest {
 
     @Test
+    public void getSalt() {
+        String salt = SecurePasswordHelper.getSalt();
+        assertNotEquals(0,salt.length());
+    }
+
+    @Test
     public void testgetSHA512SecurePassword() {
         new SecurePasswordHelper();
         String psw = "abcdefgh";
