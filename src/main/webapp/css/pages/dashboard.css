@@ -1,3 +1,129 @@
 #nav > div > a:not(.mobile-hide) {
   display: inline-block;
 }
+
+.main {
+  position: absolute;
+  box-sizing: border-box;
+  left: 0px;
+  top: 96px;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8vh;
+  flex-direction: column;
+}
+
+.main > h3 {
+  font-size: 24px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.dates, .dates-titles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 352px;
+  box-sizing: border-box;
+}
+
+.dates-titles {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.dates-titles > p {
+  margin: 0px;
+}
+
+p.subtitle {
+  opacity: 0.4;
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+input[type=date] {
+  width: 168px;
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+input[type=date]::placeholder {
+  color: rgba(0,0,0,0.4);
+}
+
+button {
+  background: black;
+  background-color: black;
+  box-sizing: border-box;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 500;
+  text-decoration: none;
+  color: white;
+  padding: 15px 24px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 100px;
+  margin: 0px 8px;
+  cursor: pointer;
+  border: none;
+  font-family: "IBM Plex Sans", sans-serif;
+  outline: none;
+  margin-top: 24px;
+}
+
+.results {
+  width: 352px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 16px;
+  box-sizing: border-box;
+  padding-bottom: 100px;
+}
+
+.results > .result {
+  width: 352px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin: 8px 0px;
+  box-sizing: border-box;
+}
+
+.result > p {
+  margin: 0px;
+}
+
+.result > a {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0px;
+}
+
+@media only screen and (max-width : 894px) {
+  input[type=text] {
+    width: 320px;
+  }
+  input[type=date] {
+    width: 152px;
+  }
+  .dates, .dates-titles {
+    width: 320px;
+  }
+  .results {
+    width: 320px !important;
+  }
+  .result {
+    width: 320px !important;
+  }
+}

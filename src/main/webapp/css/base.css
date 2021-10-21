@@ -114,6 +114,7 @@ input.invalid {
 
 input::placeholder {
   letter-spacing: normal;
+  color: rgba(0,0,0,0.4);
 }
 
 input[type=password] {
