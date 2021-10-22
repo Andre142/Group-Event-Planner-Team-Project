@@ -3,17 +3,11 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
-const search = () => {
-  const keywords = document.getElementById("keywords")
-  const country = document.getElementById("country")
-  const startDate = document.getElementById("start-date")
-  const endDate = document.getElementById("end-date")
-  const errMsg = document.querySelector(".error-msg")
-  const code = country.value.trim().toUpperCase()
+const search = (keywords, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {
     errMsg.innerHTML = "Keywords cannot be empty"
     errMsg.classList.remove("hidden")
-    genResults()
+    genResults(resultsContainer)
     return;
   }
   else {
@@ -28,21 +22,20 @@ const search = () => {
   if (startDate.value.length && endDate.value.length) {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + "&startDate=" + startDate.value + "&endDate=" + endDate.value + add, (response) => {
       let json = JSON.parse(response)
-      genResults(json)
+      genResults(json, resultsContainer)
       $("#search-button").removeClass("loading")
     })
   }
   else {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + add, (response) => {
       let json = JSON.parse(response)
-      genResults(json)
+      genResults(json, resultsContainer)
       $("#search-button").removeClass("loading")
     })
   }
 }
 
-const genResults = (json = {}) => {
-  const container = document.getElementById("results")
+const genResults = (json = {}, container) => {
   container.innerHTML = ""
   if (JSON.stringify(json) !== "{}") {
     if (!json.status) {
@@ -72,8 +65,7 @@ const genResults = (json = {}) => {
   }
 }
 
-const country = () => {
-  const element = document.getElementById("country")
+const country = (element) => {
   element.value = element.value.trim().toUpperCase()
   const code = element.value
   if (COUNTRIES[code]) {
