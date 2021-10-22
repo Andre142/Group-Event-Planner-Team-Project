@@ -178,7 +178,7 @@ public class StepDefinitions {
     public void iAmLoggedIn() {
         iAmOnTheLoginPage();
         iFillOutMyCredentials();
-        iClickOnTheButtonAtTheBottomOfTheForm();
+        iClickOnTheLogInButton();
         iShouldBeTakenToTheDashboard();
     }
 
