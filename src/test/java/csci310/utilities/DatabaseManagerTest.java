@@ -58,7 +58,7 @@ public class DatabaseManagerTest {
     public void testVerifyUser_incorrectPsw() {
         DatabaseManager.shared().insertUser(user);
         User newUser = new User(user.getUsername(),"false");
-        DatabaseManager.shared().verifyUser(newUser);
+        assertNull(DatabaseManager.shared().verifyUser(newUser));
     }
 
     @Test
