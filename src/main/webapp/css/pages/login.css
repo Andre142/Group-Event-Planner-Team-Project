@@ -31,6 +31,28 @@ div.login > a:hover {
   opacity: 1;
 }
 
+/* div.login > button {*/
+.on-enter-target {
+   background: black;
+   background-color: black;
+   box-sizing: border-box;
+   font-size: 18px;
+   line-height: 18px;
+   font-weight: 500;
+   text-decoration: none;
+   color: white;
+   padding: 15px 24px;
+   height: 48px;
+   flex-shrink: 0;
+   border-radius: 100px;
+   margin: 0px 8px;
+   cursor: pointer;
+   border: none;
+   font-family: "IBM Plex Sans", sans-serif;
+   outline: none;
+   margin-top: 24px;
+}
+
 @media only screen and (max-width : 894px) {
   div.login > input {
     width: 320px;

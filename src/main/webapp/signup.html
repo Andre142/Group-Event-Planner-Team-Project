@@ -64,10 +64,14 @@
       <h3>Create an account</h3>
       <input type="text" spellcheck="false" id="input-username" placeholder="Username" maxlength="64">
       <input type="password" id="input-password" placeholder="Password" maxlength="64">
+      <input type="password" id="input-password-confirm" placeholder="Confirm Password" maxlength="64">
       <div class="error-msg hidden">
         <p></p>
       </div>
-      <button class="on-enter-target">Sign Up</button>
+      <div>
+        <button id="create-account" class="on-enter-target" style="background-color: green;">Create User</button>
+        <button id="cancel" class="on-enter-target" style="background-color: red;">Cancel</button>
+      </div>
     </div>
     <footer>
         <p>&copy; Groupie 2021</p>
