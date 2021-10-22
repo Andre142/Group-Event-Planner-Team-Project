@@ -22,6 +22,7 @@ public class DatabaseManager {
     private PreparedStatement checkUserExistsPs;
     private PreparedStatement insertUserPs;
     private PreparedStatement verifyUserPs;
+    private PreparedStatement deleteUserPs;
 
     private DatabaseManager() {
         try {
@@ -31,6 +32,7 @@ public class DatabaseManager {
             checkUserExistsPs = con.prepareStatement("select Salt from Users where Username = ?");
             insertUserPs = con.prepareStatement("insert into Users (Username,Salt,Hash) values (?,?,?)");
             verifyUserPs = con.prepareStatement("select Username from Users where Username = ? and Hash = ?");
+            deleteUserPs = con.prepareStatement("delete from Users where Username = ?");
         } catch (SQLException e) {}
     }
 
@@ -86,5 +88,14 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {}
         return null;
+    }
+
+    public void deleteUser(User user) {
+        try {
+            if(this.verifyUser(user) != null) {
+                deleteUserPs.setString(1,user.getUsername());
+                deleteUserPs.executeUpdate();
+            }
+        } catch (SQLException e) {}
     }
 }

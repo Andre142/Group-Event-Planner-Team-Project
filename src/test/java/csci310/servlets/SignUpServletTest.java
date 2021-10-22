@@ -59,6 +59,8 @@ public class SignUpServletTest extends Mockito {
         HttpServletResponse response = mock(HttpServletResponse.class);
 //      create a mock sign_up user with an existing user name
         User SignUpUser = new User(username,psw);
+        // remove user if it exists from previous tests
+        DatabaseManager.shared().deleteUser(SignUpUser);
 //      create a buffer reader
         BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(SignUpUser)));
 //      return the created buffer reader

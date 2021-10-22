@@ -8,14 +8,17 @@ const search = () => {
   const country = document.getElementById("country")
   const startDate = document.getElementById("start-date")
   const endDate = document.getElementById("end-date")
+  const errMsg = document.querySelector(".error-msg")
   const code = country.value.trim().toUpperCase()
   if (keywords.value.length < 1) {
-    $(keywords).addClass("invalid")
+    errMsg.innerHTML = "Keywords cannot be empty"
+    errMsg.classList.remove("hidden")
     genResults()
     return;
   }
   else {
-    $(keywords).removeClass("invalid")
+    errMsg.innerHTML = ""
+    errMsg.classList.add("hidden")
   }
   let add = ""
   if (COUNTRIES[code]) {
