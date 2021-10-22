@@ -1,7 +1,5 @@
 package csci310.models;
 
-import org.bson.Document;
-
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -45,11 +43,4 @@ public class User implements Serializable {
     public String getPsw() {
         return psw;
     }
-
-    public final Document toDocument() {
-        return new Document("username", getUsername())
-                .append("psw", getPsw())
-                .append("uuid", getUuid());
-    }
-
 }
