@@ -1,15 +1,11 @@
 package csci310.servlets;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoDatabase;
 import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
 import csci310.utilities.K;
-import org.junit.After;
-import csci310.utilities.UserDatabaseUtil;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -17,7 +13,6 @@ import org.mockito.Mockito;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -25,18 +20,13 @@ import static org.junit.Assert.*;
 public class SignUpServletTest extends Mockito {
     private SignUpServlet servlet;
     private User user;
-    private MongoClient mongoClient;
-    private MongoDatabase mongoDatabase;
 
     @Before
     public void setUp() {
         user = new User("ExistingName","ExistingPsw");
         new K();
-        mongoClient = new MongoClient(new MongoClientURI(K.mongoClientURI));
-        mongoDatabase = mongoClient.getDatabase(K.dbName);
-        mongoDatabase.drop();
         user.setUuid(UUID.randomUUID().toString());
-        UserDatabaseUtil.insertUser(user);
+        DatabaseManager.shared().insertUser(user);
         servlet = new SignUpServlet();
     }
 
@@ -69,6 +59,8 @@ public class SignUpServletTest extends Mockito {
         HttpServletResponse response = mock(HttpServletResponse.class);
 //      create a mock sign_up user with an existing user name
         User SignUpUser = new User(username,psw);
+        // remove user if it exists from previous tests
+        DatabaseManager.shared().deleteUser(SignUpUser);
 //      create a buffer reader
         BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(SignUpUser)));
 //      return the created buffer reader
@@ -87,12 +79,6 @@ public class SignUpServletTest extends Mockito {
         assertTrue(res.getStatus());
         assertEquals(null,res.getMessage());
 //      check databse
-        assertTrue(UserDatabaseUtil.checkUserExists(username));
-    }
-
-    @After
-    public void tearDown() {
-        mongoDatabase.drop();
-        mongoClient.close();
+        assertNotNull(DatabaseManager.shared().checkUserExists(username));
     }
 }

@@ -12,6 +12,10 @@
         <servlet-name>SignUpServlet</servlet-name>
         <servlet-class>csci310.servlets.SignUpServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchEventServlet</servlet-name>
+        <servlet-class>csci310.servlets.SearchEventServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth/login</url-pattern>
@@ -19,5 +23,9 @@
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
         <url-pattern>/auth/signUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchEventServlet</servlet-name>
+        <url-pattern>/search/event</url-pattern>
     </servlet-mapping>
 </web-app>
