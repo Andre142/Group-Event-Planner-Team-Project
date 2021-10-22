@@ -110,6 +110,11 @@ input[type=date]::placeholder {
   background-size: 24px;
   background-repeat: no-repeat;
   background-position: 16px center;
+  text-transform: uppercase;
+}
+
+.error-msg {
+  margin-top: 16px !important;
 }
 
 footer {

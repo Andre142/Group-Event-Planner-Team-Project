@@ -58,7 +58,7 @@ public class StepDefinitions {
 	public void i_should_see_header(String header) {
 		assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
 	}
-	
+
 	@Then("I should see text {string}")
 	public void i_should_see_text(String text) {
 		assertTrue(driver.getPageSource().contains(text));
@@ -166,6 +166,8 @@ public class StepDefinitions {
 
     @And("I change the confirm password field to not match my password")
     public void iChangeTheConfirmPasswordFieldToNotMatchMyPassword() {
+				User u = new User("asdf", "asdf");
+				DatabaseManager.shared().deleteUser(u);
         driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("12345");
     }
 
@@ -173,7 +175,7 @@ public class StepDefinitions {
     public void iClickTheCancelButton() {
         driver.findElement(By.cssSelector("#cancel")).click();
     }
-  
+
     @Given("I am logged in")
     public void iAmLoggedIn() {
         iAmOnTheLoginPage();
