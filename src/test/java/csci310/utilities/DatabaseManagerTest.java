@@ -1,6 +1,7 @@
 package csci310.utilities;
 
 import csci310.models.User;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -60,4 +61,17 @@ public class DatabaseManagerTest {
         DatabaseManager.shared().verifyUser(newUser);
     }
 
+    @Test
+    public void testDeleteUser_doesExist() {
+        DatabaseManager.shared().insertUser(user);
+        DatabaseManager.shared().deleteUser(user);
+        assertNull(DatabaseManager.shared().checkUserExists(user.getUsername()));
+    }
+
+    @Test
+    public void testDeleteUser_doesNotExist() {
+        User aUser = new User("aUser","123456");
+        DatabaseManager.shared().deleteUser(aUser);
+        assertNull(DatabaseManager.shared().checkUserExists(aUser.getUsername()));
+    }
 }

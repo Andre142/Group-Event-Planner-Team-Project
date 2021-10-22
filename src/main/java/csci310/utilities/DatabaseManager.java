@@ -1,17 +1,6 @@
 package csci310.utilities;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import static com.mongodb.client.model.Filters.*;
 import csci310.models.User;
-import org.bson.Document;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.sql.*;
 
 public class DatabaseManager {
@@ -58,6 +47,7 @@ public class DatabaseManager {
             ResultSet rs = checkUserExistsPs.executeQuery();
             if (rs.next())
                 return rs.getString(1);
+            throw new SQLException();
         } catch (SQLException e) {}
         return null;
     }
@@ -86,15 +76,18 @@ public class DatabaseManager {
                 if (rs2.next())
                     return user;
             }
+            throw new SQLException();
         } catch (SQLException e) {}
         return null;
     }
 
     public void deleteUser(User user) {
         try {
-            if(this.verifyUser(user) != null) {
+            if (checkUserExists(user.getUsername()) != null) {
                 deleteUserPs.setString(1,user.getUsername());
                 deleteUserPs.executeUpdate();
+            } else {
+                throw new SQLException();
             }
         } catch (SQLException e) {}
     }
