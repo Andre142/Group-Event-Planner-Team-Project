@@ -31,3 +31,12 @@ function ajaxGet(endpointUrl, returnFunction){
     }
     xhr.send();
 };
+
+$(window).on("load", () => {
+  $("*[onenter]").on("keyup", (e) => {
+    if (e.which === 13) {
+      e.preventDefault()
+      eval(e.target.getAttribute("onenter"))
+    }
+  })
+})

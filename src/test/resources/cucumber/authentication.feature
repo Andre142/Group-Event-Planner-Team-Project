@@ -1,17 +1,17 @@
-#Feature: Hello
-#  Scenario: Open hello page from index page
-#    Given I am on the index page
-#    When I click the link 'Click me'
-#    Then I should see header 'Hello world!'
-#
-#  Scenario: Open other page from index page
-#    Given I am on the index page
-#    When I click the link 'Or click me'
-#    Then I should see text 'Hello servlet'
+##Feature: Hello
+##  Scenario: Open hello page from index page
+##    Given I am on the index page
+##    When I click the link 'Click me'
+##    Then I should see header 'Hello world!'
+##
+##  Scenario: Open other page from index page
+##    Given I am on the index page
+##    When I click the link 'Or click me'
+##    Then I should see text 'Hello servlet'
 Feature: Authentication
 
   Scenario: Signup New Account
-    Given I am on the signup page
+    Given I am on the signup page for the first time
     And I fill out my credentials
     And I click on the create account button
     Then I should be taken to the login page

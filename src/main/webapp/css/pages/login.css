@@ -2,14 +2,6 @@ html, body {
   overflow-y: hidden;
 }
 
-body {
-  background: rgb(38,38,214);
-  background: -moz-linear-gradient(180deg, rgba(38,38,214,0) 70%, rgba(38,38,214,0.23) 100%);
-  background: -webkit-linear-gradient(180deg, rgba(38,38,214,0) 70%, rgba(38,38,214,0.23) 100%);
-  background: linear-gradient(180deg, rgba(38,38,214,0) 70%, rgba(38,38,214,0.23) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2626d6",endColorstr="#2626d6",GradientType=1);
-}
-
 div.login {
   width: 100vw;
   height: 80vh;
