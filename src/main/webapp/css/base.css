@@ -2,10 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;700&display=swap');
 
 body {
+  background: rgb(38,38,214);
+  background: -moz-linear-gradient(180deg, rgba(38,38,214,0) 70%, rgba(38,38,214,0.23) 100%);
+  background: -webkit-linear-gradient(180deg, rgba(38,38,214,0) 70%, rgba(38,38,214,0.23) 100%);
+  background: linear-gradient(180deg, rgba(38,38,214,0) 70%, rgba(38,38,214,0.23) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2626d6",endColorstr="#2626d6",GradientType=1);
   margin: 0px;
   padding: 0px;
-  background: white;
-  background-color: white;
   font-family: "IBM Plex Sans", sans-serif;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
@@ -114,6 +117,7 @@ input.invalid {
 
 input::placeholder {
   letter-spacing: normal;
+  color: rgba(0,0,0,0.4);
 }
 
 input[type=password] {
@@ -142,6 +146,35 @@ footer > p {
   color: rgba(0,0,0,0.4);
 }
 
+button {
+  background: black;
+  background-color: black;
+  box-sizing: border-box;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 500;
+  text-decoration: none;
+  color: white;
+  padding: 15px 24px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 100px;
+  margin: 0px 8px;
+  cursor: pointer;
+  border: none;
+  font-family: "IBM Plex Sans", sans-serif;
+  outline: none;
+  margin-top: 24px;
+}
+
+button.loading {
+  background-image: url('../../assets/images/loader-white.svg');
+  background-size: 24px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+
 @media only screen and (max-width : 894px) {
   .mobile-hide {
     display: none;
@@ -157,8 +190,16 @@ footer > p {
 }
 
 .error-msg {
-  color: red;
+  color: #d53b39;
   font-family: "IBM Plex Sans", sans-serif;
   font-size: 16px;
   font-weight: 400;
+}
+
+.required {
+  color: #d53b39;
+  font-weight: bold;
+  margin-left: 2px;
+  vertical-align: text-top;
+  font-size: 12px;
 }

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class JsonHelperTest {
 
     @Test
-    public void testshared() {
+    public void testShared() {
         new JsonHelper();
         assertTrue(JsonHelper.shared() != null);
     }
