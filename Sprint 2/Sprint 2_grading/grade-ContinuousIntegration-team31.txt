@@ -1,0 +1,7 @@
+Best Practice ContinuousIntegration Report
+Owner: team31
+Grade: 11/12
+Comments: 
+Develop branch check failed: https://github.com/CSCI310/20213-project-team31/commit/c8b02288142581053b031311f0900fa4cd7a2b41
+Total successful commits: 5
+Total failing commits: 1
