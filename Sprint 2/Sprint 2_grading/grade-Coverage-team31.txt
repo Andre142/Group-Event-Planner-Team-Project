@@ -1,0 +1,8 @@
+Best Practice Coverage Report
+Owner: team31
+Grade: 11.8/12
+Comments: 
+Using commit: https://github.com/CSCI310/20213-project-team31/commit/c8b02288142581053b031311f0900fa4cd7a2b41
+Reported statement coverage: 1.0
+Reported branch coverage: 0.9666666666666667
+Average coverage: 0.9833333333333334
