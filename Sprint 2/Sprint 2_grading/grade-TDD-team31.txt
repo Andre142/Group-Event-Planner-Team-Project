@@ -1,0 +1,15 @@
+Best Practice TDD Report
+Owner: team31
+Grade: 5.1/12
+Comments: 
+	No test method found for: dbmanager.shared
+		Commit: https://github.com/CSCI310/20213-project-team31/commit/b2d12f6b2ba0e94f5dfa2f8b5bd5d36811ca8032
+	No test method found for: dbmanager.closeconnection
+		Commit: https://github.com/CSCI310/20213-project-team31/commit/0e5081dff147fdcd59c380521f59b260ca5ccd30
+	No test method found for: databasemanager.createuserstableifnotexists
+		Commit: https://github.com/CSCI310/20213-project-team31/commit/4ef6b2203057980b177229559952df1445177784
+	Test method was not created before method : databasemanager.deleteuser
+		Method commit: https://github.com/CSCI310/20213-project-team31/commit/e8dbb76e62d4ab08b6e48392a7f55a88b21f7f1c
+Correct TDD methods: 3
+Incorrect TDD methods: 4
+Total methods evaluated for TDD: 7
