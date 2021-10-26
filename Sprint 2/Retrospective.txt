@@ -1,0 +1,31 @@
+Retrospective
+
+
+Attendants: Ryan, Kevin, Yang, Jack
+
+
+Process Changes:
+- Mock objects to get coverage for catch blocks so we can test our catch blocks
+- Mock API requests (avoids the occasional travis error due to API issues) so we don’t see failing builds when nothing is wrong
+- Double check our sprint/scrum documents to make sure we meet requirements and are up to date (like changes in the task chart) and with all relevant information (like attendants in the sprint backlog)
+
+
+New Task(s) Added to Product Backlog:
+- Add an additional criteria, Genre, to search for events
+- Show more than 10 results (unlimited*)
+   * We need to negotiate the “unlimited” quality of this feature because we cannot feasibly return infinite results
+- The loading time for searching for events should be less than 1.5 seconds*
+   * We need to negotiate this feature because it’s infeasible to return unlimited results in a fixed quantity of time
+
+
+Feedback to Address:
+- Add an additional criteria, Genre, to search for events
+- Show more than 10 results (unlimited*)
+   * We need to negotiate the “unlimited” quality of this feature because we cannot feasibly return infinite results
+- We need to negotiate about the requirement that the system must pick an event EVERYONE can attend even if someone says he’s unavailable, which is not reasonable. 
+- The loading time for searching for events should be less than 1.5 seconds
+   * Use acceptance test to make sure this criteria is satisfied
+   * We need to negotiate this feature because it’s infeasible to return unlimited results in a fixed quantity of time
+- Make sure our process changes (above) have explanations as to why we are making those changes
+- We should be more careful when writing units tests so that TDD process is correctly followed
+- We need to add attendants to the sprint backlog next time
