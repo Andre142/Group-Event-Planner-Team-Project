@@ -1,0 +1,42 @@
+Sprint Backlog
+
+
+Attendants: Andre, Kevin, Nishita, Jessie, Andrew
+
+
+- [Frontend] Task 1: Privacy Settings Page
+   * Subtask 1: Create Account Management/Privacy Settings page (HTML & CSS)
+   * Subtask 2: Implement the feature of searching for specific users to block
+   * Subtask 3: Add the date picker element to set himself/herself unavailable for that range
+   * Subtask 4: Write Acceptance tests
+
+
+- [Frontend] Task 2: Send Proposals Feature
+   * Subtask 1: Use checkbox to select a list of events
+   * Subtask 2: Use search bar to search for users and use checkbox to select a list of users after selecting the events
+   * Subtask 3: Use a ‘Send’ button to send the proposal
+   * Subtask 4: Write Acceptance tests 
+
+
+- [Backend] Task 3: Blocked List Database
+   * Subtask 1: Create Servlet Tests
+   * Subtask 2: Create Servlet Implementation
+
+
+- [Backend] Task 4: Add Availability To User Database
+   * Subtask 1: Create Tests for Availability
+   * Subtask 2: Create Availability Implementation
+   * Subtask 3: Create Tests to Add Availability Functionality to Servlet
+   * Subtask 4: Create Servlet Implementation for Availability
+
+
+- [Backend] Task 5: Privacy Settings 
+   * Subtask 1: Create privacy settings database schema\
+   * Subtask 2: Implement the feature of blocking users
+   * Subtask 3: Implement the feature of setting the user himself/herself unavailable for a date time range
+
+
+- [Backend] Task 6: Send Proposals
+   * Subtask 1: Create proposal database schema
+   * Subtask 2: Implement searching for users
+   * Subtask 3: Implement sending proposals to selected users
