@@ -1,9 +1,11 @@
 package csci310.utilities;
 
 import csci310.models.User;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class DatabaseManagerTest {
@@ -20,6 +22,8 @@ public class DatabaseManagerTest {
     public void testShared() {
         assertNotNull(DatabaseManager.shared());
      }
+
+     // authentication
 
     @Test
     public void testCheckUserExists_doesExist() {
@@ -73,5 +77,23 @@ public class DatabaseManagerTest {
         User aUser = new User("aUser","123456");
         DatabaseManager.shared().deleteUser(aUser);
         assertNull(DatabaseManager.shared().checkUserExists(aUser.getUsername()));
+    }
+
+    // search user
+
+    @Test
+    public void testSearchUsers_success() {
+        DatabaseManager.shared().insertUser(new User("user1","123"));
+        DatabaseManager.shared().insertUser(new User("user2","123"));
+        DatabaseManager.shared().insertUser(new User("3user","123"));
+        ArrayList<String> arr = DatabaseManager.shared().searchUsers("user");
+        assertNotNull(arr);
+        assertNotEquals(0,arr.size());
+    }
+
+    @Test
+    public void testSearchUsers_fail() {
+        ArrayList<String> arr = DatabaseManager.shared().searchUsers("somerandomnonexistentuser");
+        assertNull(arr);
     }
 }

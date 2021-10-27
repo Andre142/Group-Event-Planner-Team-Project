@@ -2,6 +2,7 @@ package csci310.utilities;
 
 import csci310.models.User;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseManager {
 
@@ -13,19 +14,25 @@ public class DatabaseManager {
     private PreparedStatement verifyUserPs;
     private PreparedStatement deleteUserPs;
 
+    private PreparedStatement searchUsersPs;
+
     private DatabaseManager() {
         try {
             con = DriverManager.getConnection(K.sqliteUrl);
 
-            createUsersTableIfNotExists();
+            createTablesIfNotExist();
             checkUserExistsPs = con.prepareStatement("select Salt from Users where Username = ?");
             insertUserPs = con.prepareStatement("insert into Users (Username,Salt,Hash) values (?,?,?)");
             verifyUserPs = con.prepareStatement("select Username from Users where Username = ? and Hash = ?");
             deleteUserPs = con.prepareStatement("delete from Users where Username = ?");
+
+            searchUsersPs = con.prepareStatement("select Username from Users where Username like ?");
+
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
-    private void createUsersTableIfNotExists() throws SQLException {
+    private void createTablesIfNotExist() throws SQLException {
         String tableSql = "CREATE TABLE IF NOT EXISTS Users (" +
                 "Username TEXT PRIMARY KEY," +
                 "Salt TEXT NOT NULL," +
@@ -40,6 +47,8 @@ public class DatabaseManager {
         }
         return databaseManager;
     }
+
+    // authentication
 
     public String checkUserExists(String username) {
         try {
@@ -90,5 +99,22 @@ public class DatabaseManager {
                 throw new SQLException();
             }
         } catch (SQLException e) {}
+    }
+
+    // Search User
+
+    public ArrayList<String> searchUsers(String usernameSubstring) {
+        ArrayList<String> users = new ArrayList<>();
+        try {
+            searchUsersPs.setString(1,"%"+usernameSubstring+"%");
+            ResultSet rs = searchUsersPs.executeQuery();
+            while (rs.next()) {
+                users.add(rs.getString(1));
+            }
+            if (!users.isEmpty())
+                return users;
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
     }
 }

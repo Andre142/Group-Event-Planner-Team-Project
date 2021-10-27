@@ -25,10 +25,11 @@ public class SearchEventServletTest {
     }
 
     @Test
-    public void testdoGet_success() throws IOException {
+    public void testDoGet_success() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("keyword")).thenReturn("music");
+        when(req.getParameter("startDate")).thenReturn("2020-03-01");
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         when(res.getWriter()).thenReturn(writer);
@@ -41,7 +42,7 @@ public class SearchEventServletTest {
     }
 
     @Test
-    public void testdoGet_failEmptyResult() throws IOException {
+    public void testDoGet_failEmptyResult() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("startDate")).thenReturn("2021-01-03");
@@ -53,12 +54,12 @@ public class SearchEventServletTest {
         writer.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(response.getStatus());
-        assertEquals("No results returned for the query",response.getMessage());
+        assertEquals("No results returned for this query",response.getMessage());
         assertNull(response.getData());
     }
 
     @Test
-    public void testdoGet_failInvalidDateRange() throws IOException {
+    public void testDoGet_failInvalidDateRange() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("startDate")).thenReturn("2021-01-00");
@@ -70,12 +71,12 @@ public class SearchEventServletTest {
         writer.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(response.getStatus());
-        assertEquals("No results returned for the query",response.getMessage());
+        assertEquals("No results returned for this query",response.getMessage());
         assertNull(response.getData());
     }
 
     @Test
-    public void testdoGet_successEndDateAndCountryCode() throws IOException {
+    public void testDoGet_successEndDateAndCountryCode() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("endDate")).thenReturn("2021-01-01");

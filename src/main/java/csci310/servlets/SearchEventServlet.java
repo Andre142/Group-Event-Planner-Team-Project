@@ -30,7 +30,7 @@ public class SearchEventServlet extends HttpServlet {
                 + (countryCode != null ? "&countryCode=" + countryCode.toUpperCase() : "");
         String apiResponse;
 
-        Response errResponse = new Response(false,"No results returned for the query");
+        Response errResponse = new Response(false,"No results returned for this query");
 
         try {
             apiResponse = HttpRequestHelper.get(urlString);
