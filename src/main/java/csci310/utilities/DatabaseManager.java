@@ -33,11 +33,34 @@ public class DatabaseManager {
     }
 
     private void createTablesIfNotExist() throws SQLException {
-        String tableSql = "CREATE TABLE IF NOT EXISTS Users (" +
-                "Username TEXT PRIMARY KEY," +
-                "Salt TEXT NOT NULL," +
-                "Hash TEXT NOT NULL" +
-                ")";
+        String tableSql = "create table if not exists Users (" +
+                    "Username text primary key," +
+                    "Salt text not null," +
+                    "Hash text not null" +
+                ");" +
+                "create table if not exists SentProposals (" +
+                    "ProposalID text primary key," +
+                    "SenderUsername text not null" +
+                ");" +
+                "create table if not exists ReceivedProposals (" +      // each receiver has a copy of the proposal
+                    "ReceiverUsername text not null," +
+                    "ProposalID text foreign key references SentProposals(ProposalID)," +
+                    "primary key(ReceiverUsername, ProposalID)" +
+                ");" +
+                "create table if not exists Events (" +     // a list of event contained in a proposal
+                    "EventID text primary key," +
+                    "EventName text not null," +
+                    "EventDate text not null," +
+                    "EventUrl text not null," +
+                    "ProposalID text foreign key references SentProposals(ProposalID)" +
+                ");" +
+                "create table if not exists RatedEvents (" +        // each receiver has a copy of the event to rate, only insert/update when someone posts/modifies rating
+                    "ReceiverUsername text not null," +
+                    "Excitement integer not null," +            // 1-5 scale
+                    "Availability integer not null," +      // 1 for yes; 0 for no
+                    "EventID text foreign key references Events(EventID)," +
+                    "primary key(ReceiverUsername, EventID)" +
+                ");";
         con.createStatement().execute(tableSql);
     }
 
