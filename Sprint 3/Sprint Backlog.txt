@@ -31,7 +31,7 @@ Attendants: Andre, Kevin, Nishita, Jessie, Andrew
 
 
 - [Backend] Task 5: Privacy Settings 
-   * Subtask 1: Create privacy settings database schema\
+   * Subtask 1: Create privacy settings database schema
    * Subtask 2: Implement the feature of blocking users
    * Subtask 3: Implement the feature of setting the user himself/herself unavailable for a date time range
 
@@ -40,3 +40,5 @@ Attendants: Andre, Kevin, Nishita, Jessie, Andrew
    * Subtask 1: Create proposal database schema
    * Subtask 2: Implement searching for users
    * Subtask 3: Implement sending proposals to selected users
+
+We chose to finish implementation of user features to have a full and complete implementation of users for both the front and back ends. In addition, we will start the implementation of group date features.
