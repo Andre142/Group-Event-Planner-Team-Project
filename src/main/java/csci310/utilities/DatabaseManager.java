@@ -1,5 +1,6 @@
 package csci310.utilities;
 
+import csci310.models.Event;
 import csci310.models.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +17,16 @@ public class DatabaseManager {
 
     private PreparedStatement searchUsersPs;
 
+    private PreparedStatement insertSentProposalPs;
+    private PreparedStatement insertReceivedProposalPs;
+    private PreparedStatement insertEventPs;
+
+    private PreparedStatement getSentProposalIDsPs;
+    private PreparedStatement getReceivedProposalIDsPs;
+    private PreparedStatement getSenderUsernameInProposalPs;
+    private PreparedStatement getReceiverUsernamesInProposalPs;
+    private PreparedStatement getEventsInProposalPs;
+
     private DatabaseManager() {
         try {
             con = DriverManager.getConnection(K.sqliteUrl);
@@ -28,40 +39,53 @@ public class DatabaseManager {
 
             searchUsersPs = con.prepareStatement("select Username from Users where Username like ?");
 
+            insertSentProposalPs = con.prepareStatement("insert into SentProposals (ProposalID, SenderUsername) values (?,?)");
+            insertReceivedProposalPs = con.prepareStatement("insert into ReceivedProposals (ReceiverUsername, ProposalID) values (?,?)");
+            insertEventPs = con.prepareStatement("insert into Events (EventID, EventName, EventDate, EventUrl, ProposalID) values (?,?,?,?,?)");
+
+            getSentProposalIDsPs = con.prepareStatement("select ProposalID from SentProposals where SenderUsername = ?");
+            getReceivedProposalIDsPs = con.prepareStatement("select ProposalID from ReceivedProposals where ReceiverUsername = ?");
+            getSenderUsernameInProposalPs = con.prepareStatement("select SenderUsername from SentProposals where ProposalID = ?");
+            getReceiverUsernamesInProposalPs = con.prepareStatement("select ReceiverUsername from ReceivedProposals where ProposalID = ?");
+            getEventsInProposalPs = con.prepareStatement("select EventID, EventName, EventDate, EventUrl from Events where ProposalID = ?");
+
             throw new SQLException();
         } catch (SQLException e) {}
     }
 
     private void createTablesIfNotExist() throws SQLException {
-        String tableSql = "create table if not exists Users (" +
-                    "Username text primary key," +
-                    "Salt text not null," +
-                    "Hash text not null" +
-                ");" +
-                "create table if not exists SentProposals (" +
-                    "ProposalID text primary key," +
-                    "SenderUsername text not null" +
-                ");" +
-                "create table if not exists ReceivedProposals (" +      // each receiver has a copy of the proposal
-                    "ReceiverUsername text not null," +
-                    "ProposalID text foreign key references SentProposals(ProposalID)," +
-                    "primary key(ReceiverUsername, ProposalID)" +
-                ");" +
-                "create table if not exists Events (" +     // a list of event contained in a proposal
-                    "EventID text primary key," +
-                    "EventName text not null," +
-                    "EventDate text not null," +
-                    "EventUrl text not null," +
-                    "ProposalID text foreign key references SentProposals(ProposalID)" +
-                ");" +
-                "create table if not exists RatedEvents (" +        // each receiver has a copy of the event to rate, only insert/update when someone posts/modifies rating
-                    "ReceiverUsername text not null," +
-                    "Excitement integer not null," +            // 1-5 scale
-                    "Availability integer not null," +      // 1 for yes; 0 for no
-                    "EventID text foreign key references Events(EventID)," +
-                    "primary key(ReceiverUsername, EventID)" +
-                ");";
-        con.createStatement().execute(tableSql);
+        Statement st = con.createStatement();
+        st.execute("create table if not exists Users (" +
+                "Username text primary key," +
+                "Salt text not null," +
+                "Hash text not null" +
+                ");");
+        st.execute("create table if not exists SentProposals (" +
+                "ProposalID text primary key," +
+                "SenderUsername text not null" +
+                ");");
+        st.execute("create table if not exists ReceivedProposals (" +        // each receiver has a copy of the proposal
+                "ReceiverUsername text not null," +
+                "ProposalID text not null," +
+                "foreign key(ProposalID) references SentProposals(ProposalID)," +
+                "primary key(ReceiverUsername, ProposalID)" +
+                ");");
+        st.execute("create table if not exists Events (" +               // a list of event contained in a proposal
+                "EventID text primary key," +
+                "EventName text not null," +
+                "EventDate text not null," +
+                "EventUrl text not null," +
+                "ProposalID text not null," +
+                "foreign key(ProposalID) references SentProposals(ProposalID)" +
+                ");");
+        st.execute("create table if not exists RatedEvents (" +        // each receiver has a copy of the event to rate, only insert/update when someone posts/modifies rating
+                "ReceiverUsername text not null," +
+                "Excitement integer not null," +                        // 1-5 scale
+                "Availability integer not null," +
+                "EventID text not null," +                      // 1 for yes; 0 for no
+                "foreign key(EventID) references Events(EventID)," +
+                "primary key(ReceiverUsername, EventID)" +
+                ");");
     }
 
     public static DatabaseManager shared() {
@@ -71,7 +95,7 @@ public class DatabaseManager {
         return databaseManager;
     }
 
-    // authentication
+    // Authentication
 
     public String checkUserExists(String username) {
         try {
@@ -131,13 +155,104 @@ public class DatabaseManager {
         try {
             searchUsersPs.setString(1,"%"+usernameSubstring+"%");
             ResultSet rs = searchUsersPs.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
                 users.add(rs.getString(1));
-            }
             if (!users.isEmpty())
                 return users;
             throw new SQLException();
         } catch (SQLException e) {}
         return null;
     }
+
+    // Send Proposal
+
+    public void insertSentProposal(String proposalID, String senderUsername) {
+        try {
+            insertSentProposalPs.setString(1,proposalID);
+            insertSentProposalPs.setString(2,senderUsername);
+            insertSentProposalPs.executeUpdate();
+            throw new SQLException();
+        } catch (SQLException e) {}
+    }
+
+    public void insertReceivedProposal(String receiverUsername, String proposalID) {
+        try {
+            insertReceivedProposalPs.setString(1,receiverUsername);
+            insertReceivedProposalPs.setString(2,proposalID);
+            insertReceivedProposalPs.executeUpdate();
+            throw new SQLException();
+        } catch (SQLException e) {}
+    }
+
+    public void insertEvent(Event event, String proposalID) {
+        try {
+            insertEventPs.setString(1,event.getEventID());
+            insertEventPs.setString(2,event.getName());
+            insertEventPs.setString(3,event.getDate());
+            insertEventPs.setString(4,event.getUrl());
+            insertEventPs.setString(5,proposalID);
+            insertEventPs.executeUpdate();
+            throw new SQLException();
+        } catch (SQLException e) {}
+    }
+
+    // Get Sent and Received Proposal
+
+    public ArrayList<String> getProposalIDs(String username, Boolean isSent) {
+        ArrayList<String> proposalIDs = new ArrayList<>();
+        try {
+            ResultSet rs;
+            if (isSent) {
+                getSentProposalIDsPs.setString(1, username);
+                rs = getSentProposalIDsPs.executeQuery();
+            } else {
+                getReceivedProposalIDsPs.setString(1, username);
+                rs = getReceivedProposalIDsPs.executeQuery();
+            }
+            while (rs.next())
+                proposalIDs.add(rs.getString(1));
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return proposalIDs;
+    }
+
+    public String getSenderUsernameInProposal(String proposalID) {
+        try {
+            getSenderUsernameInProposalPs.setString(1, proposalID);
+            ResultSet rs = getSenderUsernameInProposalPs.executeQuery();
+            if (rs.next()) return rs.getString(1);
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
+    }
+
+    public ArrayList<String> getReceiverUsernamesInProposal(String proposalID) {
+        ArrayList<String> usernames = new ArrayList<>();
+        try {
+            getReceiverUsernamesInProposalPs.setString(1,proposalID);
+            ResultSet rs = getReceiverUsernamesInProposalPs.executeQuery();
+            while (rs.next())
+                usernames.add(rs.getString(1));
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return usernames;
+    }
+
+    public ArrayList<Event> getEventsInProposal(String proposalID) {
+        ArrayList<Event> events = new ArrayList<>();
+        try {
+            getEventsInProposalPs.setString(1,proposalID);
+            ResultSet rs = getEventsInProposalPs.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString(1);
+                String name = rs.getString(2);
+                String date = rs.getString(3);
+                String url = rs.getString(4);
+                events.add(new Event(name,date,url,id));
+            }
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return events;
+    }
+
 }
