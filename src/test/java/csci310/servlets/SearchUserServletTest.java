@@ -21,7 +21,7 @@ public class SearchUserServletTest {
     private SearchUserServlet servlet;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         servlet = new SearchUserServlet();
     }
 

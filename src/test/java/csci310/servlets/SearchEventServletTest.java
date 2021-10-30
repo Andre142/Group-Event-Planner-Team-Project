@@ -45,6 +45,8 @@ public class SearchEventServletTest {
     public void testDoGet_failEmptyResult() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
+        when(req.getParameter("keyword")).thenReturn("nosuchkeyword");
+        when(req.getParameter("genre")).thenReturn("nosuchgenre");
         when(req.getParameter("startDate")).thenReturn("2021-01-03");
         when(req.getParameter("endDate")).thenReturn("2021-01-04");
         StringWriter stringWriter = new StringWriter();
@@ -62,8 +64,7 @@ public class SearchEventServletTest {
     public void testDoGet_failInvalidDateRange() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
-        when(req.getParameter("startDate")).thenReturn("2021-01-00");
-        when(req.getParameter("endDate")).thenReturn("2021-01-01");
+        when(req.getParameter("endDate")).thenReturn("0000");
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         when(res.getWriter()).thenReturn(writer);
@@ -79,7 +80,6 @@ public class SearchEventServletTest {
     public void testDoGet_successEndDateAndCountryCode() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
-        when(req.getParameter("endDate")).thenReturn("2021-01-01");
         when(req.getParameter("countryCode")).thenReturn("US");
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
