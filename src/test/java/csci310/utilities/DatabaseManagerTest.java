@@ -1,18 +1,29 @@
 package csci310.utilities;
 
+import csci310.models.Event;
 import csci310.models.User;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class DatabaseManagerTest {
 
     private User user;
+    private String id;
+    private String title;
+    private String senderUsername;
+    private String receiverUsername;
 
     @Before
     public void setUp() throws Exception {
         user = new User("user1","13579qwerty");
+        id = "123456qwerty";
+        title = "title";
+        senderUsername = "senderJunitTester";
+        receiverUsername = "receiverJunitTester";
         new K();
     }
 
@@ -20,6 +31,8 @@ public class DatabaseManagerTest {
     public void testShared() {
         assertNotNull(DatabaseManager.shared());
      }
+
+     // authentication
 
     @Test
     public void testCheckUserExists_doesExist() {
@@ -34,7 +47,7 @@ public class DatabaseManagerTest {
 
     @Test
     public void testInsertUser() {
-        User user2 = new User("user2","123456");
+        User user2 = new User("user2","123");
         DatabaseManager.shared().insertUser(user2);
         User retrievedUser = DatabaseManager.shared().verifyUser(user2);
         assertEquals(retrievedUser.getUsername(),user2.getUsername());
@@ -73,5 +86,83 @@ public class DatabaseManagerTest {
         User aUser = new User("aUser","123456");
         DatabaseManager.shared().deleteUser(aUser);
         assertNull(DatabaseManager.shared().checkUserExists(aUser.getUsername()));
+    }
+
+    // search user
+
+    @Test
+    public void testSearchUsers_success() {
+        DatabaseManager.shared().insertUser(new User("user1","123"));
+        DatabaseManager.shared().insertUser(new User("user2","123"));
+        DatabaseManager.shared().insertUser(new User("3user","123"));
+        ArrayList<String> arr = DatabaseManager.shared().searchUsers("user");
+        assertNotNull(arr);
+        assertNotEquals(0,arr.size());
+    }
+
+    @Test
+    public void testSearchUsers_fail() {
+        ArrayList<String> arr = DatabaseManager.shared().searchUsers("somerandomnonexistentuser");
+        assertNull(arr);
+    }
+
+    // Send Proposal
+
+    @Test
+    public void testInsertSentProposal() {
+        DatabaseManager.shared().insertSentProposal("idproposal23",title,senderUsername);
+        assertTrue(DatabaseManager.shared().getProposalIDs(senderUsername,true).contains("idproposal23"));
+    }
+
+    @Test
+    public void testInsertReceivedProposal() {
+        DatabaseManager.shared().insertReceivedProposal(receiverUsername,"id233");
+        assertTrue(DatabaseManager.shared().getProposalIDs(receiverUsername,false).contains("id233"));
+    }
+
+    @Test
+    public void testInsertEvent() {
+        Event event = new Event("event 1","2021-01-01","19:00:00","abc.com","music","eventiddew");
+        DatabaseManager.shared().insertEvent(event,"eventproposalid12344");
+        assertTrue(DatabaseManager.shared().getEventsInProposal("eventproposalid12344").size()>=1);
+    }
+
+    @Test
+    public void testGetProposalIDs_sent() {
+        DatabaseManager.shared().insertSentProposal(id,title,senderUsername);
+        assertTrue(DatabaseManager.shared().getProposalIDs(senderUsername,true).contains(id));
+    }
+
+    @Test
+    public void testGetProposalIDs_received() {
+        DatabaseManager.shared().insertReceivedProposal(receiverUsername,id);
+        assertTrue(DatabaseManager.shared().getProposalIDs(receiverUsername,false).contains(id));
+    }
+
+    @Test
+    public void testGetProposalTitle() {
+        DatabaseManager.shared().insertSentProposal("someidsrff",title,senderUsername);
+        assertEquals(title,DatabaseManager.shared().getProposalTitle("someidsrff"));
+    }
+
+    @Test
+    public void testGetSenderUsernameInProposal() {
+        DatabaseManager.shared().insertSentProposal(id,title,senderUsername);
+        assertEquals(senderUsername,DatabaseManager.shared().getSenderUsernameInProposal(id));
+    }
+
+    @Test
+    public void testGetReceiverUsernamesInProposal() {
+        DatabaseManager.shared().insertReceivedProposal(receiverUsername,id);
+        assertTrue(DatabaseManager.shared().getReceiverUsernamesInProposal(id).contains(receiverUsername));
+    }
+
+    @Test
+    public void testGetEventsInProposal() {
+        Event event1= new Event("event 1","2021-01-01","19:00:00","abc.com","music","junitevent123456qwerty");
+        Event event2 = new Event("event 2","2021-01-01","19:00:00","abc.com","music","junitevent123456");
+        DatabaseManager.shared().insertEvent(event1,id);
+        DatabaseManager.shared().insertEvent(event2,id);
+        assertTrue(DatabaseManager.shared().getEventsInProposal(id).size()>=2);
     }
 }
