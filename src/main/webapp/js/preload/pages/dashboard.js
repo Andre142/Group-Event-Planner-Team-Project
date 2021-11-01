@@ -51,14 +51,20 @@ const genResults = (json = {}, container) => {
       for (const event of json.data.events) {
         let result = document.createElement("div")
         result.className = "result"
+        let resultContent = document.createElement("div")
+        resultContent.className = "result-content"
         let p = document.createElement("p")
         p.className = "subtitle"
         p.innerHTML = moment(event.date).format("MMMM Do YYYY")
         let a = document.createElement("a")
         a.href = event.url
         a.innerHTML = event.name
-        result.appendChild(p)
-        result.appendChild(a)
+        var box = document.createElement("input");
+        box.type = "checkbox"
+        resultContent.appendChild(p)
+        resultContent.appendChild(a)
+        result.appendChild(box);
+        result.appendChild(resultContent)
         container.appendChild(result)
       }
     }

@@ -69,18 +69,24 @@ input[type=date]::placeholder {
 
 .results > .result {
   width: 352px;
+  display: flex;
   align-items: flex-start;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   margin: 16px 0px;
   box-sizing: border-box;
 }
 
-.result > p {
+.result > input {
+  width: 23px;
+  margin-right: 20px;
+}
+
+.result-content > p {
   margin: 0px;
 }
 
-.result > a {
+.result-content > a {
   text-decoration: none;
   color: black;
   font-size: 24px;
