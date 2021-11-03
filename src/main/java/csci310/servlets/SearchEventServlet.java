@@ -23,14 +23,18 @@ public class SearchEventServlet extends HttpServlet {
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
         String countryCode = req.getParameter("countryCode");
+        String genre = req.getParameter("genre");
 
         String urlString = K.rootUrl + "&size=10"
                 + (keyword != null ? "&keyword=" + keyword : "")
-                + (startDate != null && endDate != null ? "&localStartDateTime=" + startDate + "T00:00:00" + "," + endDate + "T00:00:00": "")
-                + (countryCode != null ? "&countryCode=" + countryCode.toUpperCase() : "");
+                + (countryCode != null ? "&countryCode=" + countryCode.toUpperCase() : "")
+                + (genre != null ? "&classificationName=" + genre : "")
+                + (startDate != null && endDate != null ? "&localStartDateTime=" + startDate + "T00:00:00" + "," + endDate + "T00:00:00" :
+                    (startDate != null ? "&localStartDateTime=" + startDate + "T00:00:00" + ",*" :
+                        (endDate != null ? "&localStartDateTime=*," + endDate + "T00:00:00" : "")));
         String apiResponse;
 
-        Response errResponse = new Response(false,"No results returned for the query");
+        Response errResponse = new Response(false,"No results returned for this query");
 
         try {
             apiResponse = HttpRequestHelper.get(urlString);
