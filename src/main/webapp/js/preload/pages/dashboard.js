@@ -26,6 +26,13 @@ const search = (keywords, country, startDate, endDate, errMsg, code, resultsCont
       $("#search-button").removeClass("loading")
     })
   }
+  else if (genre.value.length){
+    ajaxGet(ENDPOINT_URL + "/search/event?genre=" + encodeURIComponent(keywords.value.trim()) + "&genre" + genre.value + add, (response) => {
+          let json = JSON.parse(response)
+          genResults(json, resultsContainer)
+          $("#search-button").removeClass("loading")
+        })
+  }
   else {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + add, (response) => {
       let json = JSON.parse(response)
