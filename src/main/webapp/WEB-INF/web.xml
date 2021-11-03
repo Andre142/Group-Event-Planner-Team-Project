@@ -16,6 +16,18 @@
         <servlet-name>SearchEventServlet</servlet-name>
         <servlet-class>csci310.servlets.SearchEventServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <servlet-class>csci310.servlets.SearchUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendProposalServlet</servlet-name>
+        <servlet-class>csci310.servlets.SendProposalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetProposalServlet</servlet-name>
+        <servlet-class>csci310.servlets.GetProposalServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth/login</url-pattern>
@@ -27,5 +39,17 @@
     <servlet-mapping>
         <servlet-name>SearchEventServlet</servlet-name>
         <url-pattern>/search/event</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <url-pattern>/search/user</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendProposalServlet</servlet-name>
+        <url-pattern>/proposal/send</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetProposalServlet</servlet-name>
+        <url-pattern>/proposal/get</url-pattern>
     </servlet-mapping>
 </web-app>
