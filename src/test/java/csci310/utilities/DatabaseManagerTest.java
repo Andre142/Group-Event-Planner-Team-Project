@@ -38,6 +38,7 @@ public class DatabaseManagerTest {
     public void testCheckUserExists_doesExist() {
         DatabaseManager.shared().insertUser(user);
         assertNotNull(DatabaseManager.shared().checkUserExists(user.getUsername()));
+        DatabaseManager.shared().deleteUser(user);
     }
 
     @Test
@@ -51,6 +52,7 @@ public class DatabaseManagerTest {
         DatabaseManager.shared().insertUser(user2);
         User retrievedUser = DatabaseManager.shared().verifyUser(user2);
         assertEquals(retrievedUser.getUsername(),user2.getUsername());
+        DatabaseManager.shared().deleteUser(user2);
     }
 
     @Test
@@ -59,6 +61,7 @@ public class DatabaseManagerTest {
         DatabaseManager.shared().insertUser(user3);
         User retrievedUser = DatabaseManager.shared().verifyUser(user3);
         assertEquals(retrievedUser.getUsername(),user3.getUsername());
+        DatabaseManager.shared().deleteUser(user3);
     }
 
     @Test
@@ -72,6 +75,7 @@ public class DatabaseManagerTest {
         DatabaseManager.shared().insertUser(user);
         User newUser = new User(user.getUsername(),"false");
         assertNull(DatabaseManager.shared().verifyUser(newUser));
+        DatabaseManager.shared().deleteUser(user);
     }
 
     @Test
@@ -92,12 +96,18 @@ public class DatabaseManagerTest {
 
     @Test
     public void testSearchUsers_success() {
-        DatabaseManager.shared().insertUser(new User("user1","123"));
-        DatabaseManager.shared().insertUser(new User("user2","123"));
-        DatabaseManager.shared().insertUser(new User("3user","123"));
+        User user1 = new User("user1","123");
+        User user2 = new User("user2","123");
+        User user3 = new User("3user","123");
+        DatabaseManager.shared().insertUser(user1);
+        DatabaseManager.shared().insertUser(user2);
+        DatabaseManager.shared().insertUser(user3);
         ArrayList<String> arr = DatabaseManager.shared().searchUsers("user");
         assertNotNull(arr);
         assertNotEquals(0,arr.size());
+        DatabaseManager.shared().deleteUser(user1);
+        DatabaseManager.shared().deleteUser(user2);
+        DatabaseManager.shared().deleteUser(user3);
     }
 
     @Test
