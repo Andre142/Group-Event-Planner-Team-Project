@@ -14,4 +14,4 @@ document.querySelector("#search-button").onclick = (e) => {
     const container = document.getElementById("results")
 
     search(keywords, country, startDate, endDate, errMsg, code, container);
-}
+
