@@ -250,19 +250,19 @@ public class StepDefinitions {
             String title = w.findElement(By.cssSelector("a")).getAttribute("innerText");
             String url = w.findElement(By.cssSelector("a")).getAttribute("href");
             try {
-                assertEquals(dayOfMonthFormatter.format(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(events.events.get(eventIndex).date)).toUpperCase(), date);
+                assertEquals(dayOfMonthFormatter.format(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(events.getEvents().get(eventIndex).getDate())).toUpperCase(), date);
             } catch (DateTimeException e) {
-                fail("Could not parse date " + events.events.get(eventIndex).date);
+                fail("Could not parse date " + events.getEvents().get(eventIndex).getDate());
             }
             try {
-                assertEquals(events.events.get(eventIndex).name, title);
-                assertEquals(events.events.get(eventIndex).url, url);
+                assertEquals(events.getEvents().get(eventIndex).getName(), title);
+                assertEquals(events.getEvents().get(eventIndex).getUrl(), url);
             } catch (IndexOutOfBoundsException exp) {
                 fail("Results longer than API returned list of events");
             }
             eventIndex++;
         }
-        if(events.events.size() == 0) {
+        if(events.getEvents().size() == 0) {
             try {
                 driver.findElement(By.cssSelector(".error"));
             } catch (NoSuchElementException exp) { fail("Could not see results empty message"); }
