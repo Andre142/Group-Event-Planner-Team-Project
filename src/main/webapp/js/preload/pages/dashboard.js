@@ -3,7 +3,7 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
-const search = (keywords, country, startDate, endDate, errMsg, code, resultsContainer) => {
+const search = (keywords, genre, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {
     errMsg.innerHTML = "Keywords cannot be empty"
     errMsg.classList.remove("hidden")
@@ -19,6 +19,7 @@ const search = (keywords, country, startDate, endDate, errMsg, code, resultsCont
     add = ("&countryCode=" + code)
   }
   $("#search-button").addClass("loading")
+
   if (startDate.value.length && endDate.value.length) {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + "&startDate=" + startDate.value + "&endDate=" + endDate.value + add, (response) => {
       let json = JSON.parse(response)
@@ -26,17 +27,19 @@ const search = (keywords, country, startDate, endDate, errMsg, code, resultsCont
       $("#search-button").removeClass("loading")
     })
   }
-  else if (genre.value.length){
-    ajaxGet(ENDPOINT_URL + "/search/event?genre=" + encodeURIComponent(keywords.value.trim()) + "&genre" + genre.value + add, (response) => {
-          let json = JSON.parse(response)
-          genResults(json, resultsContainer)
-          $("#search-button").removeClass("loading")
-        })
-  }
   else {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + add, (response) => {
       let json = JSON.parse(response)
-      genResults(json, resultsContainer)
+      if (genre.value.length){
+        ajaxGet(ENDPOINT_URL + "/search/event?genre=" + encodeURIComponent(genre.value.trim()) + "&genre" + genre.value + add, (response) => {
+           let json = JSON.parse(response)
+           genResults(json, resultsContainer)
+           $("#search-button").removeClass("loading")
+           })
+     }
+      else{
+        genResults(json, resultsContainer)
+      }
       $("#search-button").removeClass("loading")
     })
   }
