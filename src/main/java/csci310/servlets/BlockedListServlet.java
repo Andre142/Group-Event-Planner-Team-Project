@@ -21,15 +21,7 @@ public class BlockedListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String type = request.getParameter("type");
         String blocker = request.getParameter("blocker");
-        String blockee = null;
-        try
-        {
-            blockee = request.getParameter("blockee");
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getClass());
-        }
+        String blockee = request.getParameter("blockee");
 
         response.setContentType("text/plain");
         PrintWriter printWriter = response.getWriter();

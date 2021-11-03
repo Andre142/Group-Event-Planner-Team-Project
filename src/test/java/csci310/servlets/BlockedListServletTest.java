@@ -26,6 +26,7 @@ public class BlockedListServletTest extends TestCase {
         when(request.getParameter("type")).thenReturn("getBlocked");
         when(request.getParameter("blocker")).thenReturn("userBlocker");
         when(request.getParameter("blockee")).thenReturn("userBlockee");
+        when(request.getParameter("throw")).thenReturn("false");
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
@@ -158,5 +159,19 @@ public class BlockedListServletTest extends TestCase {
 
         writer.flush();
         assertEquals("invalid type", stringWriter.toString());
+
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("throw")).thenReturn("true");
+
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new BlockedListServlet().doGet(request, response);
+
+        writer.flush();
+        assertEquals("exception occurred", stringWriter.toString());
     }
 }
