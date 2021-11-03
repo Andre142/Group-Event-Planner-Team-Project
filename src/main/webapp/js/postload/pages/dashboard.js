@@ -15,4 +15,3 @@ document.querySelector("#search-button").onclick = (e) => {
 
     search(keywords, country, startDate, endDate, errMsg, code, container);
 }
-
