@@ -78,7 +78,6 @@ public class SignUpServletTest extends Mockito {
         Response res = JsonHelper.shared().fromJson(ResponseString, Response.class);
         assertTrue(res.getStatus());
         assertEquals(null,res.getMessage());
-//      check databse
         assertNotNull(DatabaseManager.shared().checkUserExists(username));
     }
 }

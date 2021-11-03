@@ -26,11 +26,12 @@ public class GetProposalServlet extends HttpServlet {
         for (String proposalID: proposalIDs) {
             ArrayList<String> receiverUsernames = DatabaseManager.shared().getReceiverUsernamesInProposal(proposalID);
             ArrayList<Event> events = DatabaseManager.shared().getEventsInProposal(proposalID);
+            String proposalTitle = DatabaseManager.shared().getProposalTitle(proposalID);
             if (isSent) {
-                proposals.add(new Proposal(username,receiverUsernames,events));
+                proposals.add(new Proposal(proposalTitle,username,receiverUsernames,events,proposalID));
             } else {
                 String senderUsername = DatabaseManager.shared().getSenderUsernameInProposal(proposalID);
-                proposals.add(new Proposal(senderUsername,receiverUsernames,events));
+                proposals.add(new Proposal(proposalTitle,senderUsername,receiverUsernames,events,proposalID));
             }
         }
 

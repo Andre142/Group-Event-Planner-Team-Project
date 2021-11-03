@@ -14,14 +14,21 @@ public class Events {
         this.events = events;
     }
 
+    public Events() {
+        events = new ArrayList<>();
+    }
+
     public Events(RawResult rawResult) throws NullPointerException {
         events = new ArrayList<>();
         for (aEvent aEvent: rawResult._embedded.events) {
-            events.add(new Event(
+            Event event = new Event(
                     aEvent.name,
                     aEvent.dates.start.localDate,
-                    aEvent.url
-            ));
+                    aEvent.dates.start.localTime,
+                    aEvent.url,
+                    aEvent.classifications.get(0).genre.name,
+                    null);
+            events.add(event);
         }
     }
 }

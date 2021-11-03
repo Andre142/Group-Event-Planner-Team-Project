@@ -8,7 +8,16 @@ public class EventTest {
 
     @Test
     public void testGenerateID() {
-        Event event = new Event("a","a","a");
-        assertNotNull(event);
+        Events events = new Events();
+        events.setEvents(null);
+        events.getEvents();
+        Event event = new Event("a","a","a","a","a");
+        event.setName("b");
+        event.setDate("b");
+        event.setUrl("b");
+        event.setTime("b");
+        event.setGenre("b");
+        event.generateID();
+        assertNotEquals("a",event.getEventID());
     }
 }
