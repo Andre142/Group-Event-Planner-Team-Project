@@ -1,6 +1,9 @@
 package csci310.servlets;
 
+import csci310.models.Response;
 import csci310.utilities.BlockedListDatabase;
+import csci310.utilities.JsonHelper;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -21,8 +24,10 @@ public class BlockedListServlet extends HttpServlet {
         String blocker = request.getParameter("blocker");
         String blockee = request.getParameter("blockee");
 
-        response.setContentType("text/plain");
+        response.setContentType("application/json");
         PrintWriter printWriter = response.getWriter();
+
+        Response res = new Response(true, "request fulfilled");
 
         try
         {
@@ -34,43 +39,38 @@ public class BlockedListServlet extends HttpServlet {
                 }
             }
             catch (NullPointerException e)
-            {
-
-            }
+            {}
 
             if (type.equalsIgnoreCase("getBlocked"))
             {
-                printWriter.print(String.valueOf(BlockedListDatabase.IsBlocking(blocker, blockee)));
+                res.setData(String.valueOf(BlockedListDatabase.IsBlocking(blocker,blockee)));
+                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
             }
             else if (type.equalsIgnoreCase("removeBlock"))
             {
                 BlockedListDatabase.DeleteBlock(blocker, blockee);
+                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
             }
             else if (type.equalsIgnoreCase("addBlock"))
             {
                 BlockedListDatabase.AddBlock(blocker, blockee);
+                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
             }
             else if (type.equalsIgnoreCase("getBlockList"))
             {
                 ArrayList<String> blockedList = BlockedListDatabase.GetBlockedList(blocker);
-                for (int i = 0; i < blockedList.size(); i++)
-                {
-                    printWriter.print(blockedList.get(i));
-                    if (i != blockedList.size() - 1)
-                    {
-                        printWriter.print(",");
-                    }
-                }
+                res.setData(blockedList);
+                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
             }
             else
             {
-                printWriter.print("invalid type");
+                printWriter.print(JsonHelper.shared().toJson(new Response(false, "invalid parameter"),Response.class));
             }
 
         }
         catch (SQLException e)
         {
-            printWriter.print("exception occurred");
+            printWriter.print(JsonHelper.shared().toJson(new Response(false, "exception occurred"),Response.class));
         }
 
         printWriter.flush();
