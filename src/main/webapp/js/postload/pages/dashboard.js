@@ -6,6 +6,7 @@ document.querySelector("#country").onpaste = () => {
 document.querySelector("#search-button").onclick = (e) => {
     e.preventDefault()
     const keywords = document.getElementById("keywords")
+    const genre = document.getElementById("genre")
     const country = document.getElementById("country")
     const startDate = document.getElementById("start-date")
     const endDate = document.getElementById("end-date")
@@ -13,5 +14,5 @@ document.querySelector("#search-button").onclick = (e) => {
     const code = country.value.trim().toUpperCase()
     const container = document.getElementById("results")
 
-    search(keywords, country, startDate, endDate, errMsg, code, container);
+    search(keywords, genre, country, startDate, endDate, errMsg, code, container);
 }

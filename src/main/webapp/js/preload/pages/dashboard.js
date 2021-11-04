@@ -7,7 +7,7 @@ const account = () => {
   window.location.href = "./account.html"
 }
 
-const search = (keywords, country, startDate, endDate, errMsg, code, resultsContainer) => {
+const search = (keywords, genre, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {
     errMsg.innerHTML = "Keywords cannot be empty"
     errMsg.classList.remove("hidden")
@@ -23,6 +23,7 @@ const search = (keywords, country, startDate, endDate, errMsg, code, resultsCont
     add = ("&countryCode=" + code)
   }
   $("#search-button").addClass("loading")
+
   if (startDate.value.length && endDate.value.length) {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + "&startDate=" + startDate.value + "&endDate=" + endDate.value + add, (response) => {
       let json = JSON.parse(response)
@@ -33,7 +34,16 @@ const search = (keywords, country, startDate, endDate, errMsg, code, resultsCont
   else {
     ajaxGet(ENDPOINT_URL + "/search/event?keyword=" + encodeURIComponent(keywords.value.trim()) + add, (response) => {
       let json = JSON.parse(response)
-      genResults(json, resultsContainer)
+      if (genre.value.length){
+        ajaxGet(ENDPOINT_URL + "/search/event?genre=" + encodeURIComponent(genre.value.trim()) + "&genre" + genre.value + add, (response) => {
+           let json = JSON.parse(response)
+           genResults(json, resultsContainer)
+           $("#search-button").removeClass("loading")
+           })
+     }
+      else{
+        genResults(json, resultsContainer)
+      }
       $("#search-button").removeClass("loading")
     })
   }
@@ -55,14 +65,20 @@ const genResults = (json = {}, container) => {
       for (const event of json.data.events) {
         let result = document.createElement("div")
         result.className = "result"
+        let resultContent = document.createElement("div")
+        resultContent.className = "result-content"
         let p = document.createElement("p")
         p.className = "subtitle"
         p.innerHTML = moment(event.date).format("MMMM Do YYYY")
         let a = document.createElement("a")
         a.href = event.url
         a.innerHTML = event.name
-        result.appendChild(p)
-        result.appendChild(a)
+        var box = document.createElement("input");
+        box.type = "checkbox"
+        resultContent.appendChild(p)
+        resultContent.appendChild(a)
+        result.appendChild(box);
+        result.appendChild(resultContent)
         container.appendChild(result)
       }
     }
@@ -78,4 +94,27 @@ const country = (element) => {
   else {
     element.style.backgroundImage = "url('../../assets/images/dummy-flag.png')"
   }
+}
+
+function next(){
+  document.querySelector(".main").style.display = "none";
+  document.querySelector(".main2").style.display = "block";
+}
+
+function searchUsers(){
+  let username = document.getElementById("username").value
+  console.log(username)
+  let url = "http://localhost:8080/search/user?q=" + username
+  ajaxGet(url, (response) => {
+    let json = JSON.parse(response)
+    // genResults(json, document.querySelector("#results2"))
+    for(let i=0; i<json.data.length; i++) {
+      if (username == json.data[i]) {
+        document.querySelector("#results2").innerHTML = json.data[i];
+        var box = document.createElement("input")
+        box.type = "checkbox"
+        document.querySelector("#results2").appendChild(box)
+      }
+    }
+  })
 }

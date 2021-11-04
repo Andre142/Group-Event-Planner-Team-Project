@@ -19,5 +19,7 @@ public class EventTest {
         event.setGenre("b");
         event.generateID();
         assertNotEquals("a",event.getEventID());
+        event.setEventID("a");
+        assertEquals("a", event.getEventID());
     }
 }
