@@ -1,8 +1,6 @@
 package csci310.servlets;
 
 import csci310.utilities.BlockedListDatabase;
-import jdk.nashorn.internal.ir.Block;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
