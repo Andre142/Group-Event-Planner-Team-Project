@@ -30,9 +30,9 @@ public class DatabaseManagerTest {
     @Test
     public void testShared() {
         assertNotNull(DatabaseManager.shared());
-     }
+    }
 
-     // authentication
+    // authentication
 
     @Test
     public void testCheckUserExists_doesExist() {

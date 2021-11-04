@@ -3,6 +3,10 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
+const account = () => {
+  window.location.href = "./account.html"
+}
+
 const search = (keywords, genre, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {
     errMsg.innerHTML = "Keywords cannot be empty"

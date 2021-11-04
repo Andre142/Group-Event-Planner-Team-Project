@@ -301,4 +301,14 @@ public class StepDefinitions {
             driver.findElement(By.cssSelector(".error"));
         } catch (NoSuchElementException exp) { fail("Could not see results empty message"); }
     }
+
+    @And("I click profile")
+    public void iClickProfile() {
+        driver.findElement(By.cssSelector("#profile")).click();
+    }
+
+    @Then("I should be taken to the account page")
+    public void iShouldBeTakenToTheAccountPage() {
+        assertEquals(ROOT_URL + "account.html", driver.getCurrentUrl());
+    }
 }
