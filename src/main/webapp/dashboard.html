@@ -71,6 +71,12 @@
         <input id="keywords" maxlength="64" type="text" placeholder="Type here..." class="search-bar" onenter="search()">
         <input id="country" maxlength="2" type="text" placeholder="US" class="search-bar" onenter="search(this)" onpaste="country(this)" onkeyup="country(this)" onkeypress="country(this)" onkeydown="country(this)" oninput="country(this)">
       </div>
+      <div class = "titles">
+        <p class="subtitle">Genre</p>
+      </div>
+      <div class = "grouping">
+        <input id="genre" maxlength="64" type="text" placeholder="Type here..." class="search-bar" onenter="search()">
+      </div>
       <div class="titles">
         <p class="subtitle">Start Date</p>
         <p class="subtitle">End Date</p>
@@ -84,7 +90,18 @@
         <p></p>
       </div>
       <div class="results" id="results"></div>
+      <button onclick="next()">Next</button>
     </div>
+    <div class = "main2">
+      <h3>Search Users</h3>
+      <div class="titles">
+        <p class="subtitle">Username<span class="required">*</span></p>
+      </div>
+      <div class="grouping">
+        <input id="username" maxlength="64" type="text" placeholder="Type here..." class="search-bar" onenter="searchUsers()">
+      </div>
+    </div>
+    <div class="results2" id="results2"></div>
     <footer>
         <p>&copy; Groupie 2021</p>
     </footer>
