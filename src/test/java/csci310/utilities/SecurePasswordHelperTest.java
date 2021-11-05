@@ -21,13 +21,13 @@ public class SecurePasswordHelperTest {
         byte[] bytes = new byte[16];
         random.nextBytes(bytes);
         String salt = bytes.toString();
-        String hashedPsw = SecurePasswordHelper.getSHA512SecurePassword(psw,salt,"SHA-512");
+        String hashedPsw = SecurePasswordHelper.getSecurePassword(psw,salt,"SHA-512");
         assertTrue(hashedPsw.length() > 50);
         assertTrue(hashedPsw != psw);
     }
 
     @Test
     public void testGetSHA512SecurePassword_throwsException() {
-        assertNull(SecurePasswordHelper.getSHA512SecurePassword("psw","salt","no"));
+        assertNull(SecurePasswordHelper.getSecurePassword("psw","salt","no"));
     }
 }

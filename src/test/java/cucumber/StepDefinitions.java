@@ -6,7 +6,7 @@ import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.HttpRequestHelper;
 import csci310.utilities.JsonHelper;
-import csci310.utilities.K;
+import csci310.utilities.databaseConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -22,7 +22,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -68,7 +67,7 @@ public class StepDefinitions {
 	public void after() {
 		driver.quit();
         User u = new User("asdf", "asdf");
-        DatabaseManager.shared().deleteUser(u);
+        DatabaseManager.object().deleteUser(u);
         keywords = null;
         startDate = null;
         endDate = null;
@@ -78,7 +77,7 @@ public class StepDefinitions {
     @Before()
     public void before() {
         User u = new User("asdf", "asdf");
-        DatabaseManager.shared().insertUser(u);
+        DatabaseManager.object().insertUser(u);
     }
 
     @Given("I am on the signup page")
@@ -167,7 +166,7 @@ public class StepDefinitions {
     @And("I change the confirm password field to not match my password")
     public void iChangeTheConfirmPasswordFieldToNotMatchMyPassword() {
 				User u = new User("asdf", "asdf");
-				DatabaseManager.shared().deleteUser(u);
+				DatabaseManager.object().deleteUser(u);
         driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("12345");
     }
 
@@ -203,7 +202,7 @@ public class StepDefinitions {
     @Then("I should see results matching my query")
     public void iShouldSeeResultsMatchingMyQuery() {
         //replicate API call to match against results
-        String urlString = K.rootUrl + "&size=10"
+        String urlString = databaseConfig.rootUrl + "&size=10"
                 + (keywords != null ? "&keyword=" + keywords : "")
                 + (startDate != null && endDate != null ? "&localStartDateTime=" + startDate + "T00:00:00" + "," + endDate + "T00:00:00": "")
                 + (countrycode != null ? "&countryCode=" + countrycode.toUpperCase() : "");
@@ -286,7 +285,7 @@ public class StepDefinitions {
     @Given("I am on the signup page for the first time")
     public void iAmOnTheSignupPageForTheFirstTime() {
         User u = new User("asdf", "asdf");
-        DatabaseManager.shared().deleteUser(u);
+        DatabaseManager.object().deleteUser(u);
         iAmOnTheSignupPage();
     }
 

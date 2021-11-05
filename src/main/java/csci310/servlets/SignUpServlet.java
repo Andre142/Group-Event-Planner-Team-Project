@@ -19,14 +19,14 @@ public class SignUpServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
 
-        if (DatabaseManager.shared().checkUserExists(user.getUsername()) != null) {
+        if (DatabaseManager.object().checkUserExists(user.getUsername()) != null) {
             Response response = new Response(false, "The username has been associated with an account.");
             resp.getWriter().println(JsonHelper.shared().toJson(response));
             return;
         }
 
         user.setUuid(UUID.randomUUID().toString());
-        DatabaseManager.shared().insertUser(user);
+        DatabaseManager.object().insertUser(user);
 
         user.setPsw(null);
         Response response = new Response(true,null,user);
