@@ -118,7 +118,6 @@ public class DatabaseManager {
         String hash = SecurePasswordHelper.getSecurePassword(user.getPsw(),salt,"SHA-512");
         try {
             insertUserPs.setString(1,user.getUsername());
-            System.out.println("salt - " + salt);
             insertUserPs.setString(2,salt);
             insertUserPs.setString(3,hash);
             insertUserPs.executeUpdate();
