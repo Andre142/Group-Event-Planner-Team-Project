@@ -21,13 +21,13 @@ public class SendProposalServlet extends HttpServlet {
         resp.setContentType("application/json");
 
 //      insert to SentProposals
-        DatabaseManager.shared().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
 //      insert to ReceivedProposals for every receiver
         for (String username: proposal.getReceiverUsernames())
-            DatabaseManager.shared().insertReceivedProposal(username, proposal.getProposalID());
+            DatabaseManager.object().insertReceivedProposal(username, proposal.getProposalID());
 //      link a list of events to the proposal made
         for (Event event: proposal.getEvents())
-            DatabaseManager.shared().insertEvent(event, proposal.getProposalID());
+            DatabaseManager.object().insertEvent(event, proposal.getProposalID());
 
         Response response = new Response(true);
         resp.getWriter().println(JsonHelper.shared().toJson(response));

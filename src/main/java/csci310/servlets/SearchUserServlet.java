@@ -18,7 +18,7 @@ public class SearchUserServlet extends HttpServlet {
         resp.setContentType("application/json");
         String usernameSubstring = req.getParameter("q");
 
-        ArrayList<String> dbResponse = DatabaseManager.shared().searchUsers(usernameSubstring);
+        ArrayList<String> dbResponse = DatabaseManager.object().searchUsers(usernameSubstring);
         if (dbResponse != null) {
             Response response = new Response(true,null,dbResponse);
             resp.getWriter().println(JsonHelper.shared().toJson(response));

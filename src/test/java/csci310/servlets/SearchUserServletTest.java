@@ -27,9 +27,9 @@ public class SearchUserServletTest {
 
     @Test
     public void testDoGet_success() throws IOException {
-        DatabaseManager.shared().insertUser(new User("user1","123"));
-        DatabaseManager.shared().insertUser(new User("user2","123"));
-        DatabaseManager.shared().insertUser(new User("3user","123"));
+        DatabaseManager.object().insertUser(new User("user1","123"));
+        DatabaseManager.object().insertUser(new User("user2","123"));
+        DatabaseManager.object().insertUser(new User("3user","123"));
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
         when(req.getParameter("q")).thenReturn("user");

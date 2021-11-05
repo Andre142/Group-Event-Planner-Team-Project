@@ -4,7 +4,7 @@ import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
-import csci310.utilities.K;
+import csci310.utilities.databaseConfig;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +24,9 @@ public class SignUpServletTest extends Mockito {
     @Before
     public void setUp() {
         user = new User("ExistingName","ExistingPsw");
-        new K();
+        new databaseConfig();
         user.setUuid(UUID.randomUUID().toString());
-        DatabaseManager.shared().insertUser(user);
+        DatabaseManager.object().insertUser(user);
         servlet = new SignUpServlet();
     }
 
@@ -60,7 +60,7 @@ public class SignUpServletTest extends Mockito {
 //      create a mock sign_up user with an existing user name
         User SignUpUser = new User(username,psw);
         // remove user if it exists from previous tests
-        DatabaseManager.shared().deleteUser(SignUpUser);
+        DatabaseManager.object().deleteUser(SignUpUser);
 //      create a buffer reader
         BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(SignUpUser)));
 //      return the created buffer reader
@@ -78,6 +78,6 @@ public class SignUpServletTest extends Mockito {
         Response res = JsonHelper.shared().fromJson(ResponseString, Response.class);
         assertTrue(res.getStatus());
         assertEquals(null,res.getMessage());
-        assertNotNull(DatabaseManager.shared().checkUserExists(username));
+        assertNotNull(DatabaseManager.object().checkUserExists(username));
     }
 }

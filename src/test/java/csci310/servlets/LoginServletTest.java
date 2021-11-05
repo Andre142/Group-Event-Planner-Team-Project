@@ -4,7 +4,7 @@ import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
 import csci310.utilities.JsonHelper;
-import csci310.utilities.K;
+import csci310.utilities.databaseConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -25,9 +25,9 @@ public class LoginServletTest extends Mockito{
     @Before
     public void setUp() {
         user = new User("ExistingName","ExistingPsw");
-        new K();
+        new databaseConfig();
         user.setUuid(UUID.randomUUID().toString());
-        DatabaseManager.shared().insertUser(user);
+        DatabaseManager.object().insertUser(user);
         servlet = new LoginServlet();
     }
 

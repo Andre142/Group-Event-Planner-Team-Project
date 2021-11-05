@@ -21,16 +21,16 @@ public class GetProposalServlet extends HttpServlet {
         ArrayList<Proposal> proposals = new ArrayList<>();
         Boolean isSent = req.getParameter("type").equals("sent");
         String username = req.getParameter("username");
-        ArrayList<String> proposalIDs = DatabaseManager.shared().getProposalIDs(username,isSent);
+        ArrayList<String> proposalIDs = DatabaseManager.object().getProposalIDs(username,isSent);
 
         for (String proposalID: proposalIDs) {
-            ArrayList<String> receiverUsernames = DatabaseManager.shared().getReceiverUsernamesInProposal(proposalID);
-            ArrayList<Event> events = DatabaseManager.shared().getEventsInProposal(proposalID);
-            String proposalTitle = DatabaseManager.shared().getProposalTitle(proposalID);
+            ArrayList<String> receiverUsernames = DatabaseManager.object().getProposalReciever(proposalID);
+            ArrayList<Event> events = DatabaseManager.object().getProposalEvents(proposalID);
+            String proposalTitle = DatabaseManager.object().getProposalTitle(proposalID);
             if (isSent) {
                 proposals.add(new Proposal(proposalTitle,username,receiverUsernames,events,proposalID));
             } else {
-                String senderUsername = DatabaseManager.shared().getSenderUsernameInProposal(proposalID);
+                String senderUsername = DatabaseManager.object().getProposalSender(proposalID);
                 proposals.add(new Proposal(proposalTitle,senderUsername,receiverUsernames,events,proposalID));
             }
         }

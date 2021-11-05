@@ -1,7 +1,7 @@
 package csci310.utilities;
 
 // constants
-public class K {
+public class databaseConfig {
 
     public static String sqliteUrl = "jdbc:sqlite:groupie.db";
 
