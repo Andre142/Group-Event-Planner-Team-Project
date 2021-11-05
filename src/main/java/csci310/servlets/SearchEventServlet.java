@@ -5,7 +5,7 @@ import csci310.models.RawResult;
 import csci310.models.Response;
 import csci310.utilities.HttpRequestHelper;
 import csci310.utilities.JsonHelper;
-import csci310.utilities.K;
+import csci310.utilities.databaseConfig;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class SearchEventServlet extends HttpServlet {
         String countryCode = req.getParameter("countryCode");
         String genre = req.getParameter("genre");
 
-        String urlString = K.rootUrl + "&size=10"
+        String urlString = databaseConfig.rootUrl + "&size=10"
                 + (keyword != null ? "&keyword=" + keyword : "")
                 + (countryCode != null ? "&countryCode=" + countryCode.toUpperCase() : "")
                 + (genre != null ? "&classificationName=" + genre : "")

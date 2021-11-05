@@ -24,13 +24,13 @@ public class DatabaseManager {
     private PreparedStatement getSentProposalIDsPs;
     private PreparedStatement getReceivedProposalIDsPs;
     private PreparedStatement getProposalTitlePs;
-    private PreparedStatement getSenderUsernameInProposalPs;
-    private PreparedStatement getReceiverUsernamesInProposalPs;
-    private PreparedStatement getEventsInProposalPs;
+    private PreparedStatement getProposalSenderPs;
+    private PreparedStatement getProposalReceiversPs;
+    private PreparedStatement getProposalEventsPs;
 
     private DatabaseManager() {
         try {
-            con = DriverManager.getConnection(K.sqliteUrl);
+            con = DriverManager.getConnection(databaseConfig.sqliteUrl);
 
             createTablesIfNotExist();
             checkUserExistsPs = con.prepareStatement("select Salt from Users where Username = ?");
@@ -47,9 +47,9 @@ public class DatabaseManager {
             getSentProposalIDsPs = con.prepareStatement("select ProposalID from SentProposals where SenderUsername = ?");
             getReceivedProposalIDsPs = con.prepareStatement("select ProposalID from ReceivedProposals where ReceiverUsername = ?");
             getProposalTitlePs = con.prepareStatement("select ProposalTitle from SentProposals where ProposalID = ?");
-            getSenderUsernameInProposalPs = con.prepareStatement("select SenderUsername from SentProposals where ProposalID = ?");
-            getReceiverUsernamesInProposalPs = con.prepareStatement("select ReceiverUsername from ReceivedProposals where ProposalID = ?");
-            getEventsInProposalPs = con.prepareStatement("select EventID, EventName, EventDate, EventTime, EventUrl, EventGenre from Events where ProposalID = ?");
+            getProposalSenderPs = con.prepareStatement("select SenderUsername from SentProposals where ProposalID = ?");
+            getProposalReceiversPs = con.prepareStatement("select ReceiverUsername from ReceivedProposals where ProposalID = ?");
+            getProposalEventsPs = con.prepareStatement("select EventID, EventName, EventDate, EventTime, EventUrl, EventGenre from Events where ProposalID = ?");
 
             throw new SQLException();
         } catch (SQLException e) {}
@@ -93,7 +93,7 @@ public class DatabaseManager {
                 ");");
     }
 
-    public static DatabaseManager shared() {
+    public static DatabaseManager object() {
         if (databaseManager == null) {
             databaseManager = new DatabaseManager();
         }
@@ -115,7 +115,7 @@ public class DatabaseManager {
 
     public void insertUser(User user) {
         String salt = SecurePasswordHelper.getSalt();
-        String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt,"SHA-512");
+        String hash = SecurePasswordHelper.getSecurePassword(user.getPsw(),salt,"SHA-512");
         try {
             insertUserPs.setString(1,user.getUsername());
             System.out.println("salt - " + salt);
@@ -133,7 +133,7 @@ public class DatabaseManager {
             if (rs.next()) {
                 verifyUserPs.setString(1,user.getUsername());
                 String salt = rs.getString(1);
-                String hash = SecurePasswordHelper.getSHA512SecurePassword(user.getPsw(),salt,"SHA-512");
+                String hash = SecurePasswordHelper.getSecurePassword(user.getPsw(),salt,"SHA-512");
                 verifyUserPs.setString(2,hash);
                 ResultSet rs2 = verifyUserPs.executeQuery();
                 if (rs2.next())
@@ -234,22 +234,22 @@ public class DatabaseManager {
         return proposalTitle;
     }
 
-    public String getSenderUsernameInProposal(String proposalID) {
+    public String getProposalSender(String proposalID) {
         String senderUsername = null;
         try {
-            getSenderUsernameInProposalPs.setString(1, proposalID);
-            ResultSet rs = getSenderUsernameInProposalPs.executeQuery();
+            getProposalSenderPs.setString(1, proposalID);
+            ResultSet rs = getProposalSenderPs.executeQuery();
             senderUsername = rs.getString(1);
             throw new SQLException();
         } catch (SQLException e) {}
         return senderUsername;
     }
 
-    public ArrayList<String> getReceiverUsernamesInProposal(String proposalID) {
+    public ArrayList<String> getProposalReciever(String proposalID) {
         ArrayList<String> usernames = new ArrayList<>();
         try {
-            getReceiverUsernamesInProposalPs.setString(1,proposalID);
-            ResultSet rs = getReceiverUsernamesInProposalPs.executeQuery();
+            getProposalReceiversPs.setString(1,proposalID);
+            ResultSet rs = getProposalReceiversPs.executeQuery();
             while (rs.next())
                 usernames.add(rs.getString(1));
             throw new SQLException();
@@ -257,11 +257,11 @@ public class DatabaseManager {
         return usernames;
     }
 
-    public ArrayList<Event> getEventsInProposal(String proposalID) {
+    public ArrayList<Event> getProposalEvents(String proposalID) {
         ArrayList<Event> events = new ArrayList<>();
         try {
-            getEventsInProposalPs.setString(1,proposalID);
-            ResultSet rs = getEventsInProposalPs.executeQuery();
+            getProposalEventsPs.setString(1,proposalID);
+            ResultSet rs = getProposalEventsPs.executeQuery();
             while (rs.next()) {
                 String id = rs.getString(1);
                 String name = rs.getString(2);

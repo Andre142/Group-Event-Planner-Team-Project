@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
         resp.setContentType("application/json");
         String username = req.getParameter("username");
         String psw = req.getParameter("psw");
-        User dbResponse = DatabaseManager.shared().verifyUser(new User(username, psw));
+        User dbResponse = DatabaseManager.object().verifyUser(new User(username, psw));
         if (dbResponse != null) {
             Response response = new Response(true,null,dbResponse);
             resp.getWriter().println(JsonHelper.shared().toJson(response));

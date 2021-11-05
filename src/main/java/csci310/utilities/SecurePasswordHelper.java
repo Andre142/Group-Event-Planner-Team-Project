@@ -14,7 +14,7 @@ public class SecurePasswordHelper {
         return bytes.toString();
     }
 
-    public static String getSHA512SecurePassword(String passwordToHash, String salt, String algorithm) {
+    public static String getSecurePassword(String passwordToHash, String salt, String algorithm) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
