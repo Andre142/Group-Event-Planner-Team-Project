@@ -98,7 +98,7 @@ const country = (element) => {
 
 function next(){
   document.querySelector(".main").style.display = "none";
-  document.querySelector(".main2").style.display = "block";
+  document.querySelector(".main2").style.display = "flex";
 }
 
 function searchUsers(){
