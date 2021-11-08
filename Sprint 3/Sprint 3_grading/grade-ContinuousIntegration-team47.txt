@@ -1,0 +1,7 @@
+Best Practice ContinuousIntegration Report
+Owner: team47
+Grade: 11/12
+Comments: 
+Develop branch check failed: https://github.com/CSCI310/20213-project-team47/commit/948869a757caa0e473cc43da9b6452890618ba3e
+Total successful commits: 11
+Total failing commits: 1
