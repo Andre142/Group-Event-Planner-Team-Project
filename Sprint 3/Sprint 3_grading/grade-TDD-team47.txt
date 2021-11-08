@@ -1,0 +1,11 @@
+Best Practice TDD Report
+Owner: team47
+Grade: 10.7/12
+Comments: 
+	No test method found for: databasemanager.createtablesifnotexist
+		Commit: https://github.com/CSCI310/20213-project-team47/commit/abbdb339e1678e75f6c8eeff5d084821792218a1
+	No test method found for: databasemanager.object
+		Commit: https://github.com/CSCI310/20213-project-team47/commit/ec828e39d6f67d80b976703c98d81a113fd079eb
+Correct TDD methods: 16
+Incorrect TDD methods: 2
+Total methods evaluated for TDD: 18
