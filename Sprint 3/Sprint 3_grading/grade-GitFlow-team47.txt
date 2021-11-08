@@ -1,0 +1,6 @@
+Best Practice GitFlow Report
+Owner: team47
+Grade: 11.5/12
+Comments: 
+
+	Pull did not follow base/head branch rules (-1) [main<-refactor-badindenting]: https://github.com/CSCI310/20213-project-team47/pull/18
