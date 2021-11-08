@@ -1,0 +1,20 @@
+			Grading Table - Team team47
+
+| Section                  | Grade               | Note                 |
+|--------------------------|---------------------|----------------------|
+| Sprint Planning          | 9.0/9               | Good Job             |
+| Scrums                   | 25.0/25             | Scrum 1:Good work    |
+|                          |                     | Scrum 2:Good job     |
+|                          |                     | Scrum 3:Good job     |
+|                          |                     | Scrum 4:Good job     |
+|                          |                     | Scrum 5:Great work!! |
+| Retrospective            | 0.0/6               |                      |
+| TDD                      | 10.7/12             |                      |
+| GitFlow                  | 11.5/12             |                      |
+| Continuous Integration   | 11.0/12             |                      |
+| Refactor                 | 11.7/12             |                      |
+| Coverage                 | 12.0/12             |                      |
+| ------------------------ | ------------------- |                      |
+| Total                    | 90.9                |                      |
+| ------------------------ | ------------------- |                      |
+| Implementation Score     | 24/250              |                      |
