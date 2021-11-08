@@ -1,0 +1,15 @@
+Best Practice Refactor Report
+Owner: team47
+Grade: 11.7/12
+Comments: 
+Issue 24: https://github.com/CSCI310/20213-project-team47/issues/24
+	nchin901 satisfied 7 of 7 requirements for this issue.
+Issue 22: https://github.com/CSCI310/20213-project-team47/issues/22
+	aklotzUSC satisfied 7 of 7 requirements for this issue.
+Issue 20: https://github.com/CSCI310/20213-project-team47/issues/20
+	Andre14254 satisfied 7 of 7 requirements for this issue.
+Issue 17: https://github.com/CSCI310/20213-project-team47/issues/17
+	The comment is empty
+	jesscatian satisfied 6 of 7 requirements for this issue.
+Issue 16: https://github.com/CSCI310/20213-project-team47/issues/16
+	MKevinn satisfied 7 of 7 requirements for this issue.
