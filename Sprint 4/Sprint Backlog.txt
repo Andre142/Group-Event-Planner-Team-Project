@@ -1,0 +1,48 @@
+Sprint Backlog
+
+
+Attendants: Kevin, Nishita, Jessie, Andrew
+
+
+- [Frontend] Task 1: Privacy Settings Page
+   * Subtask 1: Create Account Management/Privacy Settings page (HTML & CSS)
+   * Subtask 2: Add the date picker element to set himself/herself unavailable for that range
+   * Subtask 3: Write Acceptance tests
+
+
+- [Frontend] Task 2: Send Proposals Feature
+   * Subtask 1: Write Acceptance tests 
+   
+
+- [Backend] Task 3: Add Availability To User Database
+   * Subtask 1: Create Tests for Availability
+   * Subtask 2: Create Availability Implementation
+   * Subtask 3: Create Tests to Add Availability Functionality to Servlet
+   * Subtask 4: Create Servlet Implementation for Availability
+   
+   
+- [Backend] Task 4: Create algorithm for matching
+  * Subtask 1: Create implementation 
+  * Subtask 2: Create servlet
+
+
+- [Backend] Task 5: Invitees send their response to a proposal
+  * Subtask 1: Create implementation 
+  * Subtask 2: Create servlet
+
+
+- [Backend] Task 6: Invitees send their response to a finalized event
+  * Subtask 1: Create implementation 
+  * Subtask 2: Create servlet
+  
+
+- [Frontend] Task 7: Invitees send their response to a proposal
+  * Subtask 1: Create implementation 
+  * Subtask 2: Create acceptance test
+
+
+- [Frontend] Task 8: Invitees send their response to a finalized event
+  * Subtask 1: Create implementation 
+  * Subtask 2: Create acceptance test
+   
+We choose to attempt to finish our project in a rough form so we can get feedback on things before the end of the sprint
