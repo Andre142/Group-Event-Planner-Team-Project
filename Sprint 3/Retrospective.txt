@@ -1,0 +1,19 @@
+Retrospective
+
+
+Attendants: Jessie, Kevin, Nishi, Andrew
+
+
+Process Changes:
+- Ensure TDD is followed
+- Make sure all tests are written for every function
+- Ensure Travis passes every time
+
+
+New Task(s) Added to Product Backlog:
+- Availbility is a set date range instead of boolean
+- Users should allowed to save draft of proposal
+
+
+Feedback to Address:
+- Provide acceptance tests for all of UI
