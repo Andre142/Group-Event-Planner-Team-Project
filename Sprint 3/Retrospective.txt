@@ -11,7 +11,6 @@ Process Changes:
 
 
 New Task(s) Added to Product Backlog:
-- Availbility is a set date range instead of boolean
 - Users should allowed to save draft of proposal
 
 
