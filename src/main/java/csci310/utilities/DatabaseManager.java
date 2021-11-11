@@ -4,7 +4,9 @@ import csci310.models.Event;
 import csci310.models.Unavailability;
 import csci310.models.User;
 import java.sql.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.*;
 
 public class DatabaseManager {
 
@@ -102,10 +104,10 @@ public class DatabaseManager {
                 "primary key(ReceiverUsername, EventID)" +
                 ");");
         st.execute("create table if not exists Unavailabilities (" +
-                "UnavailabilityID integer not null primary key auto increment" +
-                "Start text not null" +
-                "End text not null" +
-                "Username text not null" +
+                "UnavailabilityID integer not null primary key," +
+                "Start text not null," +
+                "End text not null," +
+                "Username text not null," +
                 "foreign key(Username) references Users(Username)" +
                 ");");
     }
@@ -294,16 +296,40 @@ public class DatabaseManager {
 
     public ArrayList<Unavailability> getUnavailabilities(String username)
     {
-        return null;
+        ArrayList<Unavailability> unavailabilities = new ArrayList<Unavailability>();
+        try {
+            getUnavailabilitiesPs.setString(1, username);
+            ResultSet rs = getUnavailabilitiesPs.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("UnavailabilityID");
+                String start = rs.getString("Start");
+                String end = rs.getString("End");
+                unavailabilities.add(new Unavailability(id, start, end, username));
+            }
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return unavailabilities;
     }
 
-    public boolean addUnavailability(String username, String start, String end)
+    public boolean addUnavailability(String start, String end, String username)
     {
-        return false;
+        try {
+                addUnavailabilityPs.setString(1, start);
+                addUnavailabilityPs.setString(2, end);
+                addUnavailabilityPs.setString(3, username);
+                addUnavailabilityPs.executeUpdate();
+                throw new SQLException();
+        } catch (SQLException e) {}
+        return true;
     }
 
     public void removeUnavailability(int id)
     {
-
+        try {
+            removeUnavailabilityPs.setInt(1, id);
+            removeUnavailabilityPs.executeUpdate();
+            throw new SQLException();
+        }
+        catch (SQLException e) {}
     }
 }

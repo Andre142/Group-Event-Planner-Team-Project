@@ -184,11 +184,11 @@ public class DatabaseManagerTest {
         User user5 = new User("user5","123");
         DatabaseManager.object().insertUser(user5);
         assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
-        DatabaseManager.object().addUnavailability("user5", "2021-11-24 08:36", "2021-11-25 04:54");
-        assertEquals("2021-11-24 08:36", DatabaseManager.object().getUnavailabilities("user5").get(0).getStart());
-        assertEquals("2021-11-25 04:54", DatabaseManager.object().getUnavailabilities("user5").get(0).getEnd());
+        DatabaseManager.object().addUnavailability("2021-11-24T08:36", "2021-11-25T04:54", "user5");
+        assertEquals("2021-11-24T08:36", DatabaseManager.object().getUnavailabilities("user5").get(0).getStart());
+        assertEquals("2021-11-25T04:54", DatabaseManager.object().getUnavailabilities("user5").get(0).getEnd());
         assertEquals("user5", DatabaseManager.object().getUnavailabilities("user5").get(0).getUsername());
-        DatabaseManager.object().addUnavailability("user5", "2021-11-26 05:38", "2021-11-27 11:37");
+        DatabaseManager.object().addUnavailability("2021-11-26T05:38", "2021-11-27T11:37", "user5");
         assertEquals(2, DatabaseManager.object().getUnavailabilities("user5").size());
         assertEquals(0, DatabaseManager.object().getUnavailabilities("testUser").size());
         DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
@@ -204,11 +204,12 @@ public class DatabaseManagerTest {
         User user5 = new User("user5","123");
         DatabaseManager.object().insertUser(user5);
         assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
-        DatabaseManager.object().addUnavailability("user5", "2021-11-24 08:36", "2021-11-25 04:54");
-        assertEquals("2021-11-24 08:36", DatabaseManager.object().getUnavailabilities("user5").get(0).getStart());
-        assertEquals("2021-11-25 04:54", DatabaseManager.object().getUnavailabilities("user5").get(0).getEnd());
+        boolean added = DatabaseManager.object().addUnavailability("2021-11-24T08:36", "2021-11-25T04:54", "user5");
+        assertTrue(added);
+        assertEquals("2021-11-24T08:36", DatabaseManager.object().getUnavailabilities("user5").get(0).getStart());
+        assertEquals("2021-11-25T04:54", DatabaseManager.object().getUnavailabilities("user5").get(0).getEnd());
         assertEquals("user5", DatabaseManager.object().getUnavailabilities("user5").get(0).getUsername());
-        DatabaseManager.object().addUnavailability("user5", "2021-11-26 05:38", "2021-11-27 11:37");
+        DatabaseManager.object().addUnavailability("2021-11-26T05:38", "2021-11-27T11:37", "user5");
         assertEquals(2, DatabaseManager.object().getUnavailabilities("user5").size());
         DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
         DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
@@ -220,8 +221,8 @@ public class DatabaseManagerTest {
     {
         User user5 = new User("user5","123");
         DatabaseManager.object().insertUser(user5);
-        DatabaseManager.object().addUnavailability("user5", "2021-11-24 08:36", "2021-11-25 04:54");
-        DatabaseManager.object().addUnavailability("user5", "2021-11-26 05:38", "2021-11-27 11:37");
+        DatabaseManager.object().addUnavailability("2021-11-24T08:36", "2021-11-25T04:54", "user5");
+        DatabaseManager.object().addUnavailability("2021-11-26T05:38", "2021-11-27T11:37", "user5");
         assertEquals(2, DatabaseManager.object().getUnavailabilities("user5").size());
         DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
         assertEquals(1, DatabaseManager.object().getUnavailabilities("user5").size());
