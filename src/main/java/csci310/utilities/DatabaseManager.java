@@ -1,6 +1,7 @@
 package csci310.utilities;
 
 import csci310.models.Event;
+import csci310.models.Unavailability;
 import csci310.models.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class DatabaseManager {
     private PreparedStatement getProposalReceiversPs;
     private PreparedStatement getProposalEventsPs;
 
+    private PreparedStatement getUnavailabilitiesPs;
+    private PreparedStatement addUnavailabilityPs;
+    private PreparedStatement removeUnavailabilityPs;
+
     private DatabaseManager() {
         try {
             con = DriverManager.getConnection(databaseConfig.sqliteUrl);
@@ -50,6 +55,11 @@ public class DatabaseManager {
             getProposalSenderPs = con.prepareStatement("select SenderUsername from SentProposals where ProposalID = ?");
             getProposalReceiversPs = con.prepareStatement("select ReceiverUsername from ReceivedProposals where ProposalID = ?");
             getProposalEventsPs = con.prepareStatement("select EventID, EventName, EventDate, EventTime, EventUrl, EventGenre from Events where ProposalID = ?");
+
+
+            getUnavailabilitiesPs = con.prepareStatement("select UnavailabilityID, Start, End from Unavailabilities where Username = ?");
+            addUnavailabilityPs = con.prepareStatement("insert into Unavailabilities(Start, End, Username) values (?, ?, ?)");
+            removeUnavailabilityPs = con.prepareStatement("delete from Unavailabilities where UnavailabilityID=?");
 
             throw new SQLException();
         } catch (SQLException e) {}
@@ -90,6 +100,13 @@ public class DatabaseManager {
                 "EventID text not null," +                      // 1 for yes; 0 for no
                 "foreign key(EventID) references Events(EventID)," +
                 "primary key(ReceiverUsername, EventID)" +
+                ");");
+        st.execute("create table if not exists Unavailabilities (" +
+                "UnavailabilityID integer not null primary key auto increment" +
+                "Start text not null" +
+                "End text not null" +
+                "Username text not null" +
+                "foreign key(Username) references Users(Username)" +
                 ");");
     }
 
@@ -275,4 +292,18 @@ public class DatabaseManager {
         return events;
     }
 
+    public ArrayList<Unavailability> getUnavailabilities(String username)
+    {
+        return null;
+    }
+
+    public boolean addUnavailability(String username, String start, String end)
+    {
+        return false;
+    }
+
+    public void removeUnavailability(int id)
+    {
+
+    }
 }
