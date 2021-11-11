@@ -1,7 +1,9 @@
 package csci310.utilities;
 
 import csci310.models.Event;
+import csci310.models.Unavailability;
 import csci310.models.User;
+import io.cucumber.java.lv.Un;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -174,5 +176,58 @@ public class DatabaseManagerTest {
         DatabaseManager.object().insertEvent(event1,id);
         DatabaseManager.object().insertEvent(event2,id);
         assertTrue(DatabaseManager.object().getProposalEvents(id).size()>=2);
+    }
+
+    @Test
+    public void testGetUnavailabilities()
+    {
+        User user5 = new User("user5","123");
+        DatabaseManager.object().insertUser(user5);
+        assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().addUnavailability("2021-11-24T08:36", "2021-11-25T04:54", "user5");
+        assertEquals("2021-11-24T08:36", DatabaseManager.object().getUnavailabilities("user5").get(0).getStart());
+        assertEquals("2021-11-25T04:54", DatabaseManager.object().getUnavailabilities("user5").get(0).getEnd());
+        assertEquals("user5", DatabaseManager.object().getUnavailabilities("user5").get(0).getUsername());
+        DatabaseManager.object().addUnavailability("2021-11-26T05:38", "2021-11-27T11:37", "user5");
+        assertEquals(2, DatabaseManager.object().getUnavailabilities("user5").size());
+        assertEquals(0, DatabaseManager.object().getUnavailabilities("testUser").size());
+        DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
+        assertEquals(1, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
+        assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().deleteUser(user5);
+    }
+
+    @Test
+    public void testAddUnavailability()
+    {
+        User user5 = new User("user5","123");
+        DatabaseManager.object().insertUser(user5);
+        assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
+        boolean added = DatabaseManager.object().addUnavailability("2021-11-24T08:36", "2021-11-25T04:54", "user5");
+        assertTrue(added);
+        assertEquals("2021-11-24T08:36", DatabaseManager.object().getUnavailabilities("user5").get(0).getStart());
+        assertEquals("2021-11-25T04:54", DatabaseManager.object().getUnavailabilities("user5").get(0).getEnd());
+        assertEquals("user5", DatabaseManager.object().getUnavailabilities("user5").get(0).getUsername());
+        DatabaseManager.object().addUnavailability("2021-11-26T05:38", "2021-11-27T11:37", "user5");
+        assertEquals(2, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
+        DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
+        DatabaseManager.object().deleteUser(user5);
+    }
+
+    @Test
+    public void testRemoveUnavailabilities()
+    {
+        User user5 = new User("user5","123");
+        DatabaseManager.object().insertUser(user5);
+        DatabaseManager.object().addUnavailability("2021-11-24T08:36", "2021-11-25T04:54", "user5");
+        DatabaseManager.object().addUnavailability("2021-11-26T05:38", "2021-11-27T11:37", "user5");
+        assertEquals(2, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
+        assertEquals(1, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
+        assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
+        DatabaseManager.object().deleteUser(user5);
     }
 }
