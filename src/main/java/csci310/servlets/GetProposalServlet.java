@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class GetProposalServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");

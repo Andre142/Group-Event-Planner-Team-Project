@@ -55,7 +55,6 @@ public class GetProposalServletTest {
         printWriter.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
-        System.out.println(response.getData().toString());
         assertTrue(response.getData().toString().contains("inviteeNametester1"));
     }
 
@@ -72,7 +71,6 @@ public class GetProposalServletTest {
         printWriter.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
-        System.out.println(response.getData().toString());
         assertTrue(response.getData().toString().contains("2000-01-01"));
     }
 }

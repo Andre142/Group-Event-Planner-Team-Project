@@ -1,6 +1,7 @@
 package csci310.utilities;
 
 import csci310.models.Event;
+import csci310.models.EventResponse;
 import csci310.models.Unavailability;
 import csci310.models.User;
 import java.sql.*;
@@ -31,6 +32,10 @@ public class DatabaseManager {
     private PreparedStatement getProposalReceiversPs;
     private PreparedStatement getProposalEventsPs;
 
+    private PreparedStatement insertRespondedEventPs;
+    private PreparedStatement getRespondedEventPs;
+    private PreparedStatement updateRespondedEventPs;
+
     private PreparedStatement getUnavailabilitiesPs;
     private PreparedStatement addUnavailabilityPs;
     private PreparedStatement removeUnavailabilityPs;
@@ -58,6 +63,9 @@ public class DatabaseManager {
             getProposalReceiversPs = con.prepareStatement("select ReceiverUsername from ReceivedProposals where ProposalID = ?");
             getProposalEventsPs = con.prepareStatement("select EventID, EventName, EventDate, EventTime, EventUrl, EventGenre from Events where ProposalID = ?");
 
+            insertRespondedEventPs = con.prepareStatement("insert into RespondedEvents (ReceiverUsername,Excitement,Availability,EventID) values (?,?,?,?)");
+            getRespondedEventPs = con.prepareStatement("select Excitement,Availability from RespondedEvents where ReceiverUsername = ? and EventID = ?");
+            updateRespondedEventPs = con.prepareStatement("update RespondedEvents set Excitement = ?, Availability = ? where ReceiverUsername = ? and EventID = ?");
 
             getUnavailabilitiesPs = con.prepareStatement("select UnavailabilityID, Start, End from Unavailabilities where Username = ?");
             addUnavailabilityPs = con.prepareStatement("insert into Unavailabilities(Start, End, Username) values (?, ?, ?)");
@@ -95,11 +103,11 @@ public class DatabaseManager {
                 "ProposalID text not null," +
                 "foreign key(ProposalID) references SentProposals(ProposalID)" +
                 ");");
-        st.execute("create table if not exists RatedEvents (" +        // each receiver has a copy of the event to rate, only insert/update when someone posts/modifies rating
+        st.execute("create table if not exists RespondedEvents (" +        // each receiver has a copy of the event to respond, only insert/update when someone posts/modifies rating
                 "ReceiverUsername text not null," +
                 "Excitement integer not null," +                        // 1-5 scale
-                "Availability integer not null," +
-                "EventID text not null," +                      // 1 for yes; 0 for no
+                "Availability integer not null," +           // 1 for yes; 0 for no
+                "EventID text not null," +
                 "foreign key(EventID) references Events(EventID)," +
                 "primary key(ReceiverUsername, EventID)" +
                 ");");
@@ -292,6 +300,41 @@ public class DatabaseManager {
             throw new SQLException();
         } catch (SQLException e) {}
         return events;
+    }
+
+    // invitee's response to event
+
+    public void insertRespondedEvent(EventResponse eventResponse) {
+        try {
+            if (getRespondedEvent(eventResponse.getReceiverUsername(), eventResponse.getEventID()) == null) {
+                insertRespondedEventPs.setString(1,eventResponse.getReceiverUsername());
+                insertRespondedEventPs.setInt(2,eventResponse.getExcitement());
+                insertRespondedEventPs.setInt(3,eventResponse.getAvailability());
+                insertRespondedEventPs.setString(4,eventResponse.getEventID());
+                insertRespondedEventPs.executeUpdate();
+            } else {
+                updateRespondedEventPs.setInt(1,eventResponse.getExcitement());
+                updateRespondedEventPs.setInt(2,eventResponse.getAvailability());
+                updateRespondedEventPs.setString(3,eventResponse.getReceiverUsername());
+                updateRespondedEventPs.setString(4,eventResponse.getEventID());
+                updateRespondedEventPs.executeUpdate();
+            }
+        } catch (SQLException e) {}
+    }
+
+    public EventResponse getRespondedEvent(String receiverUsername, String eventID) {
+        try {
+            getRespondedEventPs.setString(1,receiverUsername);
+            getRespondedEventPs.setString(2,eventID);
+            ResultSet rs = getRespondedEventPs.executeQuery();
+            if (rs.next()) {
+                int excitement = rs.getInt(1);
+                int availability = rs.getInt(2);
+                return new EventResponse(eventID,availability,excitement,receiverUsername);
+            }
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
     }
 
     public ArrayList<Unavailability> getUnavailabilities(String username)

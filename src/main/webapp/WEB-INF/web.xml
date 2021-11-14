@@ -28,6 +28,14 @@
         <servlet-name>GetProposalServlet</servlet-name>
         <servlet-class>csci310.servlets.GetProposalServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendResponseServlet</servlet-name>
+        <servlet-class>csci310.servlets.SendResponseServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetResponseServlet</servlet-name>
+        <servlet-class>csci310.servlets.GetResponseServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth/login</url-pattern>
@@ -51,5 +59,13 @@
     <servlet-mapping>
         <servlet-name>GetProposalServlet</servlet-name>
         <url-pattern>/proposal/get</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendResponseServlet</servlet-name>
+        <url-pattern>/response/send</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetResponseServlet</servlet-name>
+        <url-pattern>/response/get</url-pattern>
     </servlet-mapping>
 </web-app>

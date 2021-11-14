@@ -1,6 +1,7 @@
 package csci310.utilities;
 
 import csci310.models.Event;
+import csci310.models.EventResponse;
 import csci310.models.Unavailability;
 import csci310.models.User;
 import io.cucumber.java.lv.Un;
@@ -8,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -171,11 +173,34 @@ public class DatabaseManagerTest {
 
     @Test
     public void testGetEventsInProposal() {
-        Event event1= new Event("event 1","2021-01-01","19:00:00","abc.com","music","junitevent123456qwerty");
-        Event event2 = new Event("event 2","2021-01-01","19:00:00","abc.com","music","junitevent123456");
+        Event event1 = new Event("event 1","2021-01-01","19:00:00","abc.com","music", UUID.randomUUID().toString());
+        Event event2 = new Event("event 2","2021-01-01","19:00:00","abc.com","music",UUID.randomUUID().toString());
         DatabaseManager.object().insertEvent(event1,id);
         DatabaseManager.object().insertEvent(event2,id);
         assertTrue(DatabaseManager.object().getProposalEvents(id).size()>=2);
+    }
+
+    @Test
+    public void testInsertRespondedEvent() {
+        String eventID = "junitevent123456qwerty";
+        Event event = new Event("event 1","2021-01-01","19:00:00","abc.com","music",eventID);
+        EventResponse eventResponse = new EventResponse(eventID,1,5,"name");
+        DatabaseManager.object().insertEvent(event,id);
+        DatabaseManager.object().insertRespondedEvent(eventResponse);
+        assertEquals(5,DatabaseManager.object().getRespondedEvent("name",eventID).getExcitement());
+        eventResponse.setExcitement(3);
+        DatabaseManager.object().insertRespondedEvent(eventResponse);
+        assertEquals(3,DatabaseManager.object().getRespondedEvent("name",eventID).getExcitement());
+    }
+
+    @Test
+    public void testGetRespondedEvent() {
+        String eventID = "junitevent12";
+        Event event = new Event("event 1","2021-01-01","19:00:00","abc.com","music",eventID);
+        EventResponse eventResponse = new EventResponse(eventID,0,5,"name");
+        DatabaseManager.object().insertEvent(event,id);
+        DatabaseManager.object().insertRespondedEvent(eventResponse);
+        assertEquals(0,DatabaseManager.object().getRespondedEvent("name",eventID).getAvailability());
     }
 
     @Test
