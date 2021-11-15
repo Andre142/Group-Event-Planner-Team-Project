@@ -194,6 +194,41 @@ public class AvailabilityServletTest extends TestCase {
         res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("no user found", res.getMessage());
+
+
+        //Exception testing
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("throw")).thenReturn("true");
+
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new AvailabilityServlet().doGet(request, response);
+
+        writer.flush();
+        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        assertFalse(res.getStatus());
+        assertEquals("exception occurred", res.getMessage());
+
+        //invalid type
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("type")).thenReturn("hello");
+        when(request.getParameter("blocker")).thenReturn("userBlocker");
+
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new AvailabilityServlet().doGet(request, response);
+
+        writer.flush();
+        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        assertFalse(res.getStatus());
     }
 
     @After

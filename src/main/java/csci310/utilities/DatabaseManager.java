@@ -185,6 +185,10 @@ public class DatabaseManager {
             if (checkUserExists(user.getUsername()) != null) {
                 deleteUserPs.setString(1,user.getUsername());
                 deleteUserPs.executeUpdate();
+                while (databaseManager.getUnavailabilities(user.getUsername()).size() > 0)
+                {
+                    databaseManager.removeUnavailability(databaseManager.getUnavailabilities(user.getUsername()).get(0).getId());
+                }
             } else {
                 throw new SQLException();
             }
