@@ -316,6 +316,41 @@ public class DatabaseManager {
         return events;
     }
 
+    // invitee's response to event
+
+    public void insertRespondedEvent(EventResponse eventResponse) {
+        try {
+            if (getRespondedEvent(eventResponse.getReceiverUsername(), eventResponse.getEventID()) == null) {
+                insertRespondedEventPs.setString(1,eventResponse.getReceiverUsername());
+                insertRespondedEventPs.setInt(2,eventResponse.getExcitement());
+                insertRespondedEventPs.setInt(3,eventResponse.getAvailability());
+                insertRespondedEventPs.setString(4,eventResponse.getEventID());
+                insertRespondedEventPs.executeUpdate();
+            } else {
+                updateRespondedEventPs.setInt(1,eventResponse.getExcitement());
+                updateRespondedEventPs.setInt(2,eventResponse.getAvailability());
+                updateRespondedEventPs.setString(3,eventResponse.getReceiverUsername());
+                updateRespondedEventPs.setString(4,eventResponse.getEventID());
+                updateRespondedEventPs.executeUpdate();
+            }
+        } catch (SQLException e) {}
+    }
+
+    public EventResponse getRespondedEvent(String receiverUsername, String eventID) {
+        try {
+            getRespondedEventPs.setString(1,receiverUsername);
+            getRespondedEventPs.setString(2,eventID);
+            ResultSet rs = getRespondedEventPs.executeQuery();
+            if (rs.next()) {
+                int excitement = rs.getInt(1);
+                int availability = rs.getInt(2);
+                return new EventResponse(eventID,availability,excitement,receiverUsername);
+            }
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
+    }
+
     public ArrayList<Unavailability> getUnavailabilities(String username)
     {
         ArrayList<Unavailability> unavailabilities = new ArrayList<Unavailability>();
