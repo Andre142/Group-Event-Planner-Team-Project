@@ -5,15 +5,15 @@ const logout = () => {
 
  let username = localStorage.getItem("username")
  let c = $(".prop-list")
- search(username,c);
+
 const search = (username, resultsContainer) => {
- ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + encodeURIComponent(username.trim()), (response) => {
+ ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + encodeURIComponent(username), (response) => {
        let json = JSON.parse(response)
        genResults(json, resultsContainer)
      })
 
 };
-
+ search(username,c);
 const genResults = (json = {}, container) => {
  container.empty();
  if (JSON.stringify(json) !== "{}") {
