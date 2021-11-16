@@ -82,8 +82,9 @@ const genResults = (json = {}, container) => {
  let ele = document.getElementsByName('yes-no'+i);
 
              for(i = 0; i < ele.length; i++) {
-                 if(ele[i].checked)
+                 if(ele[i].checked) {
                  let availabilityVal = ele[i].value;
+                 }
              }
    let excitementVal = document.getElementByID(i).value;
 
