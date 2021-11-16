@@ -54,6 +54,7 @@ const genResults = (json = {}, container) => {
                                           <br><br><br>
                                           Excitement:
                                           <select id="${i}">
+                                          <option selected disabled hidden style='display: none' value=''></option>
                                           <option value="1">1</option>
                                           <option value="2">2</option>
                                           <option value="3">3</option>
@@ -91,6 +92,16 @@ const genResults = (json = {}, container) => {
        excitement: excitementVal,
        receiverUsername: username
      })
+     .done(function(results) {
+           let ev=results.data[0].availability;
+           
+           console.log(ev);
+           
+       })
+       .fail(function(results)
+       {
+           alert("Request failed");
+       })
      }
      }
      });
