@@ -97,4 +97,4 @@ const genResults = (json = {}, container) => {
      })
      }
      }
-     })
+     });
