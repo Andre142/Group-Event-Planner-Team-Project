@@ -28,7 +28,7 @@ const genResults = (json = {}, container) => {
        let str = `<li class="list-group-item">
                                   <div class="row">
                                       <div class="col-2">
-                                          ${json.data[i].proposalTitle}
+                                          <strong>${json.data[i].proposalTitle}</strong>
                                           <br>
                                           Event Name: ${json.data[i].events[0].name}
                                           <br>
@@ -41,16 +41,25 @@ const genResults = (json = {}, container) => {
                                                                                                                               Genre: ${json.data[i].events[0].genre}
                                   </div>
                                       <div class="col-3">
-                                          <input type="radio" class="btn-check" name="yes-no" id="yes1${i}" autocomplete="off">
+                                          <input type="radio" class="btn-check" name="yes-no${i}" id="yes1${i}" autocomplete="off">
                                       </div>
                                       <div class="col-2">
-                                          <label class="btn btn-outline-success" name="yes-no" for="yes1${i}">Yes</label>
+                                          <label class="btn btn-outline-success" name="yes-no${i}" for="yes${i}">Yes</label>
                                       </div>
                                       <div class="col-3">
-                                      <input type="radio" class="btn-check" name="yes-no" id="no${i}" autocomplete="off">
+                                      <input type="radio" class="btn-check" name="yes-no${i}" id="no${i}" autocomplete="off">
                                   </div>
                                       <div class="col-2">
-                                          <label class="btn btn-outline-success" name="yes-no" for="no${i}">No</label>
+                                          <label class="btn btn-outline-success" name="yes-no${i}" for="no${i}">No</label>
+                                          <br>
+                                          Excitement:
+                                          <select>
+                                          <option value="1">1</option>
+                                          <option value="2">2</option>
+                                          <option value="3">3</option>
+                                          <option value="4">4</option>
+                                          <option value="5">5</option>
+                                          </select>
                                       </div>
 
                                   </div>
