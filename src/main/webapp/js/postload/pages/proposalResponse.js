@@ -94,7 +94,7 @@ const genResults = (json = {}, container) => {
        availability: availabilityVal,
        excitement: excitementVal,
        receiverUsername: username
-     }
-     }
      })
+     }
+     }
      })
