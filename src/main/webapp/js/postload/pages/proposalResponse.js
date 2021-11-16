@@ -41,16 +41,16 @@ const genResults = (json = {}, container) => {
                                                                                                                               Genre: ${json.data[i].events[0].genre}
                                   </div>
                                       <div class="col-3">
-                                          <input type="radio" class="btn-check" name="yes-no" id="yes1" autocomplete="off">
+                                          <input type="radio" class="btn-check" name="yes-no" id="yes1${i}" autocomplete="off">
                                       </div>
                                       <div class="col-2">
-                                          <label class="btn btn-outline-success" name="yes-no" for="yes1">Yes</label>
+                                          <label class="btn btn-outline-success" name="yes-no" for="yes1${i}">Yes</label>
                                       </div>
                                       <div class="col-3">
-                                      <input type="radio" class="btn-check" name="yes-no" id="no1" autocomplete="off">
+                                      <input type="radio" class="btn-check" name="yes-no" id="no${i}" autocomplete="off">
                                   </div>
                                       <div class="col-2">
-                                          <label class="btn btn-outline-success" name="yes-no" for="no1">No</label>
+                                          <label class="btn btn-outline-success" name="yes-no" for="no${i}">No</label>
                                       </div>
 
                                   </div>
