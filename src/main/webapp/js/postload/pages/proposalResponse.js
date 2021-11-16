@@ -72,7 +72,7 @@ const genResults = (json = {}, container) => {
  }
  }
 
- $("#send-button").click(function(){
+ $("#send-button").on("click",function() {
  console.log("HI");
  for (let i=0;i<json.data.length;i++) {
  console.log(i);
