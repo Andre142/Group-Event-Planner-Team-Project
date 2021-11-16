@@ -29,6 +29,16 @@ const genResults = (json = {}, container) => {
                                   <div class="row">
                                       <div class="col-2">
                                           ${json.data[i].proposalTitle}
+                                          <br>
+                                          Event Name: ${json.data[i].events.name}
+                                          <br>
+                                          Date: ${json.data[i].events.date}
+                                          <br>
+                                          Time: ${json.data[i].events.time}
+                                          <br>
+                                                                                    URL: ${json.data[i].events.url}
+                                                                                    <br>
+                                                                                                                              Genre: ${json.data[i].events.genre}
                                   </div>
                                       <div class="col-3">
                                           <input type="radio" class="btn-check" name="yes-no" id="yes1" autocomplete="off">
