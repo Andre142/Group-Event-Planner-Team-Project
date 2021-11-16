@@ -71,12 +71,12 @@ const genResults = (json = {}, container) => {
    }
  }
  }
-
+ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
+        let json = JSON.parse(response);
+      });
  $("#send-button").on("click",function() {
  console.log("HI");
-  ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
-        let json = JSON.parse(response)
-      });
+  
  for (let i=0;i<json.data.length;i++) {
  console.log(i);
 
