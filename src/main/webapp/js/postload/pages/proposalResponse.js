@@ -51,9 +51,9 @@ const genResults = (json = {}, container) => {
                                   </div>
                                       <div class="col-2">
                                           <label class="btn btn-outline-success" name="yes-no${i}" for="no${i}">No</label>
-                                          <br>
+                                          <br><br><br>
                                           Excitement:
-                                          <select>
+                                          <select id="${i}">
                                           <option value="1">1</option>
                                           <option value="2">2</option>
                                           <option value="3">3</option>
@@ -68,51 +68,36 @@ const genResults = (json = {}, container) => {
      }
    }
  }
- blockUser();
-}
 
-function blockUser() {
-let blockList = document.querySelectorAll(".blocked");
-    for (let i = 0; i < blockList.length; i++) {
+ document.querySelector("#send-button").onclick = (e) => {
+  e.preventDefault()
 
-        blockList[i].onclick = function() {
-           let userName = $(this).prev().text();
-           this.parentNode.parentNode.remove(document.querySelector(".list-group-item"));
-           let str = `<li class="list-group-item">
-                                                     <div class="row">
-                                                     <div class="col-8 unblock">
-                                                         ${userName}
-                                                     </div>
-                                                     <button class="col-3 unblock btn-sm">
-                                                         Unblock
-                                                     </button>
-                                                     </div>
-                                                 </li>`;
-            $(".blocked-list").append(str);
-        unblockUser();
-        }
-    }
-}
-function unblockUser() {
-let unblockList = document.querySelectorAll(".unblock");
-    for (let i = 0; i < unblockList.length; i++) {
-        unblockList[i].onclick = function() {
-           let userName = $(this).prev().text();
-           this.parentNode.parentNode.remove(document.querySelector(".list-group-item"));
-           let str = `<li class="list-group-item">
-                                      <div class="row">
-                                      <div class="col-8">
-                                          ${userName}
-                                      </div>
-                                      <button class="col-3 blocked btn-sm">
-                                          Block
-                                      </button>
-                                      </div>
-                                  </li>`;
-            $(".search-users").append(str);
-        blockUser();
-        }
-    }
-}
-blockUser();
-unblockUser();
+  search(username,c);
+ }
+ $("#send-button").click(function(){
+ for (let i=0;i<json.data.length;i++) {
+
+ if ($('input[name=yes-no'+i+']:checked').size() > 0 && $("#"+i+" option:selected").length) {
+
+ let ele = document.getElementsByName('yes-no'+i);
+
+             for(i = 0; i < ele.length; i++) {
+                 if(ele[i].checked)
+                 let availabilityVal = ele[i].value;
+             }
+   let excitementVal = document.getElementByID(i).value;
+
+               for(i = 0; i < ele.length; i++) {
+                   if(ele[i].checked)
+                   let availabilityVal = ele[i].value;
+               }
+     $.post("http://localhost:8080/response/send",
+     {
+       eventID: json.events[0].eventID,
+       availability: availabilityVal,
+       excitement: excitementVal,
+       receiverUsername: username
+     }
+     }
+     })
+     })
