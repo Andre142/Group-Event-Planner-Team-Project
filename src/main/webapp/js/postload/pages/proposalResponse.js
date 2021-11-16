@@ -68,6 +68,7 @@ const genResults = (json = {}, container) => {
      }
    }
  }
+ }
 
  $("#send-button").click(function(){
  for (let i=0;i<json.data.length;i++) {
