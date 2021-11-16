@@ -69,11 +69,6 @@ const genResults = (json = {}, container) => {
    }
  }
 
- document.querySelector("#send-button").onclick = (e) => {
-  e.preventDefault()
-
-  search(username,c);
- }
  $("#send-button").click(function(){
  for (let i=0;i<json.data.length;i++) {
 
