@@ -66,13 +66,16 @@ const genResults = (json = {}, container) => {
                                   </div>
                               </li>`;
      container.append(str);
+      console.log("HI");
      }
    }
  }
  }
 
  $("#send-button").click(function(){
+ console.log("HI");
  for (let i=0;i<json.data.length;i++) {
+ console.log(i);
 
  if ($('input[name=yes-no'+i+']:checked').size() > 0 && $("#"+i+" option:selected").length) {
 
