@@ -36,6 +36,18 @@
         <servlet-name>GetResponseServlet</servlet-name>
         <servlet-class>csci310.servlets.GetResponseServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendFinalizedProposalServlet</servlet-name>
+        <servlet-class>csci310.servlets.SendFinalizedProposalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendFinalResponseServlet</servlet-name>
+        <servlet-class>csci310.servlets.SendFinalResponseServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetFinalResponseServlet</servlet-name>
+        <servlet-class>csci310.servlets.GetFinalResponseServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth/login</url-pattern>
@@ -67,5 +79,17 @@
     <servlet-mapping>
         <servlet-name>GetResponseServlet</servlet-name>
         <url-pattern>/response/get</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendFinalizedProposalServlet</servlet-name>
+        <url-pattern>/proposal/finalized</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendFinalResponseServlet</servlet-name>
+        <url-pattern>/response/finalized/send</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFinalResponseServlet</servlet-name>
+        <url-pattern>/response/finalized/get</url-pattern>
     </servlet-mapping>
 </web-app>

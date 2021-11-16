@@ -8,6 +8,7 @@ import io.cucumber.java.lv.Un;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -254,5 +255,35 @@ public class DatabaseManagerTest {
         DatabaseManager.object().removeUnavailability(DatabaseManager.object().getUnavailabilities("user5").get(0).getId());
         assertEquals(0, DatabaseManager.object().getUnavailabilities("user5").size());
         DatabaseManager.object().deleteUser(user5);
+    }
+
+    @Test
+    public void testUpdateFinalizedProposal() {
+        DatabaseManager.object().insertSentProposal("idproposal23",title,senderUsername);
+        DatabaseManager.object().updateFinalizedProposal("123","idproposal23");
+        assertEquals("123",DatabaseManager.object().getFinalizedProposal("idproposal23"));
+    }
+
+    @Test
+    public void testGetFinalizedProposal() {
+        DatabaseManager.object().insertSentProposal("idproposal23",title,senderUsername);
+        DatabaseManager.object().updateFinalizedProposal("123","idproposal23");
+        assertEquals("123",DatabaseManager.object().getFinalizedProposal("idproposal23"));
+        assertNull(DatabaseManager.object().getFinalizedProposal("randomIDsome123"));
+    }
+
+    @Test
+    public void testUpdateFinalResponse() {
+        DatabaseManager.object().insertReceivedProposal(receiverUsername,"id233");
+        DatabaseManager.object().updateFinalResponse(1,"id233",receiverUsername);
+        assertEquals(true,DatabaseManager.object().getFinalResponse("id233",receiverUsername));
+    }
+
+    @Test
+    public void testGetFinalResponse() {
+        DatabaseManager.object().insertReceivedProposal(receiverUsername,"id233");
+        DatabaseManager.object().updateFinalResponse(1,"id233",receiverUsername);
+        assertEquals(true,DatabaseManager.object().getFinalResponse("id233",receiverUsername));
+        assertNull(DatabaseManager.object().getFinalResponse("randomIDsome123",receiverUsername));
     }
 }

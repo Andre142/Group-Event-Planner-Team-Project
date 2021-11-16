@@ -5,9 +5,7 @@ import csci310.models.EventResponse;
 import csci310.models.Unavailability;
 import csci310.models.User;
 import java.sql.*;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.time.*;
 
 public class DatabaseManager {
 
@@ -24,6 +22,11 @@ public class DatabaseManager {
     private PreparedStatement insertSentProposalPs;
     private PreparedStatement insertReceivedProposalPs;
     private PreparedStatement insertEventPs;
+
+    private PreparedStatement updateFinalizedProposalPs;
+    private PreparedStatement getFinalizedProposalPs;
+    private PreparedStatement updateFinalResponsePs;
+    private PreparedStatement getFinalResponsePs;
 
     private PreparedStatement getSentProposalIDsPs;
     private PreparedStatement getReceivedProposalIDsPs;
@@ -56,6 +59,11 @@ public class DatabaseManager {
             insertReceivedProposalPs = con.prepareStatement("insert into ReceivedProposals (ReceiverUsername, ProposalID) values (?,?)");
             insertEventPs = con.prepareStatement("insert into Events (EventID, EventName, EventDate, EventTime, EventUrl, EventGenre, ProposalID) values (?,?,?,?,?,?,?)");
 
+            updateFinalizedProposalPs = con.prepareStatement("update SentProposals set FinalizedEventID = ? where ProposalID = ?");
+            getFinalizedProposalPs = con.prepareStatement("select FinalizedEventID from SentProposals where ProposalID = ?");
+            updateFinalResponsePs = con.prepareStatement("update ReceivedProposals set FinalResponse = ? where ProposalID = ? and ReceiverUsername = ?");
+            getFinalResponsePs = con.prepareStatement("select FinalResponse from ReceivedProposals where ProposalID = ? and ReceiverUsername = ?");
+
             getSentProposalIDsPs = con.prepareStatement("select ProposalID from SentProposals where SenderUsername = ?");
             getReceivedProposalIDsPs = con.prepareStatement("select ProposalID from ReceivedProposals where ReceiverUsername = ?");
             getProposalTitlePs = con.prepareStatement("select ProposalTitle from SentProposals where ProposalID = ?");
@@ -85,11 +93,13 @@ public class DatabaseManager {
         st.execute("create table if not exists SentProposals (" +
                 "ProposalID text primary key," +
                 "ProposalTitle text not null," +
-                "SenderUsername text not null" +
+                "SenderUsername text not null," +
+                "FinalizedEventID text" +
                 ");");
         st.execute("create table if not exists ReceivedProposals (" +        // each receiver has a copy of the proposal
                 "ReceiverUsername text not null," +
                 "ProposalID text not null," +
+                "FinalResponse integer," +                               // 0 means no, 1 means yes
                 "foreign key(ProposalID) references SentProposals(ProposalID)," +
                 "primary key(ReceiverUsername, ProposalID)" +
                 ");");
@@ -333,6 +343,51 @@ public class DatabaseManager {
                 return new EventResponse(eventID,availability,excitement,receiverUsername);
             }
             throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
+    }
+
+    // finalized propsoal
+
+    public void updateFinalizedProposal(String finalizedEventID, String proposalID) {
+        try {
+            updateFinalizedProposalPs.setString(1,finalizedEventID);
+            updateFinalizedProposalPs.setString(2,proposalID);
+            updateFinalizedProposalPs.executeUpdate();
+        } catch (SQLException e) {}
+    }
+
+    public String getFinalizedProposal(String proposalID) {
+        try {
+            getFinalizedProposalPs.setString(1,proposalID);
+            ResultSet rs = getFinalizedProposalPs.executeQuery();
+            if (rs.next()) {
+                String finalizedEventID = rs.getString("FinalizedEventID");
+                return finalizedEventID;
+            }
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
+    }
+
+    public void updateFinalResponse(int finalResponse, String proposalID, String receiverUsername) {
+        try {
+            updateFinalResponsePs.setInt(1,finalResponse);
+            updateFinalResponsePs.setString(2,proposalID);
+            updateFinalResponsePs.setString(3,receiverUsername);
+            updateFinalResponsePs.executeUpdate();
+        } catch (SQLException e) {}
+    }
+
+    public Boolean getFinalResponse(String proposalID, String receiverUsername) {
+        try {
+            getFinalResponsePs.setString(1,proposalID);
+            getFinalResponsePs.setString(2,receiverUsername);
+            ResultSet rs = getFinalResponsePs.executeQuery();
+            if (rs.next()) {
+                int response = rs.getInt(1);
+                return response == 1;
+            }
         } catch (SQLException e) {}
         return null;
     }

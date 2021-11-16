@@ -9,6 +9,7 @@ public class Proposal {
     private ArrayList<String> receiverUsernames;
     private ArrayList<Event> events;
     private String proposalID;
+    private String finalizedEventID;
 
     public void setSenderUsername(String senderUsername) {
         this.senderUsername = senderUsername;
@@ -28,6 +29,10 @@ public class Proposal {
 
     public void setProposalTitle(String proposalTitle) {
         this.proposalTitle = proposalTitle;
+    }
+
+    public void setFinalizedEventID(String finalizedEventID) {
+        this.finalizedEventID = finalizedEventID;
     }
 
     public String getSenderUsername() {
@@ -50,20 +55,26 @@ public class Proposal {
         return proposalTitle;
     }
 
+    public String getFinalizedEventID() {
+        return finalizedEventID;
+    }
+
     public Proposal(String proposalTitle, String senderUsername, ArrayList<String> receiverUsernames, ArrayList<Event> events) {
         this.proposalTitle = proposalTitle;
         this.senderUsername = senderUsername;
         this.receiverUsernames = receiverUsernames;
         this.events = events;
         proposalID = UUID.randomUUID().toString();
+        finalizedEventID = null;
     }
 
-    public Proposal(String proposalTitle, String senderUsername, ArrayList<String> receiverUsernames, ArrayList<Event> events, String proposalID) {
+    public Proposal(String proposalTitle, String senderUsername, ArrayList<String> receiverUsernames, ArrayList<Event> events, String proposalID, String finalizedEventID) {
         this.proposalTitle = proposalTitle;
         this.senderUsername = senderUsername;
         this.receiverUsernames = receiverUsernames;
         this.events = events;
         this.proposalID = proposalID;
+        this.finalizedEventID = finalizedEventID;
     }
 
     public void generateID() {
