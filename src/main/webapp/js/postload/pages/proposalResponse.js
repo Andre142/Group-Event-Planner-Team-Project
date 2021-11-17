@@ -69,7 +69,7 @@ const search = (username, resultsContainer) => {
        genResults(json, resultsContainer)
      
 
-};
+});
  search(username,c);
 
  $("#send-button").on("click",function() {
