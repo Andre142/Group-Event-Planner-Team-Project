@@ -5,9 +5,7 @@ const logout = () => {
 
  let username = localStorage.getItem("username")
  let c = $(".prop-list")
-ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
-        let json = JSON.parse(response);
-      });
+
       const genResults = (json = {}, container) => {
        container.empty();
        if (JSON.stringify(json) !== "{}") {
@@ -66,8 +64,8 @@ ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametes
        }
        }
 const search = (username, resultsContainer) => {
-// ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
-//       let json = JSON.parse(response)
+ ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
+       let json = JSON.parse(response)
        genResults(json, resultsContainer)
      
 
