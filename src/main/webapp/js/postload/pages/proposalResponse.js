@@ -85,8 +85,8 @@ var json = JSON.parse(xhReq.responseText);
  if ($('input[name=yes-no'+i+']:checked').length > 0 && $("#"+i+" option:selected").length > 0) {
 
  let ele = document.getElementsByName('yes-no'+i);
-             for(i = 0; i < ele.length; i+=2) {
-                 if(ele[i].checked && i == 0) {
+             for(let j = 0; j < ele.length; j+=2) {
+                 if(ele[j].checked && j == 0) {
                  let availabilityVal = 1;
                  }
                  else
