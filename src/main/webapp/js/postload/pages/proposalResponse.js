@@ -5,7 +5,9 @@ const logout = () => {
 
  let username = localStorage.getItem("username")
  let c = $(".prop-list")
-
+ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
+        let json = JSON.parse(response);
+      });
 const search = (username, resultsContainer) => {
 // ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
 //       let json = JSON.parse(response)
@@ -71,9 +73,7 @@ const genResults = (json = {}, container) => {
    }
  }
  }
-ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
-        let json = JSON.parse(response);
-      });
+
  $("#send-button").on("click",function() {
  console.log("HI");
   
