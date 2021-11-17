@@ -91,7 +91,7 @@ var json = JSON.parse(xhReq.responseText);
                  let availabilityVal = ele[i].value;
                  }
              }
-   let excitementVal = document.getElementByID(i).value;
+   let excitementVal = document.getElementByID(""+i).value;
 
      $.post("http://localhost:8080/response/send",
      {
