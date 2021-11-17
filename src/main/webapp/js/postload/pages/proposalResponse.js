@@ -28,9 +28,9 @@ const logout = () => {
                                                 <br>
                                                 Time: ${json.data[i].events[0].time}
                                                 <br>
-                                                                                          URL: ${json.data[i].events[0].url}
-                                                                                          <br>
-                                                                                                                                    Genre: ${json.data[i].events[0].genre}
+                                                URL: ${json.data[i].events[0].url}
+                                                <br>
+                                                Genre: ${json.data[i].events[0].genre}
                                         </div>
                                             <div class="col-3">
                                                 <input type="radio" class="btn-check" name="yes-no${i}" id="yes${i}" autocomplete="off">
@@ -102,7 +102,7 @@ var json = JSON.parse(xhReq.responseText);
        eventID: json.data[0].events[0].eventID,
        availability: availabilityVal,
        excitement: excitementVal,
-       receiverUsername: username
+       receiverUsername: "inviteeNametester1"
      })
      .done(function(results) {
            let ev=results.data[0].availability;
