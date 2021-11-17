@@ -82,7 +82,7 @@ var json = JSON.parse(xhReq.responseText);
  for (let i=0;i<json.data.length;i++) {
  console.log(i);
 
- if ($('input[name=yes-no'+i+']:checked').size() > 0 && $("#"+i+" option:selected").length) {
+ if ($('input[name=yes-no'+i+']:checked').length > 0 && $("#"+i+" option:selected").length > 0) {
 
  let ele = document.getElementsByName('yes-no'+i);
 
