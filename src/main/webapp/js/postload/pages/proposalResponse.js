@@ -7,8 +7,8 @@ const logout = () => {
  let c = $(".prop-list")
 
 const search = (username, resultsContainer) => {
- ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
-       let json = JSON.parse(response)
+// ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
+//       let json = JSON.parse(response)
        genResults(json, resultsContainer)
      })
 
