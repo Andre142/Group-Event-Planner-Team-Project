@@ -33,7 +33,7 @@ const logout = () => {
                                                                                                                                     Genre: ${json.data[i].events[0].genre}
                                         </div>
                                             <div class="col-3">
-                                                <input type="radio" class="btn-check" name="yes-no${i}" id="yes1${i}" autocomplete="off">
+                                                <input type="radio" class="btn-check" name="yes-no${i}" id="yes${i}" autocomplete="off">
                                             </div>
                                             <div class="col-2">
                                                 <label class="btn btn-outline-success" name="yes-no${i}" for="yes${i}">Yes</label>
