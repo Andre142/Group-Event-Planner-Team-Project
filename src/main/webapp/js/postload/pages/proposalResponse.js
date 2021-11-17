@@ -75,7 +75,10 @@ const search = (username, resultsContainer) => {
 
  $("#send-button").on("click",function() {
  console.log("HI");
-  
+var xhReq = new XMLHttpRequest();
+xhReq.open("GET", ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", false);
+xhReq.send(null);
+var json = JSON.parse(xhReq.responseText);  
  for (let i=0;i<json.data.length;i++) {
  console.log(i);
 
