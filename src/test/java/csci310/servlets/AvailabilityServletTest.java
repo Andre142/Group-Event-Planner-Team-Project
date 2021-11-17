@@ -43,6 +43,7 @@ public class AvailabilityServletTest extends TestCase {
         when(request.getParameter("username")).thenReturn(testUser.getUsername());
         when(request.getParameter("start")).thenReturn("2031-12-20T14:55");
         when(request.getParameter("end")).thenReturn("2031-12-25T16:33");
+        when(request.getParameter("throw")).thenReturn("false");
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
@@ -69,9 +70,32 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        Response<ArrayList<String>> res1 = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
-        assertTrue(res1.getData().toString().contains("2031-12-20T14:55"));
+        assertTrue(res.getData().toString().contains("2031-12-20T14:55"));
+
+        //Test getting unavailabilities from nonexistent user
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("type")).thenReturn("getUnavailabilities");
+        String nonexistantUsername = "nonexistentUsername1";
+        while (DatabaseManager.object().checkUserExists(nonexistantUsername) != null)
+        {
+            nonexistantUsername = nonexistantUsername + 1;
+        }
+        when(request.getParameter("username")).thenReturn(nonexistantUsername);
+
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new AvailabilityServlet().doGet(request, response);
+
+        writer.flush();
+        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        assertFalse(res.getStatus());
+
 
         //Test removing unavailability
         request = mock(HttpServletRequest.class);
@@ -98,6 +122,24 @@ public class AvailabilityServletTest extends TestCase {
 
         when(request.getParameter("type")).thenReturn("removeUnavailability");
         when(request.getParameter("username")).thenReturn(testUser.getUsername());
+        when(request.getParameter("index")).thenReturn("1");
+
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new AvailabilityServlet().doGet(request, response);
+
+        writer.flush();
+        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        assertFalse(res.getStatus());
+
+        //Test removing unavailability for nonexistent user
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("type")).thenReturn("removeUnavailability");
+        when(request.getParameter("username")).thenReturn(nonexistantUsername);
         when(request.getParameter("index")).thenReturn("1");
 
         stringWriter = new StringWriter();
@@ -175,11 +217,6 @@ public class AvailabilityServletTest extends TestCase {
         response = mock(HttpServletResponse.class);
 
         when(request.getParameter("type")).thenReturn("addUnavailability");
-        String nonexistantUsername = "nonexistentUsername1";
-        while (DatabaseManager.object().checkUserExists(nonexistantUsername) != null)
-        {
-            nonexistantUsername = nonexistantUsername + 1;
-        }
         when(request.getParameter("username")).thenReturn(nonexistantUsername);
         when(request.getParameter("start")).thenReturn("2031-12-30T11:55");
         when(request.getParameter("end")).thenReturn("2031-12-31T16:33");
