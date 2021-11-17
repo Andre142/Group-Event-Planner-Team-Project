@@ -85,10 +85,13 @@ var json = JSON.parse(xhReq.responseText);
  if ($('input[name=yes-no'+i+']:checked').length > 0 && $("#"+i+" option:selected").length > 0) {
 
  let ele = document.getElementsByName('yes-no'+i);
-
-             for(i = 0; i < ele.length; i++) {
-                 if(ele[i].checked) {
-                 let availabilityVal = ele[i].value;
+             for(i = 0; i < ele.length; i+=2) {
+                 if(ele[i].checked && i == 0) {
+                 let availabilityVal = 1;
+                 }
+                 else
+                 {
+                    let availabilityVal = 0;
                  }
              }
    let excitementVal = document.getElementById(""+i).value;
