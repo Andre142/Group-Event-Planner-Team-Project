@@ -46,6 +46,8 @@ public class SendProposalServletTest {
         servlet.doPost(req,res);
         printWriter.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        proposal.setFinalizedEventID("1");
+        proposal.getFinalizedEventID();
         assertTrue(response.getStatus());
     }
 }
