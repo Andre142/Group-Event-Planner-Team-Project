@@ -185,10 +185,6 @@ public class DatabaseManager {
             if (checkUserExists(user.getUsername()) != null) {
                 deleteUserPs.setString(1,user.getUsername());
                 deleteUserPs.executeUpdate();
-                while (databaseManager.getUnavailabilities(user.getUsername()).size() > 0)
-                {
-                    databaseManager.removeUnavailability(databaseManager.getUnavailabilities(user.getUsername()).get(0).getId());
-                }
             } else {
                 throw new SQLException();
             }
@@ -333,6 +329,7 @@ public class DatabaseManager {
                 updateRespondedEventPs.setString(4,eventResponse.getEventID());
                 updateRespondedEventPs.executeUpdate();
             }
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
@@ -358,6 +355,7 @@ public class DatabaseManager {
             updateFinalizedProposalPs.setString(1,finalizedEventID);
             updateFinalizedProposalPs.setString(2,proposalID);
             updateFinalizedProposalPs.executeUpdate();
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
@@ -380,6 +378,7 @@ public class DatabaseManager {
             updateFinalResponsePs.setString(2,proposalID);
             updateFinalResponsePs.setString(3,receiverUsername);
             updateFinalResponsePs.executeUpdate();
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
@@ -392,6 +391,7 @@ public class DatabaseManager {
                 int response = rs.getInt(1);
                 return response == 1;
             }
+            throw new SQLException();
         } catch (SQLException e) {}
         return null;
     }
@@ -416,11 +416,11 @@ public class DatabaseManager {
     public boolean addUnavailability(String start, String end, String username)
     {
         try {
-                addUnavailabilityPs.setString(1, start);
-                addUnavailabilityPs.setString(2, end);
-                addUnavailabilityPs.setString(3, username);
-                addUnavailabilityPs.executeUpdate();
-                throw new SQLException();
+            addUnavailabilityPs.setString(1, start);
+            addUnavailabilityPs.setString(2, end);
+            addUnavailabilityPs.setString(3, username);
+            addUnavailabilityPs.executeUpdate();
+            throw new SQLException();
         } catch (SQLException e) {}
         return true;
     }
