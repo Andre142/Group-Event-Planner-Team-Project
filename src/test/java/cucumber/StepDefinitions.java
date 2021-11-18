@@ -392,4 +392,47 @@ public class StepDefinitions {
         WebElement w = dropdown.getFirstSelectedOption();
         assertEquals(1, Integer.parseInt(w.getAttribute("value")));
     }
+
+    // pendinginvites.feature
+    @Given("I am on the Pending Invites page")
+    public void iAmOnThePendingInvitesPages() {
+        driver.get("http://localhost:8080/pendinginvites.html");
+    }
+
+    @When("I click the check mark")
+    public void iClickTheCheckMark(){
+        String path = "/html/body/div[1]/div[1]/div[2]/span[1]";
+        WebElement check = driver.findElement(By.xpath(path));
+        check.click();
+    }
+
+    @Then("I should see the alert Accepted Invite")
+    public void iShouldSeeTheAlertAcceptedInvite(){
+        // Switching to Alert
+        Alert alert = driver.switchTo().alert();
+        // Capturing alert message.
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "Accepted Invite");
+    }
+
+    @When("I click the cross mark")
+    public void iClickTheCrossMark(){
+        String path = "/html/body/div[1]/div[1]/div[2]/span[2]";
+        WebElement check = driver.findElement(By.xpath(path));
+        check.click();
+    }
+
+    @Then("I should see the alert Declined Invite")
+    public void iShouldSeeTheAlertDeclinedInvite(){
+        // Switching to Alert
+        Alert alert = driver.switchTo().alert();
+        // Capturing alert message.
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "Declined Invite");
+    }
+
+
+
+
+
 }
