@@ -64,7 +64,7 @@ const logout = () => {
        }
        }
 const search = (username, resultsContainer) => {
- ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + "inviteeNametester1", (response) => {
+ ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + username, (response) => {
        let json = JSON.parse(response)
        genResults(json, resultsContainer)
      
@@ -99,10 +99,10 @@ var json = JSON.parse(xhReq.responseText);
 
      $.post("http://localhost:8080/response/send",
      {
-       eventID: json.data[0].events[0].eventID,
-       availability: availabilityVal,
-       excitement: excitementVal,
-       receiverUsername: "inviteeNametester1"
+       "eventID": json.data[0].events[0].eventID,
+       "availability": availabilityVal,
+       "excitement": excitementVal,
+       "receiverUsername": username
      })
      .done(function(results) {
            let ev=results.data[0].availability;
