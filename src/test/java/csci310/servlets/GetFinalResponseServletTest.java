@@ -2,7 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import org.junit.Test;
 
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class GetFinalResponseServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doGet(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
 
         when(req.getParameter("username")).thenReturn("receiver");
@@ -42,7 +42,7 @@ public class GetFinalResponseServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doGet(req,res);
         printWriter.flush();
-        response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(response.getStatus());
     }
 }

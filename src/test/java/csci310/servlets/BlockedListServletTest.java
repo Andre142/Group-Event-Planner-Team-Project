@@ -2,7 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.BlockedListDatabase;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        Response res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
 
         //Test correctly getting a block
@@ -58,7 +58,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
 
         //Test removing block
@@ -89,7 +89,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertEquals("false", res.getData());
 
         //Test adding block
@@ -120,7 +120,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertEquals("true",res.getData());
 
         //Test getting block list
@@ -150,7 +150,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        Response<ArrayList<String>> res1 = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response<ArrayList<String>> res1 = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
         assertEquals("userBlockee", res1.getData().get(0));
 
@@ -167,7 +167,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("invalid parameter", res.getMessage());
 
@@ -183,7 +183,7 @@ public class BlockedListServletTest extends TestCase {
         new BlockedListServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("exception occurred", res.getMessage());
     }

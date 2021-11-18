@@ -3,7 +3,7 @@ package csci310.servlets;
 import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import csci310.utilities.databaseConfig;
 
 import org.junit.Before;
@@ -37,7 +37,7 @@ public class SignUpServletTest extends Mockito {
 //      create a mock sign_up user with an existing user name
         User SignUpUser = new User("ExistingName","RandomPsw");
 //      create a buffer reader
-        BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(SignUpUser)));
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(HelperFunctions.shared().toJson(SignUpUser)));
 //      return the created buffer reader
         when(request.getReader()).thenReturn(bufferedReader);
 //      create a string writer
@@ -46,7 +46,7 @@ public class SignUpServletTest extends Mockito {
         when(response.getWriter()).thenReturn(writer);
         servlet.doPost(request,response);
         writer.flush();
-        Response res = JsonHelper.shared().fromJson(stringWriter.toString(), Response.class);
+        Response res = HelperFunctions.shared().fromJson(stringWriter.toString(), Response.class);
         assertFalse(res.getStatus());
         assertEquals("The username has been associated with an account.",res.getMessage());
     }
@@ -62,7 +62,7 @@ public class SignUpServletTest extends Mockito {
         // remove user if it exists from previous tests
         DatabaseManager.object().deleteUser(SignUpUser);
 //      create a buffer reader
-        BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(SignUpUser)));
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(HelperFunctions.shared().toJson(SignUpUser)));
 //      return the created buffer reader
         when(request.getReader()).thenReturn(bufferedReader);
 //      create a string writer
@@ -75,7 +75,7 @@ public class SignUpServletTest extends Mockito {
         String ResponseString = stringWriter.toString();
 //      check response object
         assertTrue(ResponseString.contains(username));
-        Response res = JsonHelper.shared().fromJson(ResponseString, Response.class);
+        Response res = HelperFunctions.shared().fromJson(ResponseString, Response.class);
         assertTrue(res.getStatus());
         assertEquals(null,res.getMessage());
         assertNotNull(DatabaseManager.object().checkUserExists(username));

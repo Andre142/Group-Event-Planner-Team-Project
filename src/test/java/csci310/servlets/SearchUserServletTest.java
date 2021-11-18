@@ -3,7 +3,7 @@ package csci310.servlets;
 import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class SearchUserServletTest {
         when(res.getWriter()).thenReturn(writer);
         servlet.doGet(req,res);
         writer.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
         assertNull(response.getMessage());
         assertNotNull(response.getData());
@@ -54,7 +54,7 @@ public class SearchUserServletTest {
         when(res.getWriter()).thenReturn(writer);
         servlet.doGet(req,res);
         writer.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(response.getStatus());
         assertEquals("No results returned for this query",response.getMessage());
         assertNull(response.getData());
