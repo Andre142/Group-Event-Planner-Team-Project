@@ -37,8 +37,8 @@ function populate(){
             '                <p>Dummy Name</p>\n' +
             '            </div>\n' +
             '            <div class="card_info">\n' +
-            '                <span class="material-icons" onclick="check()">done</span>\n' +
-            '                <span class="material-icons" onclick="cross()">close</span>\n' +
+            '                <span class="material-icons" name="check" onclick="check()">done</span>\n' +
+            '                <span class="material-icons" name="cross" onclick="cross()">close</span>\n' +
             '            </div>\n' +
             '        </div>\n';
 
