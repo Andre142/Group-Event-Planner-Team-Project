@@ -58,7 +58,6 @@ const logout = () => {
                                         </div>
                                     </li>`;
            container.append(str);
-            console.log("HI");
            }
          }
        }
@@ -74,13 +73,11 @@ const search = (username, resultsContainer) => {
  search(username,c);
 
  $("#send-button").on("click",function() {
- console.log("HI");
 var xhReq = new XMLHttpRequest();
 xhReq.open("GET", ENDPOINT_URL + "/proposal/get?type=received&username=" + username, false);
 xhReq.send(null);
 var json = JSON.parse(xhReq.responseText);  
  for (let i=0;i<json.data.length;i++) {
- console.log(i);
 
  if ($('input[name=yes-no'+i+']:checked').length > 0 && $("#"+i+" option:selected").length > 0) {
 
