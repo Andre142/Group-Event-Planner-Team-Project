@@ -1,7 +1,7 @@
 package csci310.servlets;
 
 import csci310.models.Response;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import org.junit.Test;
 
 import javax.servlet.ServletException;
@@ -29,7 +29,7 @@ public class SendFinalResponseServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doPost(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
 
         when(req.getParameter("final_response")).thenReturn("0");

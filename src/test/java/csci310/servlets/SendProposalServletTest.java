@@ -3,11 +3,9 @@ package csci310.servlets;
 import csci310.models.Event;
 import csci310.models.Proposal;
 import csci310.models.Response;
-import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,14 +36,14 @@ public class SendProposalServletTest {
                 "senderNametester",
                 new ArrayList<>(Arrays.asList("inviteeNametester1")),
                 new ArrayList<>(Arrays.asList(event1)));
-        BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(proposal,Proposal.class)));
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(HelperFunctions.shared().toJson(proposal,Proposal.class)));
         when(req.getReader()).thenReturn(bufferedReader);
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doPost(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         proposal.setFinalizedEventID("1");
         proposal.getFinalizedEventID();
         assertTrue(response.getStatus());

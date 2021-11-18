@@ -2,7 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +25,6 @@ public class GetFinalResponseServlet extends HttpServlet {
         } else {
             response = new Response(true,null,finalResponse);
         }
-        resp.getWriter().print(JsonHelper.shared().toJson(response));
+        resp.getWriter().print(HelperFunctions.shared().toJson(response));
     }
 }

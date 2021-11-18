@@ -3,7 +3,7 @@ package csci310.servlets;
 import csci310.models.EventResponse;
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +21,10 @@ public class GetResponseServlet extends HttpServlet {
         EventResponse eventResponse = DatabaseManager.object().getRespondedEvent(username,eventID);
         if (eventResponse != null) {
             Response response = new Response(true, null, eventResponse);
-            resp.getWriter().print(JsonHelper.shared().toJson(response));
+            resp.getWriter().print(HelperFunctions.shared().toJson(response));
         } else {
             Response response = new Response(false,"Either the event or the response to the event does not exist.");
-            resp.getWriter().print(JsonHelper.shared().toJson(response));
+            resp.getWriter().print(HelperFunctions.shared().toJson(response));
         }
     }
 }

@@ -3,9 +3,7 @@ package csci310.servlets;
 import csci310.models.Event;
 import csci310.models.Proposal;
 import csci310.models.Response;
-import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
-import org.junit.Before;
+import csci310.utilities.HelperFunctions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,7 +34,7 @@ public class GetProposalServletTest {
                 senderUsername,
                 new ArrayList<>(Arrays.asList(inviteeUsername)),
                 new ArrayList<>(Arrays.asList(event1)));
-        BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(proposal,Proposal.class)));
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(HelperFunctions.shared().toJson(proposal,Proposal.class)));
         when(req.getReader()).thenReturn(bufferedReader);
         when(res.getWriter()).thenReturn(new PrintWriter(new StringWriter()));
         sendServlet.doPost(req,res);
@@ -53,7 +51,7 @@ public class GetProposalServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doGet(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
         assertTrue(response.getData().toString().contains("inviteeNametester1"));
     }
@@ -69,7 +67,7 @@ public class GetProposalServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doGet(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
         assertTrue(response.getData().toString().contains("2000-01-01"));
     }
