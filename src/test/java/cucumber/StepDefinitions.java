@@ -36,8 +36,8 @@ import java.util.Map;
  * Step definitions for Cucumber tests.
  */
 public class StepDefinitions {
-	private static final String ROOT_URL = "http://localhost:8080/";
-	private final WebDriver driver = new ChromeDriver();
+    private static final String ROOT_URL = "http://localhost:8080/";
+    private final WebDriver driver = new ChromeDriver();
 
     private static String keywords = null;
     private static String startDate = null;
@@ -45,35 +45,35 @@ public class StepDefinitions {
     private static String countrycode = null;
 
     @Given("I am on the index page")
-	public void i_am_on_the_index_page() {
-		driver.get(ROOT_URL);
-	}
+    public void i_am_on_the_index_page() {
+        driver.get(ROOT_URL);
+    }
 
-	@When("I click the link {string}")
-	public void i_click_the_link(String linkText) {
-		driver.findElement(By.linkText(linkText)).click();
-	}
+    @When("I click the link {string}")
+    public void i_click_the_link(String linkText) {
+        driver.findElement(By.linkText(linkText)).click();
+    }
 
-	@Then("I should see header {string}")
-	public void i_should_see_header(String header) {
-		assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
-	}
+    @Then("I should see header {string}")
+    public void i_should_see_header(String header) {
+        assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
+    }
 
-	@Then("I should see text {string}")
-	public void i_should_see_text(String text) {
-		assertTrue(driver.getPageSource().contains(text));
-	}
+    @Then("I should see text {string}")
+    public void i_should_see_text(String text) {
+        assertTrue(driver.getPageSource().contains(text));
+    }
 
-	@After()
-	public void after() {
-		driver.quit();
+    @After()
+    public void after() {
+        driver.quit();
         User u = new User("asdf", "asdf");
         DatabaseManager.object().deleteUser(u);
         keywords = null;
         startDate = null;
         endDate = null;
         countrycode = null;
-	}
+    }
 
     @Before()
     public void before() {
@@ -166,8 +166,8 @@ public class StepDefinitions {
 
     @And("I change the confirm password field to not match my password")
     public void iChangeTheConfirmPasswordFieldToNotMatchMyPassword() {
-				User u = new User("asdf", "asdf");
-				DatabaseManager.object().deleteUser(u);
+        User u = new User("asdf", "asdf");
+        DatabaseManager.object().deleteUser(u);
         driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("12345");
     }
 
@@ -392,52 +392,4 @@ public class StepDefinitions {
         WebElement w = dropdown.getFirstSelectedOption();
         assertEquals(1, Integer.parseInt(w.getAttribute("value")));
     }
-
-    // pendinginvites.feature
-    @Given("I am on the Pending Invites page")
-    public void iAmOnThePendingInvitesPages() {
-        iAmOnTheLoginPage();
-        iFillOutMyCredentials();
-        iClickOnTheLogInButton();
-        driver.get("http://localhost:8080/pendinginvites.html");
-    }
-
-    @When("I click the check mark")
-    public void iClickTheCheckMark(){
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        String path = "/html/body/div[1]/div[1]/div[2]/span[1]";
-        WebElement check = driver.findElement(By.name("check"));
-        check.click();
-    }
-
-    @Then("I should see the alert Accepted Invite")
-    public void iShouldSeeTheAlertAcceptedInvite(){
-        // Switching to Alert
-        Alert alert = driver.switchTo().alert();
-        // Capturing alert message.
-        String alertMessage= driver.switchTo().alert().getText();
-        assertEquals(alertMessage, "Accepted Invite");
-    }
-
-    @When("I click the cross mark")
-    public void iClickTheCrossMark(){
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        String path = "/html/body/div[1]/div[1]/div[2]/span[2]";
-        WebElement check = driver.findElement(By.name("cross"));
-        check.click();
-    }
-
-    @Then("I should see the alert Declined Invite")
-    public void iShouldSeeTheAlertDeclinedInvite(){
-        // Switching to Alert
-        Alert alert = driver.switchTo().alert();
-        // Capturing alert message.
-        String alertMessage= driver.switchTo().alert().getText();
-        assertEquals(alertMessage, "Declined Invite");
-    }
-
-
-
-
-
 }

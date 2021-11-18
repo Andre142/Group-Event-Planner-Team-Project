@@ -351,6 +351,51 @@ public class DatabaseManager {
         return null;
     }
 
+    // finalized propsoal
+
+    public void updateFinalizedProposal(String finalizedEventID, String proposalID) {
+        try {
+            updateFinalizedProposalPs.setString(1,finalizedEventID);
+            updateFinalizedProposalPs.setString(2,proposalID);
+            updateFinalizedProposalPs.executeUpdate();
+        } catch (SQLException e) {}
+    }
+
+    public String getFinalizedProposal(String proposalID) {
+        try {
+            getFinalizedProposalPs.setString(1,proposalID);
+            ResultSet rs = getFinalizedProposalPs.executeQuery();
+            if (rs.next()) {
+                String finalizedEventID = rs.getString("FinalizedEventID");
+                return finalizedEventID;
+            }
+            throw new SQLException();
+        } catch (SQLException e) {}
+        return null;
+    }
+
+    public void updateFinalResponse(int finalResponse, String proposalID, String receiverUsername) {
+        try {
+            updateFinalResponsePs.setInt(1,finalResponse);
+            updateFinalResponsePs.setString(2,proposalID);
+            updateFinalResponsePs.setString(3,receiverUsername);
+            updateFinalResponsePs.executeUpdate();
+        } catch (SQLException e) {}
+    }
+
+    public Boolean getFinalResponse(String proposalID, String receiverUsername) {
+        try {
+            getFinalResponsePs.setString(1,proposalID);
+            getFinalResponsePs.setString(2,receiverUsername);
+            ResultSet rs = getFinalResponsePs.executeQuery();
+            if (rs.next()) {
+                int response = rs.getInt(1);
+                return response == 1;
+            }
+        } catch (SQLException e) {}
+        return null;
+    }
+
     public ArrayList<Unavailability> getUnavailabilities(String username)
     {
         ArrayList<Unavailability> unavailabilities = new ArrayList<Unavailability>();
