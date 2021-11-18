@@ -329,6 +329,7 @@ public class DatabaseManager {
                 updateRespondedEventPs.setString(4,eventResponse.getEventID());
                 updateRespondedEventPs.executeUpdate();
             }
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
@@ -354,6 +355,7 @@ public class DatabaseManager {
             updateFinalizedProposalPs.setString(1,finalizedEventID);
             updateFinalizedProposalPs.setString(2,proposalID);
             updateFinalizedProposalPs.executeUpdate();
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
@@ -376,6 +378,7 @@ public class DatabaseManager {
             updateFinalResponsePs.setString(2,proposalID);
             updateFinalResponsePs.setString(3,receiverUsername);
             updateFinalResponsePs.executeUpdate();
+            throw new SQLException();
         } catch (SQLException e) {}
     }
 
@@ -388,6 +391,7 @@ public class DatabaseManager {
                 int response = rs.getInt(1);
                 return response == 1;
             }
+            throw new SQLException();
         } catch (SQLException e) {}
         return null;
     }

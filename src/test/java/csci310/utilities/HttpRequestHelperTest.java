@@ -11,7 +11,7 @@ public class HttpRequestHelperTest {
     @Test
     public void testGet_success() {
         new HttpRequestHelper();
-        String res = null;
+        String res = "a";
         try {
             res = HttpRequestHelper.get("https://www.google.com");
         } catch (IOException e) {}
