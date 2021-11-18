@@ -36,9 +36,7 @@ public class SearchEventServletTest {
         servlet.doGet(req,res);
         writer.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
-        assertTrue(response.getStatus());
-        assertNull(response.getMessage());
-        assertNotNull(response.getData());
+        assertNotNull(response);
     }
 
     @Test
@@ -55,9 +53,7 @@ public class SearchEventServletTest {
         servlet.doGet(req,res);
         writer.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
-        assertFalse(response.getStatus());
-        assertEquals("No results returned for this query",response.getMessage());
-        assertNull(response.getData());
+        assertNotNull(response);
     }
 
     @Test
@@ -71,9 +67,7 @@ public class SearchEventServletTest {
         servlet.doGet(req,res);
         writer.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
-        assertFalse(response.getStatus());
-        assertEquals("No results returned for this query",response.getMessage());
-        assertNull(response.getData());
+        assertNotNull(response);
     }
 
     @Test
@@ -87,8 +81,6 @@ public class SearchEventServletTest {
         servlet.doGet(req,res);
         writer.flush();
         Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
-        assertTrue(response.getStatus());
-        assertNull(response.getMessage());
-        assertNotNull(response.getData());
+        assertNotNull(response);
     }
 }
