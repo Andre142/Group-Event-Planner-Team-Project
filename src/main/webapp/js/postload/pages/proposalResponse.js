@@ -96,24 +96,21 @@ var json = JSON.parse(xhReq.responseText);
                  }
              }
    let excitementVal = document.getElementById(""+i).value;
-
-     $.post("http://localhost:8080/response/send",
-     {
-       "eventID": ""+json.data[0].events[0].eventID,
-       "availability": availabilityVal,
-       "excitement": excitementVal,
-       "receiverUsername": ""+username
-       })
-     .done(function(results) {
-           let ev=results.data[0].availability;
-           
-           console.log(ev);
-           
-       })
-       .fail(function(results)
-       {
-           alert("Request failed");
-       })
+$.ajax({
+    type: "POST",
+    url: "http://localhost:8080/response/send",
+    data: JSON.stringify({ "eventID": ""+json.data[0].events[0].eventID,
+                                  "availability": availabilityVal,
+                                  "excitement": excitementVal,
+                                  "receiverUsername": ""+username
+                                  }),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(data){alert(data);},
+    error: function(errMsg) {
+        alert(errMsg);
+    }
+});
      }
      }
      });
