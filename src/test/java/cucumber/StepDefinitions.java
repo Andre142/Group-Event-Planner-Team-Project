@@ -3,10 +3,7 @@ package cucumber;
 import csci310.models.Events;
 import csci310.models.RawResult;
 import csci310.models.User;
-import csci310.utilities.DatabaseManager;
-import csci310.utilities.HttpRequestHelper;
-import csci310.utilities.JsonHelper;
-import csci310.utilities.databaseConfig;
+import csci310.utilities.*;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -207,13 +204,13 @@ public class StepDefinitions {
         String apiResponse;
 
         try {
-            apiResponse = HttpRequestHelper.get(urlString);
+            apiResponse = HelperMethods.get(urlString);
         } catch (IOException e) {
             fail("Error in API response");
             return;
         }
 
-        RawResult rawResult = JsonHelper.shared().fromJson(apiResponse,RawResult.class);
+        RawResult rawResult = HelperMethods.shared().fromJson(apiResponse,RawResult.class);
         Events events;
 
         try {

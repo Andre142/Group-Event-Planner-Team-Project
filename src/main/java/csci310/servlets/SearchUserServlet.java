@@ -2,7 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +21,11 @@ public class SearchUserServlet extends HttpServlet {
         ArrayList<String> dbResponse = DatabaseManager.object().searchUsers(usernameSubstring);
         if (dbResponse != null) {
             Response response = new Response(true,null,dbResponse);
-            resp.getWriter().println(JsonHelper.shared().toJson(response));
+            resp.getWriter().println(HelperMethods.shared().toJson(response));
 
         } else {
             Response response = new Response<>(false, "No results returned for this query");
-            resp.getWriter().println(JsonHelper.shared().toJson(response));
+            resp.getWriter().println(HelperMethods.shared().toJson(response));
         }
     }
 }

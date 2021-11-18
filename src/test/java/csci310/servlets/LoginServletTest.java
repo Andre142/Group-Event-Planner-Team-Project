@@ -3,7 +3,7 @@ package csci310.servlets;
 import csci310.models.Response;
 import csci310.models.User;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 import csci310.utilities.databaseConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class LoginServletTest extends Mockito{
         when(response.getWriter()).thenReturn(writer);
         servlet.doGet(request,response);
         writer.flush();
-        Response res = JsonHelper.shared().fromJson(stringWriter.toString(), Response.class);
+        Response res = HelperMethods.shared().fromJson(stringWriter.toString(), Response.class);
         assertEquals("Either username or password is wrong.",res.getMessage());
         assertFalse(res.getStatus());
     }
@@ -59,7 +59,7 @@ public class LoginServletTest extends Mockito{
         servlet.doGet(request,response);
         writer.flush();
         String ResponseString = stringWriter.toString();
-        Response res = JsonHelper.shared().fromJson(ResponseString, Response.class);
+        Response res = HelperMethods.shared().fromJson(ResponseString, Response.class);
         assertEquals(null,res.getMessage());
         assertTrue(res.getStatus());
         assertTrue(ResponseString.contains("ExistingName"));

@@ -3,8 +3,7 @@ package csci310.servlets;
 import csci310.models.Events;
 import csci310.models.RawResult;
 import csci310.models.Response;
-import csci310.utilities.HttpRequestHelper;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 import csci310.utilities.databaseConfig;
 
 import javax.servlet.http.HttpServlet;
@@ -37,23 +36,23 @@ public class SearchEventServlet extends HttpServlet {
         Response errResponse = new Response(false,"No results returned for this query");
 
         try {
-            apiResponse = HttpRequestHelper.get(urlString);
+            apiResponse = HelperMethods.get(urlString);
         } catch (IOException e) {
-            resp.getWriter().println(JsonHelper.shared().toJson(errResponse));
+            resp.getWriter().println(HelperMethods.shared().toJson(errResponse));
             return;
         }
 
-        RawResult rawResult = JsonHelper.shared().fromJson(apiResponse,RawResult.class);
+        RawResult rawResult = HelperMethods.shared().fromJson(apiResponse,RawResult.class);
         Events events;
 
         try {
             events = new Events(rawResult);
         } catch (Exception e) {
-            resp.getWriter().println(JsonHelper.shared().toJson(errResponse));
+            resp.getWriter().println(HelperMethods.shared().toJson(errResponse));
             return;
         }
 
         Response response = new Response(true,null,events);
-        resp.getWriter().println(JsonHelper.shared().toJson(response));
+        resp.getWriter().println(HelperMethods.shared().toJson(response));
     }
 }

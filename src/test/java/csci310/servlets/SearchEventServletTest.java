@@ -1,7 +1,7 @@
 package csci310.servlets;
 
 import csci310.models.Response;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +35,7 @@ public class SearchEventServletTest {
         when(res.getWriter()).thenReturn(writer);
         servlet.doGet(req,res);
         writer.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperMethods.shared().fromJson(stringWriter.toString(),Response.class);
         assertNotNull(response);
     }
 
@@ -52,7 +52,7 @@ public class SearchEventServletTest {
         when(res.getWriter()).thenReturn(writer);
         servlet.doGet(req,res);
         writer.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperMethods.shared().fromJson(stringWriter.toString(),Response.class);
         assertNotNull(response);
     }
 
@@ -66,7 +66,7 @@ public class SearchEventServletTest {
         when(res.getWriter()).thenReturn(writer);
         servlet.doGet(req,res);
         writer.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperMethods.shared().fromJson(stringWriter.toString(),Response.class);
         assertNotNull(response);
     }
 
@@ -80,7 +80,7 @@ public class SearchEventServletTest {
         when(res.getWriter()).thenReturn(writer);
         servlet.doGet(req,res);
         writer.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperMethods.shared().fromJson(stringWriter.toString(),Response.class);
         assertNotNull(response);
     }
 }

@@ -2,10 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.models.Unavailability;
-import csci310.utilities.BlockedListDatabase;
-import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
-import csci310.utilities.databaseConfig;
+import csci310.utilities.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,28 +57,28 @@ public class AvailabilityServlet extends HttpServlet {
                         if(endDate.isAfter(startDate))
                         {
                             DatabaseManager.object().addUnavailability(start, end, username);
-                            printWriter.print(JsonHelper.shared().toJson(res, Response.class));
+                            printWriter.print(HelperMethods.shared().toJson(res, Response.class));
                         }
                         else
                         {
-                            printWriter.print(JsonHelper.shared().toJson(new Response(false, "start must be before end"), Response.class));
+                            printWriter.print(HelperMethods.shared().toJson(new Response(false, "start must be before end"), Response.class));
                         }
                     }
                     catch (DateTimeParseException e)
                     {
                         if (!startValid)
                         {
-                            printWriter.print(JsonHelper.shared().toJson(new Response(false, "invalid start time"), Response.class));
+                            printWriter.print(HelperMethods.shared().toJson(new Response(false, "invalid start time"), Response.class));
                         }
                         else
                         {
-                            printWriter.print(JsonHelper.shared().toJson(new Response(false, "invalid end time"), Response.class));
+                            printWriter.print(HelperMethods.shared().toJson(new Response(false, "invalid end time"), Response.class));
                         }
                     }
                 }
                 else
                 {
-                    printWriter.print(JsonHelper.shared().toJson(new Response(false, "no user found"), Response.class));
+                    printWriter.print(HelperMethods.shared().toJson(new Response(false, "no user found"), Response.class));
                 }
             }
             else if (type.equalsIgnoreCase("removeUnavailability"))
@@ -95,7 +92,7 @@ public class AvailabilityServlet extends HttpServlet {
                         if (index < unavailabilities.size() && index >= 0)
                         {
                             DatabaseManager.object().removeUnavailability(unavailabilities.get(index).getId());
-                            printWriter.print(JsonHelper.shared().toJson(res, Response.class));
+                            printWriter.print(HelperMethods.shared().toJson(res, Response.class));
                         }
                         else
                         {
@@ -104,12 +101,12 @@ public class AvailabilityServlet extends HttpServlet {
                     }
                     catch (NumberFormatException e)
                     {
-                        printWriter.print(JsonHelper.shared().toJson(new Response(false, "invalid index"), Response.class));
+                        printWriter.print(HelperMethods.shared().toJson(new Response(false, "invalid index"), Response.class));
                     }
                 }
                 else
                 {
-                    printWriter.print(JsonHelper.shared().toJson(new Response(false, "no user found"), Response.class));
+                    printWriter.print(HelperMethods.shared().toJson(new Response(false, "no user found"), Response.class));
                 }
             }
             else if (type.equalsIgnoreCase("getUnavailabilities"))
@@ -118,22 +115,22 @@ public class AvailabilityServlet extends HttpServlet {
                 {
                     ArrayList<Unavailability> unavailabilities = DatabaseManager.object().getUnavailabilities(username);
                     res = new Response(true,null,unavailabilities);
-                    printWriter.print(JsonHelper.shared().toJson(res, Response.class));
+                    printWriter.print(HelperMethods.shared().toJson(res, Response.class));
                 }
                 else
                 {
-                    printWriter.print(JsonHelper.shared().toJson(new Response(false, "no user found"), Response.class));
+                    printWriter.print(HelperMethods.shared().toJson(new Response(false, "no user found"), Response.class));
                 }
             }
             else
             {
-                printWriter.print(JsonHelper.shared().toJson(new Response(false, "invalid parameter"),Response.class));
+                printWriter.print(HelperMethods.shared().toJson(new Response(false, "invalid parameter"),Response.class));
             }
 
         }
         catch (SQLException e)
         {
-            printWriter.print(JsonHelper.shared().toJson(new Response(false, "exception occurred"),Response.class));
+            printWriter.print(HelperMethods.shared().toJson(new Response(false, "exception occurred"),Response.class));
         }
 
         printWriter.flush();

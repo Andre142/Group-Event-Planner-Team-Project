@@ -4,7 +4,7 @@ import csci310.models.Event;
 import csci310.models.Proposal;
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ public class SendProposalServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Proposal proposal = JsonHelper.shared().fromJson(req.getReader(),Proposal.class);
+        Proposal proposal = HelperMethods.shared().fromJson(req.getReader(),Proposal.class);
         proposal.generateIDForProposalAndEvents();
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
@@ -30,6 +30,6 @@ public class SendProposalServlet extends HttpServlet {
             DatabaseManager.object().insertEvent(event, proposal.getProposalID());
 
         Response response = new Response(true);
-        resp.getWriter().println(JsonHelper.shared().toJson(response));
+        resp.getWriter().println(HelperMethods.shared().toJson(response));
     }
 }

@@ -2,10 +2,9 @@ package csci310.servlets;
 
 import csci310.models.Event;
 import csci310.models.EventResponse;
-import csci310.models.Proposal;
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,14 +30,14 @@ public class SendResponseServletTest {
         eventResponse.setEventID(eventID);
         eventResponse.setAvailability(1);
         eventResponse.setReceiverUsername("name");
-        BufferedReader bufferedReader = new BufferedReader(new StringReader(JsonHelper.shared().toJson(eventResponse, EventResponse.class)));
+        BufferedReader bufferedReader = new BufferedReader(new StringReader(HelperMethods.shared().toJson(eventResponse, EventResponse.class)));
         when(req.getReader()).thenReturn(bufferedReader);
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doPost(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperMethods.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
     }
 }

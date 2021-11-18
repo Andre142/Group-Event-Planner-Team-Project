@@ -2,7 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +22,6 @@ public class SendFinalResponseServlet extends HttpServlet {
         DatabaseManager.object().updateFinalResponse(finalResponse.equals("1") ? 1:0, proposalID, username);
 
         Response response = new Response(true);
-        resp.getWriter().print(JsonHelper.shared().toJson(response));
+        resp.getWriter().print(HelperMethods.shared().toJson(response));
     }
 }

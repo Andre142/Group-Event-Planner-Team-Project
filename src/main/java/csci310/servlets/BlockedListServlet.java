@@ -2,7 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.BlockedListDatabase;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperMethods;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,33 +44,33 @@ public class BlockedListServlet extends HttpServlet {
             if (type.equalsIgnoreCase("getBlocked"))
             {
                 res.setData(String.valueOf(BlockedListDatabase.IsBlocking(blocker,blockee)));
-                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
+                printWriter.print(HelperMethods.shared().toJson(res,Response.class));
             }
             else if (type.equalsIgnoreCase("removeBlock"))
             {
                 BlockedListDatabase.DeleteBlock(blocker, blockee);
-                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
+                printWriter.print(HelperMethods.shared().toJson(res,Response.class));
             }
             else if (type.equalsIgnoreCase("addBlock"))
             {
                 BlockedListDatabase.AddBlock(blocker, blockee);
-                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
+                printWriter.print(HelperMethods.shared().toJson(res,Response.class));
             }
             else if (type.equalsIgnoreCase("getBlockList"))
             {
                 ArrayList<String> blockedList = BlockedListDatabase.GetBlockedList(blocker);
                 res.setData(blockedList);
-                printWriter.print(JsonHelper.shared().toJson(res,Response.class));
+                printWriter.print(HelperMethods.shared().toJson(res,Response.class));
             }
             else
             {
-                printWriter.print(JsonHelper.shared().toJson(new Response(false, "invalid parameter"),Response.class));
+                printWriter.print(HelperMethods.shared().toJson(new Response(false, "invalid parameter"),Response.class));
             }
 
         }
         catch (SQLException e)
         {
-            printWriter.print(JsonHelper.shared().toJson(new Response(false, "exception occurred"),Response.class));
+            printWriter.print(HelperMethods.shared().toJson(new Response(false, "exception occurred"),Response.class));
         }
 
         printWriter.flush();
