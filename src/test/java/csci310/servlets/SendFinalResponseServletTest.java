@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class SendFinalResponseServletTest {
 
     @Test
-    public void testDoPost() throws IOException, ServletException {
+    public void testDoPost_accept() throws IOException, ServletException {
         SendFinalResponseServlet servlet = new SendFinalResponseServlet();
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse res = mock(HttpServletResponse.class);
@@ -38,5 +38,21 @@ public class SendFinalResponseServletTest {
         printWriter = new PrintWriter(stringWriter);
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doPost(req,res);
+    }
+
+    @Test
+    public void testDoPost_decline() throws IOException, ServletException {
+        SendFinalResponseServlet servlet = new SendFinalResponseServlet();
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse res = mock(HttpServletResponse.class);
+        when(req.getParameter("final_response")).thenReturn("0");
+        when(req.getParameter("username")).thenReturn("user1");
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        when(res.getWriter()).thenReturn(printWriter);
+        servlet.doPost(req,res);
+        printWriter.flush();
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
+        assertTrue(response.getStatus());
     }
 }

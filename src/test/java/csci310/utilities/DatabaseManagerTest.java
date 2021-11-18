@@ -33,7 +33,7 @@ public class DatabaseManagerTest {
     }
 
     @Test
-    public void testShared() {
+    public void testObject() {
         assertNotNull(DatabaseManager.object());
     }
 
