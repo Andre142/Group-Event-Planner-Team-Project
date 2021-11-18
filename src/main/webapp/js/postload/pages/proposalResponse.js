@@ -99,13 +99,11 @@ var json = JSON.parse(xhReq.responseText);
 
      $.post("http://localhost:8080/response/send",
      {
-     {
        "eventID": ""+json.data[0].events[0].eventID,
        "availability": availabilityVal,
        "excitement": excitementVal,
        "receiverUsername": ""+username
-       }
-     })
+       })
      .done(function(results) {
            let ev=results.data[0].availability;
            
