@@ -18,7 +18,8 @@ public class ProposalTest {
                 "a",
                 null,
                 null,
-                "id");
+                "id",
+                null);
         proposal.setProposalTitle("title");
         proposal.setSenderUsername("user");
         proposal.setReceiverUsernames(new ArrayList<>(Arrays.asList("user")));
@@ -34,7 +35,8 @@ public class ProposalTest {
                 "a",
                 new ArrayList<>(Arrays.asList("a","b")),
                 new ArrayList<>(Arrays.asList(new Event("a","a","a","a","a",eventID))),
-                proposalID);
+                proposalID,
+                null);
         proposal.generateIDForProposalAndEvents();
         assertNotEquals(proposalID,proposal.getProposalID());
         assertNotEquals(eventID,proposal.getEvents().get(0).getEventID());
