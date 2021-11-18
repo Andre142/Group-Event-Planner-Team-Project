@@ -19,7 +19,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
@@ -322,11 +324,16 @@ public class StepDefinitions {
 
     @Given("I am on the proposal response page")
     public void iAmOnTheProposalResponsePage() {
+        iAmOnTheLoginPage();
+        iFillOutMyCredentials();
+        iClickOnTheLogInButton();
         driver.get(ROOT_URL + "proposalResponse.html");
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
     }
 
     @And("I click yes")
     public void iClickYes() {
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
         driver.findElement(By.cssSelector("#yes0")).click();
     }
 
@@ -337,13 +344,19 @@ public class StepDefinitions {
 
     @And("I click 1 in the excitement menu")
     public void iClick1InTheExcitementMenu() {
-        Select dropdown = new Select(driver.findElement(By.id("testingDropdown")));
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
+        Select dropdown = new Select(driver.findElement(By.id("0")));
         dropdown.selectByVisibleText("1");
 
     }
 
     @Then("One should be selected for excitement")
     public void oneShouldBeSelectedForExcitement() {
-        assertEquals(1, Integer.parseInt(driver.findElement(By.cssSelector("#1")).getAttribute("value")));
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
+        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebElement w = dropdown.getFirstSelectedOption();
+        assertEquals(1, Integer.parseInt(w.getAttribute("value")));
     }
 }
