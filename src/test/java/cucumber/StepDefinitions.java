@@ -17,6 +17,9 @@ import io.cucumber.java.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
@@ -33,8 +36,8 @@ import java.util.Map;
  * Step definitions for Cucumber tests.
  */
 public class StepDefinitions {
-	private static final String ROOT_URL = "http://localhost:8080/";
-	private final WebDriver driver = new ChromeDriver();
+    private static final String ROOT_URL = "http://localhost:8080/";
+    private final WebDriver driver = new ChromeDriver();
 
     private static String keywords = null;
     private static String startDate = null;
@@ -42,35 +45,35 @@ public class StepDefinitions {
     private static String countrycode = null;
 
     @Given("I am on the index page")
-	public void i_am_on_the_index_page() {
-		driver.get(ROOT_URL);
-	}
+    public void i_am_on_the_index_page() {
+        driver.get(ROOT_URL);
+    }
 
-	@When("I click the link {string}")
-	public void i_click_the_link(String linkText) {
-		driver.findElement(By.linkText(linkText)).click();
-	}
+    @When("I click the link {string}")
+    public void i_click_the_link(String linkText) {
+        driver.findElement(By.linkText(linkText)).click();
+    }
 
-	@Then("I should see header {string}")
-	public void i_should_see_header(String header) {
-		assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
-	}
+    @Then("I should see header {string}")
+    public void i_should_see_header(String header) {
+        assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
+    }
 
-	@Then("I should see text {string}")
-	public void i_should_see_text(String text) {
-		assertTrue(driver.getPageSource().contains(text));
-	}
+    @Then("I should see text {string}")
+    public void i_should_see_text(String text) {
+        assertTrue(driver.getPageSource().contains(text));
+    }
 
-	@After()
-	public void after() {
-		driver.quit();
+    @After()
+    public void after() {
+        driver.quit();
         User u = new User("asdf", "asdf");
         DatabaseManager.object().deleteUser(u);
         keywords = null;
         startDate = null;
         endDate = null;
         countrycode = null;
-	}
+    }
 
     @Before()
     public void before() {
@@ -142,7 +145,7 @@ public class StepDefinitions {
 
     @Then("I should be taken to the login page")
     public void iShouldBeTakenToTheLoginPage() {
-//        assertEquals(ROOT_URL + "login.html", driver.getCurrentUrl());
+        assertEquals(ROOT_URL + "login.html", driver.getCurrentUrl());
     }
 
     @And("I click on the log in button")
@@ -163,8 +166,8 @@ public class StepDefinitions {
 
     @And("I change the confirm password field to not match my password")
     public void iChangeTheConfirmPasswordFieldToNotMatchMyPassword() {
-				User u = new User("asdf", "asdf");
-				DatabaseManager.object().deleteUser(u);
+        User u = new User("asdf", "asdf");
+        DatabaseManager.object().deleteUser(u);
         driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("12345");
     }
 
@@ -352,8 +355,41 @@ public class StepDefinitions {
         assertEquals(alertMessage, "Declined Invite");
     }
 
+    @Given("I am on the proposal response page")
+    public void iAmOnTheProposalResponsePage() {
+        iAmOnTheLoginPage();
+        iFillOutMyCredentials();
+        iClickOnTheLogInButton();
+        driver.get(ROOT_URL + "proposalResponse.html");
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+    }
 
+    @And("I click yes")
+    public void iClickYes() {
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        driver.findElement(By.cssSelector("#yes0")).click();
+    }
 
+    @Then("the button corresponding to yes should be clicked")
+    public void theButtonCorrespondingToYesShouldBeClicked() {
+        assertTrue(driver.findElement(By.cssSelector("input[id*='yes0']")).isSelected());
+    }
 
+    @And("I click 1 in the excitement menu")
+    public void iClick1InTheExcitementMenu() {
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
+        Select dropdown = new Select(driver.findElement(By.id("0")));
+        dropdown.selectByVisibleText("1");
 
+    }
+
+    @Then("One should be selected for excitement")
+    public void oneShouldBeSelectedForExcitement() {
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
+        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebElement w = dropdown.getFirstSelectedOption();
+        assertEquals(1, Integer.parseInt(w.getAttribute("value")));
+    }
 }

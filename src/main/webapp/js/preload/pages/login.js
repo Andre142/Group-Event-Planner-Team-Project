@@ -19,7 +19,8 @@ const login = (username, password) => {
       document.querySelector(".error-msg").classList.remove("hidden")
     }
     else {
-      localStorage.setItem("uuid", json.uuid)
+      localStorage.setItem("uuid", json.data.uuid)
+      localStorage.setItem("username", json.data.username)
       window.location.href = "./dashboard.html"
     }
   })
