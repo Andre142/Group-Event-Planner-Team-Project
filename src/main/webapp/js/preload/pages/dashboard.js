@@ -75,6 +75,7 @@ const genResults = (json = {}, container) => {
         a.innerHTML = event.name
         var box = document.createElement("input");
         box.type = "checkbox"
+        box.value = event.url
         resultContent.appendChild(p)
         resultContent.appendChild(a)
         result.appendChild(box);
@@ -99,6 +100,14 @@ const country = (element) => {
 function next(){
   document.querySelector(".main").style.display = "none";
   document.querySelector(".main2").style.display = "flex";
+
+  let array = [];
+  let checkedEntries = document.querySelectorAll('input[type=checkbox]:checked')
+
+  for (let i = 0; i < checkedEntries.length; i++) {
+    array.push(checkedEntries[i].value)
+  }
+  console.log(array);
 }
 
 function searchUsers(){
@@ -107,7 +116,6 @@ function searchUsers(){
   let url = "http://localhost:8080/search/user?q=" + username
   ajaxGet(url, (response) => {
     let json = JSON.parse(response)
-    // genResults(json, document.querySelector("#results2"))
     for(let i=0; i<json.data.length; i++) {
       if (username == json.data[i]) {
         document.querySelector("#results2").innerHTML = json.data[i];
