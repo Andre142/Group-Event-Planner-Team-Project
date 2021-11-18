@@ -14,11 +14,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.Before;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -38,8 +36,8 @@ import java.util.Map;
  * Step definitions for Cucumber tests.
  */
 public class StepDefinitions {
-    private static final String ROOT_URL = "http://localhost:8080/";
-    private final WebDriver driver = new ChromeDriver();
+	private static final String ROOT_URL = "http://localhost:8080/";
+	private final WebDriver driver = new ChromeDriver();
 
     private static String keywords = null;
     private static String startDate = null;
@@ -47,35 +45,35 @@ public class StepDefinitions {
     private static String countrycode = null;
 
     @Given("I am on the index page")
-    public void i_am_on_the_index_page() {
-        driver.get(ROOT_URL);
-    }
+	public void i_am_on_the_index_page() {
+		driver.get(ROOT_URL);
+	}
 
-    @When("I click the link {string}")
-    public void i_click_the_link(String linkText) {
-        driver.findElement(By.linkText(linkText)).click();
-    }
+	@When("I click the link {string}")
+	public void i_click_the_link(String linkText) {
+		driver.findElement(By.linkText(linkText)).click();
+	}
 
-    @Then("I should see header {string}")
-    public void i_should_see_header(String header) {
-        assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
-    }
+	@Then("I should see header {string}")
+	public void i_should_see_header(String header) {
+		assertTrue(driver.findElement(By.cssSelector("h2")).getText().contains(header));
+	}
 
-    @Then("I should see text {string}")
-    public void i_should_see_text(String text) {
-        assertTrue(driver.getPageSource().contains(text));
-    }
+	@Then("I should see text {string}")
+	public void i_should_see_text(String text) {
+		assertTrue(driver.getPageSource().contains(text));
+	}
 
-    @After()
-    public void after() {
-        driver.quit();
+	@After()
+	public void after() {
+		driver.quit();
         User u = new User("asdf", "asdf");
         DatabaseManager.object().deleteUser(u);
         keywords = null;
         startDate = null;
         endDate = null;
         countrycode = null;
-    }
+	}
 
     @Before()
     public void before() {
@@ -94,8 +92,7 @@ public class StepDefinitions {
         driver.findElement(By.cssSelector("#input-password")).sendKeys("asdf");
         try {
             driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("asdf");
-        } catch (NoSuchElementException e) {
-        }
+        } catch(NoSuchElementException e) {}
     }
 
     @And("I go to the login page")
@@ -105,7 +102,7 @@ public class StepDefinitions {
 
     @Then("I should be taken to the dashboard")
     public void iShouldBeTakenToTheDashboard() {
-        assertEquals(driver.getCurrentUrl(), ROOT_URL + "dashboard.html");
+        assertEquals(driver.getCurrentUrl(), ROOT_URL+"dashboard.html");
     }
 
     @Then("I should see errors in the username and password field")
@@ -134,7 +131,6 @@ public class StepDefinitions {
         driver.findElement(By.cssSelector("#input-username")).sendKeys("o");
         driver.findElement(By.cssSelector("#input-password")).sendKeys("asdf");
     }
-
     @And("I fill out the wrong password")
     public void iFillOutTheWrongPassword() {
         driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
@@ -143,7 +139,7 @@ public class StepDefinitions {
 
     @And("I fill out new credentials")
     public void iFillOutNewCredentials() {
-        driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf" + Integer.toString((int) Math.random() * 100000));
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf" + Integer.toString( (int)Math.random()*100000));
         driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
     }
 
@@ -157,8 +153,7 @@ public class StepDefinitions {
         driver.findElement(By.cssSelector(".on-enter-target")).click();
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException e) {}
     }
 
     @When("I click on the create account button")
@@ -166,14 +161,13 @@ public class StepDefinitions {
         driver.findElement(By.cssSelector("#create-account")).click();
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException e) {}
     }
 
     @And("I change the confirm password field to not match my password")
     public void iChangeTheConfirmPasswordFieldToNotMatchMyPassword() {
-        User u = new User("asdf", "asdf");
-        DatabaseManager.object().deleteUser(u);
+				User u = new User("asdf", "asdf");
+				DatabaseManager.object().deleteUser(u);
         driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("12345");
     }
 
@@ -211,7 +205,7 @@ public class StepDefinitions {
         //replicate API call to match against results
         String urlString = databaseConfig.rootUrl + "&size=10"
                 + (keywords != null ? "&keyword=" + keywords : "")
-                + (startDate != null && endDate != null ? "&localStartDateTime=" + startDate + "T00:00:00" + "," + endDate + "T00:00:00" : "")
+                + (startDate != null && endDate != null ? "&localStartDateTime=" + startDate + "T00:00:00" + "," + endDate + "T00:00:00": "")
                 + (countrycode != null ? "&countryCode=" + countrycode.toUpperCase() : "");
         String apiResponse;
 
@@ -222,7 +216,7 @@ public class StepDefinitions {
             return;
         }
 
-        RawResult rawResult = JsonHelper.shared().fromJson(apiResponse, RawResult.class);
+        RawResult rawResult = JsonHelper.shared().fromJson(apiResponse,RawResult.class);
         Events events;
 
         try {
@@ -251,7 +245,7 @@ public class StepDefinitions {
                 .appendText(ChronoField.DAY_OF_MONTH, ordinalNumbers)
                 .appendPattern(" yyyy")
                 .toFormatter();
-        for (WebElement w : l) {
+        for(WebElement w : l) {
             String date = w.findElement(By.cssSelector(".subtitle")).getAttribute("innerText");
             String title = w.findElement(By.cssSelector("a")).getAttribute("innerText");
             String url = w.findElement(By.cssSelector("a")).getAttribute("href");
@@ -268,12 +262,10 @@ public class StepDefinitions {
             }
             eventIndex++;
         }
-        if (events.getEvents().size() == 0) {
+        if(events.getEvents().size() == 0) {
             try {
                 driver.findElement(By.cssSelector(".error"));
-            } catch (NoSuchElementException exp) {
-                fail("Could not see results empty message");
-            }
+            } catch (NoSuchElementException exp) { fail("Could not see results empty message"); }
         }
     }
 
@@ -307,9 +299,7 @@ public class StepDefinitions {
     public void iShouldSeeNoResults() {
         try {
             driver.findElement(By.cssSelector(".error"));
-        } catch (NoSuchElementException exp) {
-            fail("Could not see results empty message");
-        }
+        } catch (NoSuchElementException exp) { fail("Could not see results empty message"); }
     }
 
     @And("I click profile")
@@ -320,6 +310,49 @@ public class StepDefinitions {
     @Then("I should be taken to the account page")
     public void iShouldBeTakenToTheAccountPage() {
         assertEquals(ROOT_URL + "account.html", driver.getCurrentUrl());
+    }
+
+    // pendinginvites.feature
+    @Given("I am on the Pending Invites page")
+    public void iAmOnThePendingInvitesPages() {
+        iAmOnTheLoginPage();
+        iFillOutMyCredentials();
+        iClickOnTheLogInButton();
+        driver.get("http://localhost:8080/pendinginvites.html");
+    }
+
+    @When("I click the check mark")
+    public void iClickTheCheckMark(){
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        String path = "/html/body/div[1]/div[1]/div[2]/span[1]";
+        WebElement check = driver.findElement(By.name("check"));
+        check.click();
+    }
+
+    @Then("I should see the alert Accepted Invite")
+    public void iShouldSeeTheAlertAcceptedInvite(){
+        // Switching to Alert
+        Alert alert = driver.switchTo().alert();
+        // Capturing alert message.
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "Accepted Invite");
+    }
+
+    @When("I click the cross mark")
+    public void iClickTheCrossMark(){
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        String path = "/html/body/div[1]/div[1]/div[2]/span[2]";
+        WebElement check = driver.findElement(By.name("cross"));
+        check.click();
+    }
+
+    @Then("I should see the alert Declined Invite")
+    public void iShouldSeeTheAlertDeclinedInvite(){
+        // Switching to Alert
+        Alert alert = driver.switchTo().alert();
+        // Capturing alert message.
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "Declined Invite");
     }
 
     @Given("I am on the proposal response page")
