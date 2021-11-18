@@ -3,7 +3,7 @@ package csci310.servlets;
 import csci310.models.EventResponse;
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class GetResponseServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doGet(req,res);
         printWriter.flush();
-        Response response = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(response.getStatus());
 
         when(req.getParameter("event_id")).thenReturn("notexists");
@@ -41,7 +41,7 @@ public class GetResponseServletTest {
         when(res.getWriter()).thenReturn(printWriter);
         servlet.doGet(req,res);
         printWriter.flush();
-        Response response1 = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response response1 = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(response1.getStatus());
     }
 }

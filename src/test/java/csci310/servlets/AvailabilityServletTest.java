@@ -2,10 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.models.User;
-import csci310.utilities.BlockedListDatabase;
-import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
-import csci310.utilities.databaseConfig;
+import csci310.utilities.*;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -52,7 +48,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        Response res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        Response res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
         assertEquals("2031-12-20T14:55", DatabaseManager.object().getUnavailabilities(testUser.getUsername()).get(0).getStart());
 
@@ -70,7 +66,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
         assertTrue(res.getData().toString().contains("2031-12-20T14:55"));
 
@@ -93,7 +89,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
 
 
@@ -112,7 +108,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertTrue(res.getStatus());
         assertEquals(0, DatabaseManager.object().getUnavailabilities(testUser.getUsername()).size());
 
@@ -131,7 +127,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
 
         //Test removing unavailability for nonexistent user
@@ -149,7 +145,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
 
         //Test adding bad time
@@ -168,7 +164,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("invalid start time", res.getMessage());
 
@@ -188,7 +184,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("start must be before end", res.getMessage());
 
@@ -208,7 +204,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("invalid end time", res.getMessage());
 
@@ -228,7 +224,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("no user found", res.getMessage());
 
@@ -246,7 +242,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
         assertEquals("exception occurred", res.getMessage());
 
@@ -264,7 +260,7 @@ public class AvailabilityServletTest extends TestCase {
         new AvailabilityServlet().doGet(request, response);
 
         writer.flush();
-        res = JsonHelper.shared().fromJson(stringWriter.toString(),Response.class);
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
     }
 

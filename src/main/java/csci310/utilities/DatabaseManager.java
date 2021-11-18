@@ -151,8 +151,8 @@ public class DatabaseManager {
     }
 
     public void insertUser(User user) {
-        String salt = SecurePasswordHelper.getSalt();
-        String hash = SecurePasswordHelper.getSecurePassword(user.getPsw(),salt,"SHA-512");
+        String salt = HelperFunctions.getSalt();
+        String hash = HelperFunctions.getSecurePassword(user.getPsw(),salt,"SHA-512");
         try {
             insertUserPs.setString(1,user.getUsername());
             insertUserPs.setString(2,salt);
@@ -169,7 +169,7 @@ public class DatabaseManager {
             if (rs.next()) {
                 verifyUserPs.setString(1,user.getUsername());
                 String salt = rs.getString(1);
-                String hash = SecurePasswordHelper.getSecurePassword(user.getPsw(),salt,"SHA-512");
+                String hash = HelperFunctions.getSecurePassword(user.getPsw(),salt,"SHA-512");
                 verifyUserPs.setString(2,hash);
                 ResultSet rs2 = verifyUserPs.executeQuery();
                 if (rs2.next())

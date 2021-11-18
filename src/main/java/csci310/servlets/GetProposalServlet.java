@@ -4,7 +4,7 @@ import csci310.models.Event;
 import csci310.models.Proposal;
 import csci310.models.Response;
 import csci310.utilities.DatabaseManager;
-import csci310.utilities.JsonHelper;
+import csci310.utilities.HelperFunctions;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +38,6 @@ public class GetProposalServlet extends HttpServlet {
         }
 
         Response response = new Response(true,null,proposals);
-        resp.getWriter().println(JsonHelper.shared().toJson(response));
+        resp.getWriter().println(HelperFunctions.shared().toJson(response));
     }
 }
