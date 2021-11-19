@@ -73,6 +73,8 @@ const search = (username, resultsContainer) => {
  search(username,c);
 
  $("#send-button").on("click",function() {
+alert("Sent!")
+
 var xhReq = new XMLHttpRequest();
 xhReq.open("GET", ENDPOINT_URL + "/proposal/get?type=received&username=" + username, false);
 xhReq.send(null);
