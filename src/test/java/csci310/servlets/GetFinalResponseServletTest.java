@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class GetFinalResponseServletTest {
 
     @Test
-    public void testDoGet() throws IOException, ServletException {
+    public void testDoGet_exists() throws IOException, ServletException {
         DatabaseManager.object().insertReceivedProposal("receiver","id233333");
 
         GetFinalResponseServlet servlet = new GetFinalResponseServlet();
@@ -43,6 +43,22 @@ public class GetFinalResponseServletTest {
         servlet.doGet(req,res);
         printWriter.flush();
         response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
+        assertFalse(response.getStatus());
+    }
+
+    @Test
+    public void testDoGet_notExists() throws IOException, ServletException {
+        GetFinalResponseServlet servlet = new GetFinalResponseServlet();
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse res = mock(HttpServletResponse.class);
+        when(req.getParameter("username")).thenReturn("receiver2");
+        when(req.getParameter("proposal_id")).thenReturn("123456");
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        when(res.getWriter()).thenReturn(printWriter);
+        servlet.doGet(req,res);
+        printWriter.flush();
+        Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(response.getStatus());
     }
 }
