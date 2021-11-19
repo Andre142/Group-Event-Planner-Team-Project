@@ -35,6 +35,7 @@ public class EventRecommenderTest {
         DatabaseManager.object().insertSentProposal(prop.getProposalID(), prop.getProposalTitle(), prop.getSenderUsername());
         DatabaseManager.object().insertReceivedProposal("testReceiver1", prop.getProposalID());
         DatabaseManager.object().insertReceivedProposal("testReceiver2", prop.getProposalID());
+
         DatabaseManager.object().insertEvent(event1, prop.getProposalID());
         DatabaseManager.object().insertEvent(event2, prop.getProposalID());
 

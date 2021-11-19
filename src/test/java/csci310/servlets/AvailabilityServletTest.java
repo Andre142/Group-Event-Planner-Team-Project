@@ -148,6 +148,24 @@ public class AvailabilityServletTest extends TestCase {
         res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
         assertFalse(res.getStatus());
 
+        //Test removing negative index
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("type")).thenReturn("removeUnavailability");
+        when(request.getParameter("username")).thenReturn(testUser.getUsername());
+        when(request.getParameter("index")).thenReturn("-1");
+
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(writer);
+
+        new AvailabilityServlet().doGet(request, response);
+
+        writer.flush();
+        res = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
+        assertFalse(res.getStatus());
+
         //Test adding bad time
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
