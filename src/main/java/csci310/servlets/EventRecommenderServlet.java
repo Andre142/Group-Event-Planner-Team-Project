@@ -2,6 +2,7 @@ package csci310.servlets;
 
 import csci310.models.Response;
 import csci310.utilities.BlockedListDatabase;
+import csci310.utilities.EventRecommender;
 import csci310.utilities.HelperFunctions;
 
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,23 @@ public class EventRecommenderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String proposalID = request.getParameter("proposalID");
 
+        response.setContentType("application/json");
+        PrintWriter printWriter = response.getWriter();
+
+        Response res = new Response(true, "request fulfilled");
+
+        if (proposalID != null)
+        {
+            res.setData(EventRecommender.GetRecommendedEvent(proposalID));
+            printWriter.print(HelperFunctions.shared().toJson(res,Response.class));
+        }
+        else
+        {
+            printWriter.print(HelperFunctions.shared().toJson(new Response(false, "requires proposalID"),Response.class));
+        }
+
+        printWriter.flush();
     }
 }
