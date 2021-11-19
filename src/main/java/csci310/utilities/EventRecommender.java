@@ -14,18 +14,13 @@ public class EventRecommender {
         ArrayList<String> receivers =  DatabaseManager.object().getProposalReciever(proposalID);
         ArrayList<Event> events = DatabaseManager.object().getProposalEvents(proposalID);
 
-        if (receivers.size() == 0 || events.size() == 0)
-        {
-            return "-1";
-        }
-
         EventResponse response;
         int availableCount;
         int totalExcitedness;
         
         int highestAvailableCount = 0;
         int highestExcitednessAtHighestAvailable = 0;
-        String bestEvent = null;
+        String bestEvent = "-1";
         
         for (int i = 0; i < events.size(); i++)
         {
