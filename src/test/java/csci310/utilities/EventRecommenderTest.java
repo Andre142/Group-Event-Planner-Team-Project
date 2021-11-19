@@ -18,7 +18,7 @@ public class EventRecommenderTest {
         new EventRecommender();
 
         //Invalid proposalid throws -1
-        assertEquals(-1, EventRecommender.GetRecommendedEvent("-1"));
+        assertEquals("-1", EventRecommender.GetRecommendedEvent("-1"));
 
         Event event1 = new Event("event 1","2021-01-01","19:00:00","abc.com","music",UUID.randomUUID().toString());
         Event event2 = new Event("event 2","2021-01-01","19:00:00","abc.com","music", UUID.randomUUID().toString());
@@ -33,6 +33,8 @@ public class EventRecommenderTest {
 
         Proposal prop = new Proposal("testProp", "testUser", recievers, events);
         DatabaseManager.object().insertSentProposal(prop.getProposalID(), prop.getProposalTitle(), prop.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("testReceiver1", prop.getProposalID());
+        DatabaseManager.object().insertReceivedProposal("testReceiver2", prop.getProposalID());
         DatabaseManager.object().insertEvent(event1, prop.getProposalID());
         DatabaseManager.object().insertEvent(event2, prop.getProposalID());
 
