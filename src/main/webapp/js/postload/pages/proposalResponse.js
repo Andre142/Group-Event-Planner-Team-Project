@@ -3,6 +3,10 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
+function back(){
+    window.location.href = "./dashboard.html"
+}
+
  let username = localStorage.getItem("username")
  let c = $(".prop-list")
 
