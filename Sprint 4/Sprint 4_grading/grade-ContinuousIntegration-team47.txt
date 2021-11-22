@@ -1,0 +1,6 @@
+Best Practice ContinuousIntegration Report
+Owner: team47
+Grade: 12/12
+Comments: 
+Total successful commits: 16
+Total failing commits: 0
