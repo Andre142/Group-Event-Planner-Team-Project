@@ -1,0 +1,9 @@
+Best Practice TDD Report
+Owner: team47
+Grade: 11.1/12
+Comments: 
+	No test method found for: databasemanager.removeunavailability
+		Commit: https://github.com/CSCI310/20213-project-team47/commit/76e957ef6b2d7466def8f09294daee5d5f2d1292
+Correct TDD methods: 13
+Incorrect TDD methods: 1
+Total methods evaluated for TDD: 14
