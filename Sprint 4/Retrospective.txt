@@ -1,0 +1,15 @@
+Retrospective
+
+
+Attendants: Andre, Jessie, Kevin, Nishi, Andrew
+
+Process Changes:
+No process aspects will be changed. We made good progress and got a very high score for our sprint process grade, with only a couple of minor deductions for small mistakes.
+
+New Task(s) Added to Product Backlog:
+Ensure mobile compatibility on all pages
+Expand functionality on create proposal page
+Add filters to the calendar
+Add a lockout on repeated invalid logins
+Add front-end for recommended event
+Create feasibility report on recommended event when everyone replies no to the proposal or is unavailable for all events.
