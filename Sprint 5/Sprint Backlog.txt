@@ -1,0 +1,44 @@
+Attendees: Andrew, Andre, Kevin, Jessie, Nishita
+
+
+Task 1: [Frontend] Privacy Settings Page
+	Subtask 1: Create Acceptance Tests (Nishi)
+	Subtask 2: Availability (Nishi)
+
+Task 2: [Frontend] Send Proposal Page
+	Subtask 1: Create Acceptance Tests (Jessie)
+	Subtask 2: User should select at least one event and one user to send a proposal (Jessie)
+
+Task 3: [Frontend] User response to event Page
+	Subtask 1: User can respond to an event with an availability of yes/no/maybe (Andre)
+Subtask 2: Add a button that saves response as a draft (Jessie)
+Subtask 3: Add a link on the title of the event (Andre)
+Subtask 4: If the response is not complete, then it should not let you hit send (e.g. yes or no, 1-5 not complete) (Andre)
+Subtask 5: You should be able to reject the entire group date as a whole (Andre/Kevin)
+
+Task 4: [Frontend] Misc. Details  (Jessie/Kevin)
+	Subtask 1: Edit footer to say “Group 47”
+	Subtask 2: If you enter an incorrect username/password 3 times, the account should be locked for 1 minute from the last failed login attempt (e.g. If I enter it wrong at 7:30, then it is locked for 1 minute, if at 7:31 you enter it wrong again, it will be locked for 2 minutes) (Kevin)
+            Subtask 3: User should be automatically logged out if he’s inactive for 1 minute (Kevin)
+	Subtask 4: Add acceptance test of visiting another link (dashboard.html) without login (Kevin)
+
+Task 5: [Frontend] Calendar
+	Subtask 1: Create a calendar (Andrew)
+	Subtask 2: Should be able to filter by “Finalized” or “Unfinalized” proposals (Andrew)
+	Subtask 3: Should be able to filter by “Have responded” and “Have not responded” to proposals (Andrew)
+	Subtask 4: Should be able to be sorted from most in the future first and should be able to reverse this (list view only) (Andrew)
+	Subtask 5: Make a simplified Calendar available in list view (Andrew)
+Subtask 6: Create acceptance tests for applicable above features (Andrew)
+
+Task 6: [Backend] Create best event algorithm
+	Subtask 1: Create response for when the system can’t find the best event (Andrew)
+
+Task 7: [Backend] Add encryption to all user data
+	Subtask 1: Encrypt all currently unencrypted columns in the SQL database (Kevin)
+
+Task 8: [Frontend] Sent Proposal Page
+	Subtask 1: Create page
+	Subtask 2: Create acceptance tests
+
+
+We added all incomplete features as this is the last sprint.
