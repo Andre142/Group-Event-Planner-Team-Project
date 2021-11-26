@@ -212,7 +212,7 @@ public class DatabaseManager {
     public void insertSentProposal(String proposalID, String proposalTitle, String senderUsername) {
         try {
             insertSentProposalPs.setString(1,proposalID);
-            insertSentProposalPs.setString(2,proposalTitle);
+            insertSentProposalPs.setString(2,HelperFunctions.encrypt(proposalTitle));
             insertSentProposalPs.setString(3,senderUsername);
             insertSentProposalPs.executeUpdate();
         } catch (SQLException e) {}
@@ -229,11 +229,11 @@ public class DatabaseManager {
     public void insertEvent(Event event, String proposalID) {
         try {
             insertEventPs.setString(1,event.getEventID());
-            insertEventPs.setString(2,event.getName());
-            insertEventPs.setString(3,event.getDate());
-            insertEventPs.setString(4,event.getTime());
-            insertEventPs.setString(5,event.getUrl());
-            insertEventPs.setString(6,event.getGenre());
+            insertEventPs.setString(2,HelperFunctions.encrypt(event.getName()));
+            insertEventPs.setString(3,HelperFunctions.encrypt(event.getDate()));
+            insertEventPs.setString(4,HelperFunctions.encrypt(event.getTime()));
+            insertEventPs.setString(5,HelperFunctions.encrypt(event.getUrl()));
+            insertEventPs.setString(6,HelperFunctions.encrypt(event.getGenre()));
             insertEventPs.setString(7,proposalID);
             insertEventPs.executeUpdate();
         } catch (SQLException e) {}
@@ -264,7 +264,7 @@ public class DatabaseManager {
         try {
             getProposalTitlePs.setString(1,proposalID);
             ResultSet rs = getProposalTitlePs.executeQuery();
-            proposalTitle = rs.getString(1);
+            proposalTitle = HelperFunctions.decrypt(rs.getString(1));
             throw new SQLException();
         } catch (SQLException e) {}
         return proposalTitle;
@@ -305,7 +305,12 @@ public class DatabaseManager {
                 String time = rs.getString(4);
                 String url = rs.getString(5);
                 String genre = rs.getString(6);
-                events.add(new Event(name,date,time,url,genre,id));
+                events.add(new Event(HelperFunctions.decrypt(name),
+                        HelperFunctions.decrypt(date),
+                        HelperFunctions.decrypt(time),
+                        HelperFunctions.decrypt(url),
+                        HelperFunctions.decrypt(genre),
+                        id));
             }
             throw new SQLException();
         } catch (SQLException e) {}

@@ -3,6 +3,12 @@ package csci310.utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.KeySpec;
+import java.util.Base64;
 
 public class HelperFunctions {
     public static String get(String urlString) throws IOException {
@@ -57,5 +65,55 @@ public class HelperFunctions {
             generatedPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {}
         return generatedPassword;
+    }
+
+    private static final String SECRET_KEY
+            = "team47_groupie_secret_key";
+
+    private static final String SALT = "thisisasalt";
+
+    public static String encrypt(String strToEncrypt) {
+        String encryptedString = "";
+        try {
+            byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            IvParameterSpec ivspec = new IvParameterSpec(iv);
+
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+
+            KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT.getBytes(), 65536, 256);
+            SecretKey tmp = factory.generateSecret(spec);
+            SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
+            encryptedString = Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
+
+            throw new Exception();
+        }
+        catch (Exception e) {}
+        return encryptedString;
+    }
+
+    // This method use to decrypt to string
+    public static String decrypt(String strToDecrypt) {
+        String decryptedString = "";
+        try {
+            byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            IvParameterSpec ivspec = new IvParameterSpec(iv);
+
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+
+            KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT.getBytes(), 65536, 256);
+            SecretKey tmp = factory.generateSecret(spec);
+            SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
+            decryptedString = new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+
+            throw new Exception();
+        }
+        catch (Exception e) {}
+        return decryptedString;
     }
 }

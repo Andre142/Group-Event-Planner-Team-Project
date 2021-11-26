@@ -56,4 +56,19 @@ public class HelperFunctionsTest {
         assertNull(HelperFunctions.getSecurePassword("psw","salt","no"));
     }
 
+    @Test
+    public void testEncrypt() {
+        String string = "testEncrypt";
+        String encryptedString = HelperFunctions.encrypt(string);
+        String decryptedString = HelperFunctions.decrypt(encryptedString);
+        assertEquals(string,decryptedString);
+    }
+
+    @Test
+    public void testDecrypt() {
+        String string = "testDecrypt";
+        String encryptedString = HelperFunctions.encrypt(string);
+        String decryptedString = HelperFunctions.decrypt(encryptedString);
+        assertEquals(string,decryptedString);
+    }
 }
