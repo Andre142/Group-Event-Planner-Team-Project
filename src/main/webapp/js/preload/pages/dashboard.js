@@ -125,11 +125,16 @@ const country = (element) => {
 }
 
 function next(){
-  document.querySelector(".main").style.display = "none";
-  document.querySelector(".main2").style.display = "block";
-  for (let i=0; i<eventList.length; i++){
-    console.log(eventList[i])
+  if(eventList.length < 1){
+    alert("Choose at least 1 event")
+  } else {
+    document.querySelector(".main").style.display = "none";
+    document.querySelector(".main2").style.display = "block";
+    for (let i=0; i<eventList.length; i++){
+      console.log(eventList[i])
+    }
   }
+
 }
 
 function clear(){
@@ -173,16 +178,23 @@ function setName(name){
 }
 
 function submit(){
-  myName = document.getElementById("proposalName").value
-  console.log(myName)
-  ajaxPost(ENDPOINT_URL + "/proposal/send", {
-    "proposalTitle":myName,
-    senderUsername: localStorage.getItem("uuid"),
-    receiverUsernames: userList,
-    events: eventList
-  }, (response) => {
-    console.log(JSON.parse(response).status)
-  })
+  if(userList.length < 1){
+    alert("Choose at least 1 user")
+  } else {
+    myName = document.getElementById("proposalName").value
+    console.log(myName)
+    ajaxPost(ENDPOINT_URL + "/proposal/send", {
+      "proposalTitle":myName,
+      senderUsername: localStorage.getItem("uuid"),
+      receiverUsernames: userList,
+      events: eventList
+    }, (response) => {
+      console.log(JSON.parse(response).status)
+    })
+  }
+  window.location.href = "./dashboard.html"
+
+
 }
 
 
