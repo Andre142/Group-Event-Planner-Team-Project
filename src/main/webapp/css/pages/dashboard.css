@@ -2,6 +2,19 @@
   display: inline-block;
 }
 
+.main2{
+  /*box-sizing: border-box;*/
+  /*left: 0px;*/
+  /*margin-top: 96px;*/
+  /*width: 100vw;*/
+  /*min-height: calc(100vh - 192px);*/
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  /*padding-top: calc(50vh - 384px);*/
+  /*flex-direction: column;*/
+}
+
 .main {
   box-sizing: border-box;
   left: 0px;
@@ -148,16 +161,3 @@ footer {
   }
 }
 
-.main2{
-  display: none;
-  box-sizing: border-box;
-  left: 0px;
-  margin-top: 96px;
-  width: 100vw;
-  min-height: calc(100vh - 192px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: calc(50vh - 384px);
-  flex-direction: column;
-}

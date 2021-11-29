@@ -44,7 +44,7 @@
     <script src="js/preload/pages/dashboard.js"></script>
     <title>Groupie - Dashboard</title>
   </head>
-  <body>
+  <body onload="clear()">
     <!--CONTENT-->
     <header>
       <div id="nav">
@@ -92,7 +92,7 @@
       <div class="results" id="results"></div>
       <button onclick="next()">Next</button>
     </div>
-    <div class = "main2">
+    <div class = "main2" id="main2">
       <h3>Search Users</h3>
       <div class="titles">
         <p class="subtitle">Username<span class="required">*</span></p>
@@ -100,6 +100,13 @@
       <div class="grouping">
         <input id="username" maxlength="64" type="text" placeholder="Type here..." class="search-bar" onenter="searchUsers()">
       </div>
+      <div class="titles">
+        <p class="subtitle">Proposal Name<span class="required">*</span></p>
+      </div>
+      <div class="grouping">
+        <input id="proposalName" maxlength="64" type="text" placeholder="Type here..." class="search-bar">
+      </div>
+      <button onclick="submit()">Submit</button>
     </div>
     <div class="results2" id="results2"></div>
     <footer>
