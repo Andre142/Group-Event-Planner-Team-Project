@@ -3,6 +3,10 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
+function back(){
+    window.location.href = "./dashboard.html"
+}
+
  let username = localStorage.getItem("username")
  let c = $(".prop-list")
 
@@ -19,7 +23,7 @@ const logout = () => {
            for (let i=0;i<json.data.length;i++) {
              let str = `<li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-2">
+                                            <div class="col-12">
                                                 <strong>${json.data[i].proposalTitle}</strong>
                                                 <br>
                                                 Event Name: ${json.data[i].events[0].name}
@@ -35,24 +39,31 @@ const logout = () => {
                                             <div class="col-3">
                                                 <input type="radio" class="btn-check" name="yes-no${i}" id="yes${i}" autocomplete="off">
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-1">
                                                 <label class="btn btn-outline-success" name="yes-no${i}" for="yes${i}">Yes</label>
                                             </div>
                                             <div class="col-3">
+                                                <input type="radio" class="btn-check" name="yes-no${i}" id="maybe${i}" autocomplete="off">
+                                            </div>
+                                            <div class="col-1">
+                                                <label class="btn btn-outline-success" name="yes-no${i}" for="maybe${i}">Maybe</label>
+                                                <br><br><br>
+                                                  Excitement:
+                                                  <select id="${i}">
+                                                  <option selected disabled hidden style='display: none' value=''></option>
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                                  <option value="4">4</option>
+                                                  <option value="5">5</option>
+                                                  </select>
+    </div>
+                                            <div class="col-3">
                                             <input type="radio" class="btn-check" name="yes-no${i}" id="no${i}" autocomplete="off">
                                         </div>
-                                            <div class="col-2">
+                                            <div class="col-1">
                                                 <label class="btn btn-outline-success" name="yes-no${i}" for="no${i}">No</label>
-                                                <br><br><br>
-                                                Excitement:
-                                                <select id="${i}">
-                                                <option selected disabled hidden style='display: none' value=''></option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                </select>
+
                                             </div>
       
                                         </div>
