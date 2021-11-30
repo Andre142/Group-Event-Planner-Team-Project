@@ -37,9 +37,9 @@ const genResults = (json = {}, container) => {
     }
     else {
       let msg = document.createElement("p")
-      msg.innerHTML = (json.data.events.length.toString() + " result(s)").trim()
+      msg.innerHTML = (json.data.length.toString() + " result(s)").trim()
       container.appendChild(msg)
-      for (const event of json.data.events) {
+      for (const event of json.data) {
         let result = document.createElement("div")
         result.className = "result"
         let p = document.createElement("p")
