@@ -43,6 +43,12 @@ function back(){
                                                 <label class="btn btn-outline-success" name="yes-no${i}" for="yes${i}">Yes</label>
                                             </div>
                                             <div class="col-3">
+                                                <input type="radio" class="btn-check" name="yes-no${i}" id="maybe${i}" autocomplete="off">
+                                            </div>
+                                            <div class="col-2">
+                                                <label class="btn btn-outline-success" name="yes-no${i}" for="maybe${i}">Maybe</label>
+                                            </div>
+                                            <div class="col-3">
                                             <input type="radio" class="btn-check" name="yes-no${i}" id="no${i}" autocomplete="off">
                                         </div>
                                             <div class="col-2">
