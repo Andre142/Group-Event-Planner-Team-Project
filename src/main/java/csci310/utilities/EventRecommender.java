@@ -33,14 +33,15 @@ public class EventRecommender {
                 availableCount += response.getAvailability();
                 totalExcitedness += response.getExcitement();
             }
-            
-            if (availableCount > highestAvailableCount || (availableCount == highestAvailableCount && totalExcitedness > highestExcitednessAtHighestAvailable))
+
+            if (availableCount > highestAvailableCount || (availableCount == highestAvailableCount && totalExcitedness > highestExcitednessAtHighestAvailable && availableCount > 0))
             {
                 highestAvailableCount = availableCount;
                 highestExcitednessAtHighestAvailable = totalExcitedness;
                 bestEvent = events.get(i).getEventID();
             }
         }
+
         
         return bestEvent;
     }

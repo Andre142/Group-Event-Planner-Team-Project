@@ -52,7 +52,7 @@ public class EventRecommenderTest {
 
         assertEquals(event1.getEventID(), EventRecommender.GetRecommendedEvent(prop.getProposalID()));
 
-        //excitement test
+        //less excitement equal availability test
         receiver1event1response = new EventResponse(event1.getEventID(), 1, 5, "testReceiver1");
         receiver2event1response = new EventResponse(event1.getEventID(), 1, 5, "testReceiver2");
         receiver1event2response = new EventResponse(event2.getEventID(), 1, 5, "testReceiver1");
@@ -64,6 +64,19 @@ public class EventRecommenderTest {
         DatabaseManager.object().insertRespondedEvent(receiver2event2response);
 
         assertEquals(event1.getEventID(), EventRecommender.GetRecommendedEvent(prop.getProposalID()));
+
+        //greater excitement equal availability test
+        receiver1event1response = new EventResponse(event1.getEventID(), 1, 5, "testReceiver1");
+        receiver2event1response = new EventResponse(event1.getEventID(), 1, 4, "testReceiver2");
+        receiver1event2response = new EventResponse(event2.getEventID(), 1, 5, "testReceiver1");
+        receiver2event2response = new EventResponse(event2.getEventID(), 1, 5, "testReceiver2");
+
+        DatabaseManager.object().insertRespondedEvent(receiver1event1response);
+        DatabaseManager.object().insertRespondedEvent(receiver2event1response);
+        DatabaseManager.object().insertRespondedEvent(receiver1event2response);
+        DatabaseManager.object().insertRespondedEvent(receiver2event2response);
+
+        assertEquals(event2.getEventID(), EventRecommender.GetRecommendedEvent(prop.getProposalID()));
 
         //no all availabilities test
         receiver1event1response = new EventResponse(event1.getEventID(), 0, 5, "testReceiver1");
@@ -77,6 +90,19 @@ public class EventRecommenderTest {
         DatabaseManager.object().insertRespondedEvent(receiver2event2response);
 
         assertEquals(event2.getEventID(), EventRecommender.GetRecommendedEvent(prop.getProposalID()));
+
+        //no availabilities test
+        receiver1event1response = new EventResponse(event1.getEventID(), 0, 5, "testReceiver1");
+        receiver2event1response = new EventResponse(event1.getEventID(), 0, 5, "testReceiver2");
+        receiver1event2response = new EventResponse(event2.getEventID(), 0, 5, "testReceiver1");
+        receiver2event2response = new EventResponse(event2.getEventID(), 0, 4, "testReceiver2");
+
+        DatabaseManager.object().insertRespondedEvent(receiver1event1response);
+        DatabaseManager.object().insertRespondedEvent(receiver2event1response);
+        DatabaseManager.object().insertRespondedEvent(receiver1event2response);
+        DatabaseManager.object().insertRespondedEvent(receiver2event2response);
+
+        assertEquals("-1", EventRecommender.GetRecommendedEvent(prop.getProposalID()));
 
     }
 }
