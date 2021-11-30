@@ -44,6 +44,7 @@ const genResults = (json = {}, container) => {
         result.className = "result"
         let p = document.createElement("p")
         p.className = "subtitle"
+        p.innerHTML = json.data.proposalTitle
         result.appendChild(p)
         container.appendChild(result)
       }
