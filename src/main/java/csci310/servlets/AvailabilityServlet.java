@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-@WebServlet("/Availability")
 public class AvailabilityServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
 
