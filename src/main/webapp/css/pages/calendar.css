@@ -1,0 +1,46 @@
+#nav > div > a:not(.mobile-hide) {
+  display: inline-block;
+}
+
+.main {
+  box-sizing: border-box;
+  left: 0px;
+  margin-top: 96px;
+  width: 100vw;
+  min-height: calc(100vh - 192px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(50vh - 384px);
+  flex-direction: column;
+}
+
+.error-msg {
+  margin-top: 16px !important;
+}
+
+footer {
+  position: relative;
+}
+
+@media only screen and (max-width : 894px) {
+  input[type=text] {
+    width: 320px;
+  }
+  input[type=date] {
+    width: 152px;
+  }
+  .grouping, .titles {
+    width: 320px;
+  }
+  .results {
+    width: 320px !important;
+  }
+  .result {
+    width: 320px !important;
+  }
+  #keywords {
+    width: 212px;
+  }
+}
+
