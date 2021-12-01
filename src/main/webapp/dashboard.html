@@ -68,6 +68,11 @@
       </div>
     </header>
     <div class="main">
+      <h5 id="welcome">Welcome, </h5>
+      <script>
+        var currentUser = localStorage.getItem("username")
+        document.getElementById("welcome").innerHTML += currentUser.toUpperCase().bold()
+      </script>
       <h3>Search Events</h3>
       <div class="titles">
         <p class="subtitle">Keywords<span class="required">*</span></p>

@@ -140,10 +140,6 @@ const country = (element) => {
 }
 
 function next(){
-
-  document.querySelector(".main").style.display = "none";
-  document.querySelector(".main2").style.display = "flex";
-
   let array = [];
   let checkedEntries = document.querySelectorAll('input[type=checkbox]:checked')
 
@@ -217,9 +213,12 @@ function submit(){
       events: eventList
     }, (response) => {
       console.log(JSON.parse(response).status)
-      window.location.href = "./dashboard.html"
     })
+    window.location.href = "./dashboard.html"
   }
+
+
+
 }
 
 

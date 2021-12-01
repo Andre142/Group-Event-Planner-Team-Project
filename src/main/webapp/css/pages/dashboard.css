@@ -161,3 +161,9 @@ footer {
   }
 }
 
+#welcome {
+  font-size: 25px;
+  font-weight: 300;
+  text-align: center;
+  color: darkblue;
+}

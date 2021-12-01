@@ -24,9 +24,7 @@ function cross(){
 
 function populate(){
     var done = false;
-
     var currentUser = localStorage.getItem("username")
-    alert("Hi " + currentUser)
     let url = "http://localhost:8080/proposal/get?type=received&username=" + currentUser
     ajaxGet(url, (response) => {
         let json = JSON.parse(response)
@@ -49,7 +47,6 @@ function populate(){
 
             }
             if (i === json.data.length-1){
-                // done = true;
                 finalize()
             }
         }
@@ -72,7 +69,7 @@ function finalize(){
             '        <div class="card">\n' +
             '            <img src="assets/images/invited.png" alt="" class="card_image">\n' +
             '            <div class="card_content">\n' +
-                         `${name}` + '<br>' + `${date}` +  '<br>' + `${time}` +  '<br>' + `${url}` + '<br>' + `${genre}` +
+                         `<a href="${url}">${name}</a>` + '<br>' +  `Date: ${date}` +  '<br>' + `Time: ${time}` + '<br>' + `Genre: ${genre}` +
             '            </div>\n' +
             '            <div class="card_info">\n' +
             '                <span class="material-icons" name="check" onclick="check()">done</span>\n' +
