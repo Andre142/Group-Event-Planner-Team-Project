@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet("/EventRecommender")
 public class EventRecommenderServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
 
