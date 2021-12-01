@@ -212,7 +212,7 @@ function submit(){
     console.log(myName)
     ajaxPost(ENDPOINT_URL + "/proposal/send", {
       "proposalTitle":myName,
-      senderUsername: localStorage.getItem("uuid"),
+      senderUsername: localStorage.getItem("username"),
       receiverUsernames: userList,
       events: eventList
     }, (response) => {
