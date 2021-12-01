@@ -217,11 +217,9 @@ function submit(){
       events: eventList
     }, (response) => {
       console.log(JSON.parse(response).status)
+      window.location.href = "./dashboard.html"
     })
   }
-  window.location.href = "./dashboard.html"
-
-
 }
 
 

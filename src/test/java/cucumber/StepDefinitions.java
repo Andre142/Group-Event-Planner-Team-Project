@@ -129,7 +129,9 @@ public class StepDefinitions {
     }
     @And("I fill out the wrong password")
     public void iFillOutTheWrongPassword() {
+        driver.findElement(By.cssSelector("#input-username")).clear();
         driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
+        driver.findElement(By.cssSelector("#input-password")).clear();
         driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
     }
 
@@ -194,6 +196,14 @@ public class StepDefinitions {
     public void iEnterKeywords() {
         keywords = "lit";
         driver.findElement(By.id("keywords")).sendKeys(keywords);
+    }
+
+    @Then("After timeout I should see the alert Signed out")
+    public void iShouldSeeTheAlertSignedOut() throws InterruptedException {
+        Thread.sleep(61000);
+        Alert alert = driver.switchTo().alert();
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "You have been safely logged out due to being inactive for more than 60 seconds.");
     }
 
     @Then("I should see results matching my query")
