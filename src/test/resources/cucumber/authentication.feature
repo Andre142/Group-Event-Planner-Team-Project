@@ -10,6 +10,11 @@
 ##    Then I should see text 'Hello servlet'
 Feature: Authentication
 
+  Scenario: Go to dashboard without login
+    Given I am on the signup page for the first time
+    And I visit dashboard.html
+    Then I should be taken to the login page
+
   Scenario: Signup New Account
     Given I am on the signup page for the first time
     And I fill out my credentials
@@ -61,3 +66,5 @@ Feature: Authentication
     Given I am on the signup page
     And I click the cancel button
     Then I should be taken to the login page
+
+

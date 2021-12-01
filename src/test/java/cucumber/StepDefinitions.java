@@ -286,6 +286,11 @@ public class StepDefinitions {
         iAmOnTheSignupPage();
     }
 
+    @And("I visit dashboard.html")
+    public void iVisitDashboardHtml() {
+        driver.get(ROOT_URL + "dashboard.html");
+    }
+
     @And("I specify my location as North Korea")
     public void iSpecifyMyLocationAsNorthKorea() {
         driver.findElement(By.id("country")).sendKeys("KP");
@@ -357,12 +362,12 @@ public class StepDefinitions {
         iFillOutMyCredentials();
         iClickOnTheLogInButton();
         driver.get(ROOT_URL + "proposalResponse.html");
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
     }
 
     @And("I click yes")
     public void iClickYes() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
         driver.findElement(By.cssSelector("#yes0")).click();
     }
 
@@ -373,7 +378,7 @@ public class StepDefinitions {
 
     @And("I click 1 in the excitement menu")
     public void iClick1InTheExcitementMenu() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
         Select dropdown = new Select(driver.findElement(By.id("0")));
         dropdown.selectByVisibleText("1");
@@ -382,7 +387,7 @@ public class StepDefinitions {
 
     @Then("One should be selected for excitement")
     public void oneShouldBeSelectedForExcitement() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
         Select dropdown = new Select(driver.findElement(By.id("0")));
         WebElement w = dropdown.getFirstSelectedOption();
