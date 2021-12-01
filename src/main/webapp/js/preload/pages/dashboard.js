@@ -28,7 +28,9 @@ const pendingInvites = () => {
 const proposalResponse = () => {
   window.location.href = "./proposalResponse.html"
 }
-
+const sentProposals = () => {
+window.location.href = "./sentProposals.html"
+}
 const search = (keywords, genre, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {
     errMsg.innerHTML = "Keywords cannot be empty"

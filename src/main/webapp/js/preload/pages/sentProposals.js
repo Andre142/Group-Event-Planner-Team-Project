@@ -5,24 +5,12 @@ const logout = () => {
 const account = () => {
   window.location.href = "./account.html"
 }
-const getProposals = (username, errMsg, resultsContainer) => {
-    if (username.value.length < 1) {
-        errMsg.innerHTML = "Username cannot be empty"
-        errMsg.classList.remove("hidden")
-        genResults(resultsContainer)
-        return;
-      }
-      else {
-        errMsg.innerHTML = ""
-        errMsg.classList.add("hidden")
-      }
-      $("#display-button").addClass("loading")
+const getProposals = (resultsContainer) => {
       console.log("arrived");
-       ajaxGet(ENDPOINT_URL + "/proposal/get?type=sent&username=" + encodeURIComponent(username.value.trim()), (response) => {
+      var senderUsername = localStorage.getItem("uuid");
+      ajaxGet(ENDPOINT_URL + "/proposal/get?type=sent&username=" + senderUsername, (response) => {
                let json = JSON.parse(response)
-               console.log(response);
                genResults(json, resultsContainer)
-               $("#display-button").removeClass("loading")
              })
 }
 
@@ -44,6 +32,7 @@ const genResults = (json = {}, container) => {
         result.className = "result"
         let p = document.createElement("p")
         p.className = "subtitle"
+        p.innerHTML = event.proposalTitle
         result.appendChild(p)
         container.appendChild(result)
       }
