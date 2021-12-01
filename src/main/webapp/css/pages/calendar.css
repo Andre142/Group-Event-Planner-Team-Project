@@ -27,6 +27,12 @@
   display: inline-block;
 }
 
+#listSort
+{
+    margin: auto;
+    width: fit-content;
+}
+
 .listItem > p {
   margin: 0px;
 }
