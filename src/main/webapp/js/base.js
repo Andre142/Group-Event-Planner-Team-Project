@@ -40,3 +40,28 @@ $(window).on("load", () => {
     }
   })
 })
+
+function idleTimer() {
+    let t;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer;
+    window.onclick = resetTimer;
+    window.onscroll = resetTimer;
+    window.onkeypress = resetTimer;
+
+    function logout() {
+        console.log(localStorage.getItem("username"));
+        if (localStorage.getItem("username") == null) {return;}
+        localStorage.removeItem("username")
+        localStorage.removeItem("uuid")
+        window.location.href = "./index.html"
+        alert("You have been safely logged out due to being inactive for more than 60 seconds.")
+    }
+
+    function resetTimer() {
+        clearTimeout(t);
+        t = setTimeout(logout, 60000);
+    }
+}
+
+idleTimer();

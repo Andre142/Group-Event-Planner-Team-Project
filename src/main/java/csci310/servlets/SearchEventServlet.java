@@ -24,7 +24,7 @@ public class SearchEventServlet extends HttpServlet {
         String countryCode = req.getParameter("countryCode");
         String genre = req.getParameter("genre");
 
-        String urlString = databaseConfig.rootUrl + "&size=10"
+        String urlString = databaseConfig.rootUrl + "&size=30"
                 + (keyword != null ? "&keyword=" + keyword : "")
                 + (countryCode != null ? "&countryCode=" + countryCode.toUpperCase() : "")
                 + (genre != null ? "&classificationName=" + genre : "")
