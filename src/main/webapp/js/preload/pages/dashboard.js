@@ -149,7 +149,7 @@ function next(){
   console.log(array);
 
   if(eventList.length < 1){
-    alert("Choose at least 1 event")
+    alert("Please add at least one event")
   } else {
     document.querySelector(".main").style.display = "none";
     document.querySelector(".main2").style.display = "block";
@@ -202,8 +202,11 @@ function setName(name){
 
 function submit(){
   if(userList.length < 1){
-    alert("Choose at least 1 user")
-  } else {
+    alert("Please add at least one user")
+  } else if(document.getElementById("proposalName").value === "") {
+    alert("Please add a proposal name")
+  }
+  else {
     myName = document.getElementById("proposalName").value
     console.log(myName)
     ajaxPost(ENDPOINT_URL + "/proposal/send", {
