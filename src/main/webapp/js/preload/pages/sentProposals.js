@@ -10,7 +10,6 @@ const getProposals = (resultsContainer) => {
       var senderUsername = localStorage.getItem("uuid");
       ajaxGet(ENDPOINT_URL + "/proposal/get?type=sent&username=" + senderUsername, (response) => {
                let json = JSON.parse(response)
-               console.log(response);
                genResults(json, resultsContainer)
              })
 }
@@ -28,9 +27,7 @@ const genResults = (json = {}, container) => {
       let msg = document.createElement("p")
       msg.innerHTML = (json.data.length.toString() + " result(s)").trim()
       container.appendChild(msg)
-//      console.log(json.data.events)
       for (const event of json.data) {
-        console.log(event.events[0].name)
         let result = document.createElement("div")
         result.className = "result"
         let p = document.createElement("p")
