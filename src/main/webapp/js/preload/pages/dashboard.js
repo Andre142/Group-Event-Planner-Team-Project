@@ -166,23 +166,27 @@ function clear(){
 
 function searchUsers(){
   let username = document.getElementById("username").value
-  console.log(username)
-  let url = "http://localhost:8080/search/user?q=" + username
-  ajaxGet(url, (response) => {
-    let json = JSON.parse(response)
-    for(let i=0; i<json.data.length; i++) {
-      if (username == json.data[i]) {
-        var names = document.createElement("span")
-        names.innerHTML = json.data[i]
-        document.querySelector("#results2").appendChild(names)
-        var box = document.createElement("input")
-        box.id = "usernameBox"
-        box.type = "checkbox"
-        box.setAttribute("onclick", "handleClick(this)")
-        document.querySelector("#results2").appendChild(box)
+  if(username === localStorage.getItem("username")){
+    alert("Sorry you cannot add yourself")
+  } else {
+    let url = "http://localhost:8080/search/user?q=" + username
+    ajaxGet(url, (response) => {
+      let json = JSON.parse(response)
+      for(let i=0; i<json.data.length; i++) {
+        if (username == json.data[i]) {
+          var names = document.createElement("span")
+          names.innerHTML = json.data[i]
+          document.querySelector("#results2").appendChild(names)
+          var box = document.createElement("input")
+          box.id = "usernameBox"
+          box.type = "checkbox"
+          box.setAttribute("onclick", "handleClick(this)")
+          document.querySelector("#results2").appendChild(box)
+        }
       }
-    }
-  })
+    })
+  }
+
 }
 
 function handleClick(cb) {
