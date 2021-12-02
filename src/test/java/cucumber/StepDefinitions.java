@@ -1,8 +1,6 @@
 package cucumber;
 
-import csci310.models.Events;
-import csci310.models.RawResult;
-import csci310.models.User;
+import csci310.models.*;
 import csci310.utilities.*;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
@@ -11,21 +9,24 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.Before;
 
+import io.cucumber.java.en_old.Ac;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -44,6 +45,10 @@ public class StepDefinitions {
     public void before() {
         User u = new User("asdf", "asdf");
         DatabaseManager.object().insertUser(u);
+        User user9 = new User("user9", "9");
+        DatabaseManager.object().insertUser(user9);
+        User user10 = new User("user10", "10");
+        DatabaseManager.object().insertUser(user10);
     }
 
     @Given("I am on the index page")
@@ -138,9 +143,8 @@ public class StepDefinitions {
     @And("I click on the log in button")
     public void iClickOnTheLogInButton() {
         driver.findElement(By.cssSelector(".on-enter-target")).click();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {}
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.or(ExpectedConditions.presenceOfElementLocated(By.id("profile")), ExpectedConditions.visibilityOfElementLocated(By.className("error-msg"))));
     }
 
     @When("I click on the create account button")
@@ -441,56 +445,99 @@ public class StepDefinitions {
         assertEquals(driver.switchTo().alert().getText(), "Proposal sent!");
     }
 
-    @Given("I am logged in to user{int}")
-    public void iAmLoggedInToUser(int arg0) {
+    @Given("User10 has a proposal")
+    public void userHasAProposal() {
+        Event event = new Event("testEvent", "2021-12-30", "12:00:00", "google.com", "golf");
+        ArrayList<String> receivers = new ArrayList<String>();
+        receivers.add("user10");
+        ArrayList<Event> events = new ArrayList<Event>();
+        events.add(event);
+        Proposal prop = new Proposal("testPro", "user9", receivers, events);
     }
 
-    @And("User{int} has a proposal")
-    public void userHasAProposal(int arg0) {
+    @And("I am logged in to user10")
+    public void iAmLoggedInToUser() {
+        driver.get(ROOT_URL + "login.html");
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("user10");
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("10");
+        iClickOnTheLogInButton();
     }
 
     @And("I am on the calendar page")
     public void iAmOnTheCalendarPage() {
+        driver.get(ROOT_URL + "calendar.html");
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("switchButton")));
+
+    }
+
+    @And("I click the switch button")
+    public void iClickTheSwitchButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement switchButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("switchButton")));
+        switchButton.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("eventList")));
     }
 
     @Then("I should see the proposal on both the calendar and the list")
     public void iShouldSeeTheProposalOnBothTheCalendarAndTheList() {
+        assertTrue(driver.findElements(By.className("fc-event-title")).size() > 0);//There is an element in the calendar
+        iClickTheSwitchButton();
+        assertTrue(driver.findElements(By.className("listItem")).size() > 0);
     }
 
-    @And("User{int} has two proposals")
-    public void userHasTwoProposals(int arg0) {
+    @Given("User10 has two proposals")
+    public void userHasTwoProposals() {
+        Event event = new Event("testEvent2", "2021-12-29", "12:00:00", "google.com", "golf");
+        ArrayList<String> receivers = new ArrayList<String>();
+        receivers.add("user10");
+        ArrayList<Event> events = new ArrayList<Event>();
+        events.add(event);
+        Proposal prop = new Proposal("testPro2", "user9", receivers, events);
     }
+
+    String firstEventName;
 
     @And("I change the sort option")
     public void iChangeTheSortOption() {
+        firstEventName = driver.findElement(By.className("listItem")).findElement(By.tagName("a")).getText();
+        Select sort = new Select(driver.findElement(By.id("listSortSelector")));
+        sort.selectByVisibleText("Latest First");
     }
 
     @Then("The order of the list should change")
     public void theOrderOfTheListShouldChange() {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement eventList = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("eventList")));
+        assertNotEquals(driver.findElement(By.className("listItem")).findElement(By.tagName("a")).getText(), firstEventName);
     }
 
-    @And("User{int} has a not finalized proposal")
-    public void userHasANotFinalizedProposal(int arg0) {
+    @Given("User10 has a not finalized proposal")
+    public void userHasANotFinalizedProposal() {
     }
 
     @And("I switch to show only finalized")
     public void iSwitchToShowOnlyFinalized() {
     }
 
-    @Then("I shouldn{string}s events")
-    public void iShouldnTSeeTheNotFinalizedProposalSEvents() {
+    @Then("I shouldnt see the not finalized proposals events")
+    public void iShouldntSeeTheNotFinalizedProposalsEvents() {
     }
 
-    @And("User{int} has a finalized proposal")
-    public void userHasAFinalizedProposal(int arg0) {
+    @Given("User10 has a finalized proposal")
+    public void userHasAFinalizedProposal() {
     }
 
     @And("I switch to show only not finalized")
     public void iSwitchToShowOnlyNotFinalized() {
     }
 
-    @And("User{int} has an event without a response")
-    public void userHasAnEventWithoutAResponse(int arg0) {
+    @Then("I shouldnt see the finalized proposals events")
+    public void iShouldntSeeTheFinalizedProposalsEvents() {
+    }
+
+    @And("User10 has an event without a response")
+    public void userHasAnEventWithoutAResponse() {
     }
 
     @And("I switch to show only not responded")
@@ -501,8 +548,8 @@ public class StepDefinitions {
     public void iShouldnTSeeTheRespondedEvent() {
     }
 
-    @And("User{int} has an event with a response")
-    public void userHasAnEventWithAResponse(int arg0) {
+    @And("User10 has an event with a response")
+    public void userHasAnEventWithAResponse() {
     }
 
     @And("I switch to show only responded")
@@ -518,6 +565,10 @@ public class StepDefinitions {
         driver.quit();
         User u = new User("asdf", "asdf");
         DatabaseManager.object().deleteUser(u);
+        User user9 = new User("user9", "9");
+        DatabaseManager.object().deleteUser(user9);
+        User user10 = new User("user10", "10");
+        DatabaseManager.object().deleteUser(user10);
         keywords = null;
         startDate = null;
         endDate = null;
