@@ -5,9 +5,26 @@ const logout = () => {
 const account = () => {
   window.location.href = "./account.html"
 }
+const pendingInvites = () => {
+  window.location.href = "./pendinginvites.html"
+}
+const proposalResponse = () => {
+  window.location.href = "./proposalResponse.html"
+}
+const sentProposals = () => {
+window.location.href = "./sentProposals.html"
+}
+const calendar = () => {
+window.location.href = "./calendar.html"
+}
+const closeMe = (d, b) => {
+    d.style.display = "none";
+    b.style.display = "none";
+}
+
 const finalizeProp = (eventId, proposalId) =>{
     ajaxPost(ENDPOINT_URL + "/proposal/finalized?finalized_event_id=" + eventId + "&proposal_id=" + proposalId,
-    {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {console.log(JSON.parse(response).status)})
+    {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {alert(JSON.parse(response).status)})
 }
 const getProposals = (resultsContainer) => {
     var senderUsername = localStorage.getItem("username");
@@ -65,6 +82,7 @@ const genResults = (json = {}, container) => {
                 let b = document.createElement("button")
                 b.textContent = "Finalize Proposal"
                 b.onclick = function(){finalizeProp(event.events[i].eventID, event.proposalID)};
+//                b.onclick = function(){closeMe(divE, b)};
                 result.appendChild(b)
         }
         container.appendChild(result)

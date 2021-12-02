@@ -16,20 +16,20 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
-
 const account = () => {
   window.location.href = "./account.html"
 }
-
 const pendingInvites = () => {
   window.location.href = "./pendinginvites.html"
 }
-
 const proposalResponse = () => {
   window.location.href = "./proposalResponse.html"
 }
 const sentProposals = () => {
 window.location.href = "./sentProposals.html"
+}
+const calendar = () => {
+window.location.href = "./calendar.html"
 }
 const search = (keywords, genre, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {

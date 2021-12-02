@@ -451,5 +451,4 @@ public class StepDefinitions {
     public void i_should_see_a_success_alert() {
         assertEquals(driver.switchTo().alert().getText(), "Proposal sent!");
     }
-
 }
