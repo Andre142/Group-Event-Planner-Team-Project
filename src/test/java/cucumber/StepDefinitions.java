@@ -454,31 +454,31 @@ public class StepDefinitions {
     }
 
     //sent proposals page
-    @Given("I am on the sent proposals page")
-    public void iAmOnTheSentProposalsPage() throws InterruptedException {
-        //create a proposal
-        iAmOnTheLoginPage();
-        iFillOutMyCredentials();
-        iClickOnTheLogInButton();
-        i_select_an_event();
-        i_click_next();
-        i_select_an_user();
-        i_write_a_proposal_name();
-        i_click_submit();
-        driver.switchTo().alert().accept();
-        //go to the sent proposals page
-        driver.get("http://localhost:8080/sentProposals.html");
-    }
-
-    @When("I click on the finalize proposals button")
-    public void iClickOnTheFinalizeProposalsButton(){
-        driver.findElement(By.id("prop")).click();
-    }
-
-    @Then("I should see the alert true!!")
-    public void iShouldSeeTheAlertTrue(){
-        assertEquals(driver.switchTo().alert().getText(), "true!!");
-    }
+//    @Given("I am on the sent proposals page")
+//    public void iAmOnTheSentProposalsPage() throws InterruptedException {
+//        //create a proposal
+//        iAmOnTheLoginPage();
+//        iFillOutMyCredentials();
+//        iClickOnTheLogInButton();
+//        i_select_an_event();
+//        i_click_next();
+//        i_select_an_user();
+//        i_write_a_proposal_name();
+//        i_click_submit();
+//        driver.switchTo().alert().accept();
+//        //go to the sent proposals page
+//        driver.get("http://localhost:8080/sentProposals.html");
+//    }
+//
+//    @When("I click on the finalize proposals button")
+//    public void iClickOnTheFinalizeProposalsButton(){
+//        driver.findElement(By.id("prop-button")).click();
+//    }
+//
+//    @Then("I should see the alert is not empty")
+//    public void iShouldSeeTheAlertIsNotEmpty(){
+//        assertNotNull(driver.switchTo().alert().getText());
+//    }
 
     //profile availability
     @Given("I am on the profile page")
