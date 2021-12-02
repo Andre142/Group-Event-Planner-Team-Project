@@ -27,7 +27,7 @@ const closeMe = (d, b) => {
 
 const finalizeProp = (eventId, proposalId) =>{
     ajaxPost(ENDPOINT_URL + "/proposal/finalized?finalized_event_id=" + eventId + "&proposal_id=" + proposalId,
-    {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {alert(JSON.parse(response).status)})
+    {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {alert("true!!")})
 }
 const getProposals = (resultsContainer) => {
     var senderUsername = localStorage.getItem("username");
@@ -84,6 +84,7 @@ const genResults = (json = {}, container) => {
                 result.appendChild(divE)
                 let b = document.createElement("button")
                 b.textContent = "Finalize Proposal"
+                b.id = "prop"
                 b.onclick = function(){finalizeProp(event.events[i].eventID, event.proposalID)};
 //                b.onclick = function(){closeMe(divE, b)};
                 result.appendChild(b)
