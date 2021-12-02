@@ -3,6 +3,10 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
+function back(){
+    window.location.href = "./dashboard.html"
+}
+
 document.querySelector("#search-button").onclick = (e) => {
  e.preventDefault()
  let username = document.querySelector("#username").value

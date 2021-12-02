@@ -129,7 +129,9 @@ public class StepDefinitions {
     }
     @And("I fill out the wrong password")
     public void iFillOutTheWrongPassword() {
+        driver.findElement(By.cssSelector("#input-username")).clear();
         driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
+        driver.findElement(By.cssSelector("#input-password")).clear();
         driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
     }
 
@@ -194,6 +196,14 @@ public class StepDefinitions {
     public void iEnterKeywords() {
         keywords = "lit";
         driver.findElement(By.id("keywords")).sendKeys(keywords);
+    }
+
+    @Then("After timeout I should see the alert Signed out")
+    public void iShouldSeeTheAlertSignedOut() throws InterruptedException {
+        Thread.sleep(61000);
+        Alert alert = driver.switchTo().alert();
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "You have been safely logged out due to being inactive for more than 60 seconds.");
     }
 
     @Then("I should see results matching my query")
@@ -286,6 +296,11 @@ public class StepDefinitions {
         iAmOnTheSignupPage();
     }
 
+    @And("I visit dashboard.html")
+    public void iVisitDashboardHtml() {
+        driver.get(ROOT_URL + "dashboard.html");
+    }
+
     @And("I specify my location as North Korea")
     public void iSpecifyMyLocationAsNorthKorea() {
         driver.findElement(By.id("country")).sendKeys("KP");
@@ -357,12 +372,12 @@ public class StepDefinitions {
         iFillOutMyCredentials();
         iClickOnTheLogInButton();
         driver.get(ROOT_URL + "proposalResponse.html");
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
     }
 
     @And("I click yes")
     public void iClickYes() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
         driver.findElement(By.cssSelector("#yes0")).click();
     }
 
@@ -373,7 +388,7 @@ public class StepDefinitions {
 
     @And("I click 1 in the excitement menu")
     public void iClick1InTheExcitementMenu() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
         Select dropdown = new Select(driver.findElement(By.id("0")));
         dropdown.selectByVisibleText("1");
@@ -382,7 +397,7 @@ public class StepDefinitions {
 
     @Then("One should be selected for excitement")
     public void oneShouldBeSelectedForExcitement() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
         Select dropdown = new Select(driver.findElement(By.id("0")));
         WebElement w = dropdown.getFirstSelectedOption();

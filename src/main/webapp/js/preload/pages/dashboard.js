@@ -140,10 +140,6 @@ const country = (element) => {
 }
 
 function next(){
-
-  document.querySelector(".main").style.display = "none";
-  document.querySelector(".main2").style.display = "flex";
-
   let array = [];
   let checkedEntries = document.querySelectorAll('input[type=checkbox]:checked')
 
@@ -153,7 +149,7 @@ function next(){
   console.log(array);
 
   if(eventList.length < 1){
-    alert("Choose at least 1 event")
+    alert("Please add at least one event")
   } else {
     document.querySelector(".main").style.display = "none";
     document.querySelector(".main2").style.display = "block";
@@ -170,23 +166,27 @@ function clear(){
 
 function searchUsers(){
   let username = document.getElementById("username").value
-  console.log(username)
-  let url = "http://localhost:8080/search/user?q=" + username
-  ajaxGet(url, (response) => {
-    let json = JSON.parse(response)
-    for(let i=0; i<json.data.length; i++) {
-      if (username == json.data[i]) {
-        var names = document.createElement("span")
-        names.innerHTML = json.data[i]
-        document.querySelector("#results2").appendChild(names)
-        var box = document.createElement("input")
-        box.id = "usernameBox"
-        box.type = "checkbox"
-        box.setAttribute("onclick", "handleClick(this)")
-        document.querySelector("#results2").appendChild(box)
+  if(username === localStorage.getItem("username")){
+    alert("Sorry you cannot add yourself")
+  } else {
+    let url = "http://localhost:8080/search/user?q=" + username
+    ajaxGet(url, (response) => {
+      let json = JSON.parse(response)
+      for(let i=0; i<json.data.length; i++) {
+        if (username == json.data[i]) {
+          var names = document.createElement("span")
+          names.innerHTML = json.data[i]
+          document.querySelector("#results2").appendChild(names)
+          var box = document.createElement("input")
+          box.id = "usernameBox"
+          box.type = "checkbox"
+          box.setAttribute("onclick", "handleClick(this)")
+          document.querySelector("#results2").appendChild(box)
+        }
       }
-    }
-  })
+    })
+  }
+
 }
 
 function handleClick(cb) {
@@ -206,20 +206,24 @@ function setName(name){
 
 function submit(){
   if(userList.length < 1){
-    alert("Choose at least 1 user")
-  } else {
+    alert("Please add at least one user")
+  } else if(document.getElementById("proposalName").value === "") {
+    alert("Please add a proposal name")
+  }
+  else {
     myName = document.getElementById("proposalName").value
     console.log(myName)
     ajaxPost(ENDPOINT_URL + "/proposal/send", {
       "proposalTitle":myName,
-      senderUsername: localStorage.getItem("uuid"),
+      senderUsername: localStorage.getItem("username"),
       receiverUsernames: userList,
       events: eventList
     }, (response) => {
       console.log(JSON.parse(response).status)
     })
+    window.location.href = "./dashboard.html"
   }
-  window.location.href = "./dashboard.html"
+
 
 
 }

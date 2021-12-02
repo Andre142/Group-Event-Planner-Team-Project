@@ -6,8 +6,8 @@ const account = () => {
   window.location.href = "./account.html"
 }
 const getProposals = (resultsContainer) => {
-      console.log("arrived");
-      var senderUsername = localStorage.getItem("uuid");
+      var senderUsername = localStorage.getItem("username");
+    console.log(senderUsername);
       ajaxGet(ENDPOINT_URL + "/proposal/get?type=sent&username=" + senderUsername, (response) => {
                let json = JSON.parse(response)
                genResults(json, resultsContainer)

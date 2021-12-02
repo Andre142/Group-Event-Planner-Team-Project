@@ -1,9 +1,21 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
     <display-name>Project</display-name>
+    <servlet>
+        <servlet-name>AvailabilityServlet</servlet-name>
+        <servlet-class>csci310.servlets.AvailabilityServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlockedListServlet</servlet-name>
+        <servlet-class>csci310.servlets.BlockedListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EventRecommenderServlet</servlet-name>
+        <servlet-class>csci310.servlets.EventRecommenderServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>csci310.servlets.LoginServlet</servlet-class>
@@ -48,6 +60,18 @@
         <servlet-name>GetFinalResponseServlet</servlet-name>
         <servlet-class>csci310.servlets.GetFinalResponseServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>AvailabilityServlet</servlet-name>
+        <url-pattern>/Availability</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockedListServlet</servlet-name>
+        <url-pattern>/BlockedList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EventRecommenderServlet</servlet-name>
+        <url-pattern>/EventRecommender</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth/login</url-pattern>
