@@ -101,9 +101,10 @@ const genResults = (json = {}, container) => {
  blockUser();
 }
 
-document.addEventListener('load',() => {
+window.onload = function loadList() {
 let su = $(".search-users");
- search("",su);});
+ search("",su);
+ }
 
 function blockUser() {
 let blockList = document.querySelectorAll(".blocked");

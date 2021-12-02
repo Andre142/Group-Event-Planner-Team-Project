@@ -95,6 +95,7 @@ const showResults = (json = {}, container) => {
             divE.appendChild(a)
             proposalDiv.appendChild(divE)
             let b = document.createElement("button")
+            b.id = "prop-button";
             b.textContent = i==0 ? "Recommended: Select as Final Event" : "Select as Final Event";
             b.onclick = function(){finalizeProp(proposal.events[i].eventID, proposal.name)};
             b.onclick = function(){
