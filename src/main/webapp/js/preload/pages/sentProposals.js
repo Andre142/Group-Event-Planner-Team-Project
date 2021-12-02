@@ -47,14 +47,11 @@ const genResults = (json = {}, container) => {
       let msg = document.createElement("p")
       msg.innerHTML = (json.data.length.toString() + " result(s)").trim()
       container.appendChild(msg)
-      console.log(json)
       for (const event of json.data) {
-        console.log(event)
         let result = document.createElement("div")
         result.className = "result"
         let p = document.createElement("p")
         p.className = "subtitle"
-        console.log(event.events)
         for (let i = 0; i < event.events.length; i++){
         let divE = document.createElement('div')
         let divText = document.createTextNode("Proposal Title: " + event.proposalTitle)
@@ -66,7 +63,6 @@ const genResults = (json = {}, container) => {
         a.href = event.events[i].url
         a.title = event.events[i].url
         a.appendChild(document.createTextNode("Click here for TicketMaster link"))
-                console.log(event.events[i].date)
                 divE.appendChild(divText)
                 divE.appendChild(document.createElement('br'))
                 divE.appendChild(receive)
