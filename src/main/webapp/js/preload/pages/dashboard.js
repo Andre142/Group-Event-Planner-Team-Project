@@ -155,7 +155,7 @@ function next(){
     alert("Please add at least one event")
   } else {
     document.querySelector(".main").style.display = "none";
-    document.querySelector(".main2").style.display = "block";
+    document.querySelector(".main2").style.display = "flex";
     for (let i=0; i<eventList.length; i++){
       console.log(eventList[i])
     }
