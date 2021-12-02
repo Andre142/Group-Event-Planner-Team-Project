@@ -2,6 +2,9 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
+const dashboard = () => {
+    window.location.href = "./dashboard.html"
+}
 const account = () => {
   window.location.href = "./account.html"
 }
