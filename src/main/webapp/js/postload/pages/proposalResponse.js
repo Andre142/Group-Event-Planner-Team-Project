@@ -90,7 +90,7 @@ xhReq.send(null);
 var json = JSON.parse(xhReq.responseText);
 for (let i=0;i<json.data.length;i++) {
 for (let j=0;j<json.data[i].events.length;j++){
- if ($('input[name=yes-no'+i+j+']:checked').length > 0 && $("#"+i+j+" option:selected").length > 0) {
+ if (!($('input[name=yes-no'+i+j+']:checked').length > 0 && $("#"+i+j+" option:selected").length > 0)) {
  alert("Please fill out all entries.");
  return;
  }
