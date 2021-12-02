@@ -1,15 +1,27 @@
 var list = document.getElementById("eventList");
+var receivedJsonData;
+var sentJsonData;
+var outstandingChecks = [];
 
 document.getElementById("eventList").style.display = "none";
 document.getElementById("listSort").style.display = "none";
 
 var calendar;
 
-function removeChildren(node)
+function clearList()
 {
-    while (node.children.length > 0)
+    while (list.children.length > 0)
     {
-        node.removeChild(node.firstChild);
+        list.removeChild(list.firstChild);
+    }
+}
+
+function clearCal()
+{
+    var calEvents = calendar.getEvents();
+    for (let i = 0; i < calEvents.length; i++)
+    {
+        calEvents[i].remove();
     }
 }
 
@@ -83,7 +95,7 @@ function sortList()
     var eventArray = Array.from(list.children);
     eventArray.sort(sortFunc);
 
-    removeChildren(list);
+    clearList();
     for (let i = 0; i < eventArray.length; i++)
     {
         list.append(eventArray[i]);
@@ -101,6 +113,73 @@ function addEventToCalendar(event)
     calendar.addEvent(calEvent);
 }
 
+function conditionalAdd(event, ifResponseExistsIs)
+{
+    outstandingChecks.push(event.eventID);
+    ajaxGet(ENDPOINT_URL + "/response/get?event_id=" + event.eventID + "&username=" + localStorage.getItem("username"), (response) => {
+          console.log(JSON.parse(response).status + " for event " + event.name + " with " + ifResponseExistsIs);
+          if (JSON.parse(response).status == ifResponseExistsIs)
+          {
+                addEventToList(event);
+                addEventToCalendar(event);
+          }
+          outstandingChecks.splice(outstandingChecks.indexOf(event.eventID), 1);
+          if (outstandingChecks.length == 0)
+          {
+            sortList();
+          }
+        });
+}
+
+function addEvents(proposals, sent, finalized, respondedSelector)
+{
+    for (let i = 0; i < proposals.length; i++)
+    {
+        if (proposals[i].finalizedEventID == null && finalized != "onlyFinalized")
+        {
+            for (let j = 0; j < proposals[i].events.length; j++)
+            {
+                if (sent || respondedSelector == "both")
+                {
+                    addEventToList(proposals[i].events[j]);
+                    addEventToCalendar(proposals[i].events[j]);
+                }
+                else
+                {
+                    conditionalAdd(proposals[i].events[j], respondedSelector == "onlyResponded");
+                }
+            }
+        }
+        else if (finalized != "onlyNot")
+        {
+            for (let j = 0; j < proposals[i].events.length; j++)
+            {
+                if (proposals[i].events[j].eventID == proposals[i].finalizedEventID)
+                {
+                    if (sent || respondedSelector == "both")
+                    {
+                        addEventToList(proposals[i].events[j]);
+                        addEventToCalendar(proposals[i].events[j]);
+                    }
+                    else
+                    {
+                        conditionalAdd(proposals[i].events[j], respondedSelector == "onlyResponded");
+                    }
+                }
+            }
+        }
+    }
+    sortList();
+}
+
+function resetAllEvents()
+{
+    clearList();
+    clearCal();
+    addEvents(receivedJsonData, false, document.getElementById("finalizedSelector").value, document.getElementById("respondedSelector").value);
+    addEvents(sentJsonData, true, document.getElementById("finalizedSelector").value, document.getElementById("respondedSelector").value);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('eventCalendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
@@ -111,30 +190,13 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
 ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + localStorage.getItem("username"), (response) => {
-      let json = JSON.parse(response);
-      for (let i = 0; i < json.data.length; i++)
-      {
-        if (json.data[i].finalizedEventID == null)
-        {
-            for (let j = 0; j < json.data[i].events.length; j++)
-            {
-                addEventToList(json.data[i].events[j]);
-                addEventToCalendar(json.data[i].events[j]);
-            }
-        }
-        else
-        {
-            for (let j = 0; j < json.data[i].events.length; j++)
-            {
-                if (json.data[i].events[j].eventID == json.data[i].finalizedEventID)
-                {
-                    addEventToList(json.data[i].events[j]);
-                    addEventToCalendar(json.data[i].events[j]);
-                }
-            }
-        }
-      }
-      sortList();
+      receivedJsonData = JSON.parse(response).data;
+      addEvents(receivedJsonData, false, document.getElementById("finalizedSelector").value, document.getElementById("respondedSelector").value);
+    })
+
+ajaxGet(ENDPOINT_URL + "/proposal/get?type=sent&username=" + localStorage.getItem("username"), (response) => {
+      sentJsonData = JSON.parse(response).data;
+      addEvents(sentJsonData, true, document.getElementById("finalizedSelector").value, document.getElementById("respondedSelector").value);
     })
 
 document.getElementById("switchButton").onclick = (e) => {
@@ -142,7 +204,7 @@ document.getElementById("switchButton").onclick = (e) => {
     {
         document.getElementById("switchButton").innerText = document.getElementById("switchButton").innerText.replace("List", "Calendar");
         document.getElementById("eventList").style.display = "block";
-        document.getElementById("listSort").style.display = "block";
+        document.getElementById("listSort").style.display = "inline-block";
         document.getElementById("eventCalendar").style.display = "none";
     }
     else
@@ -156,4 +218,12 @@ document.getElementById("switchButton").onclick = (e) => {
 
 document.getElementById("listSortSelector").onchange = (e) => {
     sortList();
+}
+
+document.getElementById("finalizedSelector").onchange = (e) => {
+    resetAllEvents();
+}
+
+document.getElementById("respondedSelector").onchange = (e) => {
+    resetAllEvents();
 }

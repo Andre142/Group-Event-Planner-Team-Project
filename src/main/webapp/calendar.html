@@ -71,14 +71,34 @@
         </header>
         <div class="main">
             <div id="aboveContent">
-                <h3 id="contentTitle">Events</h3>
-                <button id="switchButton">Switch to List View</button>
-                <div id="listSort">
-                    <label for="listSortSelector">Sort by:</label>
-                    <select name="listSortSelector" id="listSortSelector">
-                        <option value="oldestFirst" default selected>Oldest First</option>
-                        <option value="latestFirst">Latest First</option>
-                    </select>
+                <div id="aboveSelectors">
+                    <h3 id="contentTitle">Events</h3>
+                    <button id="switchButton" class="topButton">Switch to List View</button>
+                </div>
+                <div id="selectors">
+                    <div id="finalized" class="selector">
+                        <label for="finalizedSelector">Show:</label>
+                        <select name="finalizedSelector" id="finalizedSelector">
+                            <option value="both" default selected>Both</option>
+                            <option value="onlyFinalized">Only Finalized</option>
+                            <option value="onlyNot">Only Not Finalized</option>
+                        </select>
+                    </div>
+                    <div id="response" class="selector">
+                        <label for="respondedSelector">Show:</label>
+                        <select name="respondedSelector" id="respondedSelector">
+                            <option value="both" default selected>Both</option>
+                            <option value="onlyResponded">Only Responded</option>
+                            <option value="onlyNot">Only Not Responded</option>
+                        </select>
+                    </div>
+                    <div id="listSort" class="selector">
+                        <label for="listSortSelector">Sort by:</label>
+                        <select name="listSortSelector" id="listSortSelector">
+                            <option value="oldestFirst" default selected>Oldest First</option>
+                            <option value="latestFirst">Latest First</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div id="eventCalendar">
