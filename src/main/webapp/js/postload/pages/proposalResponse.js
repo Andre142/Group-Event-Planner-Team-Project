@@ -34,6 +34,7 @@ function back(){
                                                 Time: ${json.data[i].events[j].time}
                                                 <br>
                                                 Genre: ${json.data[i].events[j].genre}
+                                                <br>
 Excitement:
                                                   <select id="${i}${j}">
                                                   <option selected disabled hidden style='display: none' value=''></option>
@@ -55,7 +56,6 @@ Excitement:
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="btn btn-outline-success" name="yes-no${i}${j}" for="maybe${i}${j}">Maybe</label>
-//                                                <br><br><br>
                                                   
     </div>
                                             <div class="col-3">
