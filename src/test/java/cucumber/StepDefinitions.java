@@ -389,8 +389,8 @@ public class StepDefinitions {
     @And("I click 1 in the excitement menu")
     public void iClick1InTheExcitementMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 1);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
-        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("00")));
+        Select dropdown = new Select(driver.findElement(By.id("00")));
         dropdown.selectByVisibleText("1");
 
     }
