@@ -1,5 +1,10 @@
 var list = document.getElementById("eventList");
 
+document.getElementById("eventList").style.display = "none";
+document.getElementById("listSort").style.display = "none";
+
+var calendar;
+
 function removeChildren(node)
 {
     while (node.children.length > 0)
@@ -87,8 +92,23 @@ function sortList()
 
 function addEventToCalendar(event)
 {
-
+    let calEvent = {
+        title: event.name,
+        start: event.date + 'T' + event.time,
+        end: event.date + 'T' + event.time + '+01:00:00',
+        url: event.url
+    };
+    calendar.addEvent(calEvent);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('eventCalendar');
+        calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          fixedWeekCount: false
+        });
+        calendar.render();
+      });
 
 ajaxGet(ENDPOINT_URL + "/proposal/get?type=received&username=" + localStorage.getItem("username"), (response) => {
       let json = JSON.parse(response);
@@ -121,16 +141,16 @@ document.getElementById("switchButton").onclick = (e) => {
     if (document.getElementById('switchButton').innerText.includes("List"))
     {
         document.getElementById("switchButton").innerText = document.getElementById("switchButton").innerText.replace("List", "Calendar");
-        document.getElementById("eventList").hidden = false;
-        document.getElementById("listSort").hidden = false;
-        document.getElementById("eventCalendar").hidden = true;
+        document.getElementById("eventList").style.display = "block";
+        document.getElementById("listSort").style.display = "block";
+        document.getElementById("eventCalendar").style.display = "none";
     }
     else
     {
         document.getElementById("switchButton").innerText = document.getElementById("switchButton").innerText.replace("Calendar", "List");
-        document.getElementById("eventList").hidden = true;
-        document.getElementById("listSort").hidden = true;
-        document.getElementById("eventCalendar").hidden = false;
+        document.getElementById("eventList").style.display = "none";
+        document.getElementById("listSort").style.display = "none";
+        document.getElementById("eventCalendar").style.display = "block";
     }
 }
 

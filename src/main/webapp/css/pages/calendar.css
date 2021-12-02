@@ -11,8 +11,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: calc(50vh - 384px);
   flex-direction: column;
+}
+
+#eventCalendar {
+    width: 35vw;
 }
 
 #switchButton {
