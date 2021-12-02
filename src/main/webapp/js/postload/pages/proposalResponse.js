@@ -34,20 +34,7 @@ function back(){
                                                 Time: ${json.data[i].events[j].time}
                                                 <br>
                                                 Genre: ${json.data[i].events[j].genre}
-                                        </div>
-                                            <div class="col-3">
-                                                <input type="radio" class="btn-check" name="yes-no${i}${j}" id="yes${i}${j}" autocomplete="off">
-                                            </div>
-                                            <div class="col-1">
-                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="yes${i}${j}">Yes</label>
-                                            </div>
-                                            <div class="col-3">
-                                                <input type="radio" class="btn-check" name="yes-no${i}${j}" id="maybe${i}${j}" autocomplete="off">
-                                            </div>
-                                            <div class="col-1">
-                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="maybe${i}${j}">Maybe</label>
-                                                <br><br><br>
-                                                  Excitement:
+Excitement:
                                                   <select id="${i}${j}">
                                                   <option selected disabled hidden style='display: none' value=''></option>
                                                   <option value="1">1</option>
@@ -55,7 +42,21 @@ function back(){
                                                   <option value="3">3</option>
                                                   <option value="4">4</option>
                                                   <option value="5">5</option>
-                                                  </select>
+                                                  </select>                                                
+                                        </div>
+                                            <div class="col-md-3">
+                                                <input type="radio" class="btn-check" name="yes-no${i}${j}" id="yes${i}${j}" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="yes${i}${j}">Yes</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="radio" class="btn-check" name="yes-no${i}${j}" id="maybe${i}${j}" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="maybe${i}${j}">Maybe</label>
+//                                                <br><br><br>
+                                                  
     </div>
                                             <div class="col-3">
                                             <input type="radio" class="btn-check" name="yes-no${i}${j}" id="no${i}${j}" autocomplete="off">
@@ -106,12 +107,21 @@ for (let j=0;j<json.data[i].events.length;j++){
                  if(ele[k].checked && k == 0) {
                     availabilityVal = 1;
                  }
+                 else if (ele[k].checked && k==2) {
+                    availabilityVal = 2;
+                    break;
+                 }
                  else
                  {
                     availabilityVal = 0;
                  }
              }
    let excitementVal = document.getElementById(""+i+j).value;
+   if (availabilityVal === 2)
+   {
+    continue;
+   }
+   else {
 $.ajax({
     type: "POST",
     url: "http://localhost:8080/response/send",
@@ -122,11 +132,14 @@ $.ajax({
                                   }),
     contentType: "application/json; charset=utf-8",
     dataType: "json",
-    success: function(data){},
+    success: function(data){
+        alert("Successful!")
+    },
     error: function(errMsg) {
         alert(errMsg);
     }
 });
+}
 }
      }
      }
