@@ -40,6 +40,12 @@ public class StepDefinitions {
     private static String endDate = null;
     private static String countrycode = null;
 
+    @Before()
+    public void before() {
+        User u = new User("asdf", "asdf");
+        DatabaseManager.object().insertUser(u);
+    }
+
     @Given("I am on the index page")
     public void i_am_on_the_index_page() {
         driver.get(ROOT_URL);
@@ -58,23 +64,6 @@ public class StepDefinitions {
     @Then("I should see text {string}")
     public void i_should_see_text(String text) {
         assertTrue(driver.getPageSource().contains(text));
-    }
-
-    @After()
-    public void after() {
-        driver.quit();
-        User u = new User("asdf", "asdf");
-        DatabaseManager.object().deleteUser(u);
-        keywords = null;
-        startDate = null;
-        endDate = null;
-        countrycode = null;
-    }
-
-    @Before()
-    public void before() {
-        User u = new User("asdf", "asdf");
-        DatabaseManager.object().insertUser(u);
     }
 
     @Given("I am on the signup page")
@@ -450,5 +439,88 @@ public class StepDefinitions {
     @Then("I should see a success alert")
     public void i_should_see_a_success_alert() {
         assertEquals(driver.switchTo().alert().getText(), "Proposal sent!");
+    }
+
+    @Given("I am logged in to user{int}")
+    public void iAmLoggedInToUser(int arg0) {
+    }
+
+    @And("User{int} has a proposal")
+    public void userHasAProposal(int arg0) {
+    }
+
+    @And("I am on the calendar page")
+    public void iAmOnTheCalendarPage() {
+    }
+
+    @Then("I should see the proposal on both the calendar and the list")
+    public void iShouldSeeTheProposalOnBothTheCalendarAndTheList() {
+    }
+
+    @And("User{int} has two proposals")
+    public void userHasTwoProposals(int arg0) {
+    }
+
+    @And("I change the sort option")
+    public void iChangeTheSortOption() {
+    }
+
+    @Then("The order of the list should change")
+    public void theOrderOfTheListShouldChange() {
+    }
+
+    @And("User{int} has a not finalized proposal")
+    public void userHasANotFinalizedProposal(int arg0) {
+    }
+
+    @And("I switch to show only finalized")
+    public void iSwitchToShowOnlyFinalized() {
+    }
+
+    @Then("I shouldn{string}s events")
+    public void iShouldnTSeeTheNotFinalizedProposalSEvents() {
+    }
+
+    @And("User{int} has a finalized proposal")
+    public void userHasAFinalizedProposal(int arg0) {
+    }
+
+    @And("I switch to show only not finalized")
+    public void iSwitchToShowOnlyNotFinalized() {
+    }
+
+    @And("User{int} has an event without a response")
+    public void userHasAnEventWithoutAResponse(int arg0) {
+    }
+
+    @And("I switch to show only not responded")
+    public void iSwitchToShowOnlyNotResponded() {
+    }
+
+    @Then("I shouldn't see the responded event")
+    public void iShouldnTSeeTheRespondedEvent() {
+    }
+
+    @And("User{int} has an event with a response")
+    public void userHasAnEventWithAResponse(int arg0) {
+    }
+
+    @And("I switch to show only responded")
+    public void iSwitchToShowOnlyResponded() {
+    }
+
+    @Then("I shouldn't see the not responded event")
+    public void iShouldnTSeeTheNotRespondedEvent() {
+    }
+
+    @After()
+    public void after() {
+        driver.quit();
+        User u = new User("asdf", "asdf");
+        DatabaseManager.object().deleteUser(u);
+        keywords = null;
+        startDate = null;
+        endDate = null;
+        countrycode = null;
     }
 }
