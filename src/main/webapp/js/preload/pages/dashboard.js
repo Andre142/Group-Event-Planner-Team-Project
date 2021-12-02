@@ -75,6 +75,7 @@ const search = (keywords, genre, country, startDate, endDate, errMsg, code, resu
 
 const genResults = (json = {}, container) => {
   container.innerHTML = ""
+  var count = 1
   if (JSON.stringify(json) !== "{}") {
     if (!json.status) {
       let msg = document.createElement("p")
@@ -98,8 +99,10 @@ const genResults = (json = {}, container) => {
         a.href = event.url
         a.innerHTML = event.name
         let b = document.createElement("b")
-        b.innerHTML = event.time
+        b.innerHTML = '<br>' + event.time
         var box = document.createElement("input");
+        box.id = "eventsBox" + count;
+        count++
         box.type = "checkbox"
         box.value = event.url
         resultContent.appendChild(p)
@@ -166,9 +169,9 @@ function clear(){
 
 function searchUsers(){
   let username = document.getElementById("username").value
-  if(username === localStorage.getItem("username")){
-    alert("Sorry you cannot add yourself")
-  } else {
+  // if(username === localStorage.getItem("username")){
+  //   // alert("Sorry you cannot add yourself")
+  // } else {
     let url = "http://localhost:8080/search/user?q=" + username
     ajaxGet(url, (response) => {
       let json = JSON.parse(response)
@@ -178,24 +181,22 @@ function searchUsers(){
           names.innerHTML = json.data[i]
           document.querySelector("#results2").appendChild(names)
           var box = document.createElement("input")
-          box.id = "usernameBox"
+          box.id = "usersBox"
           box.type = "checkbox"
           box.setAttribute("onclick", "handleClick(this)")
           document.querySelector("#results2").appendChild(box)
         }
       }
     })
-  }
+  // }
 
 }
 
 function handleClick(cb) {
   if(cb.checked == true){
     userList.push(cb.previousSibling.innerHTML)
-    alert(userList[0])
   } else {
     userList.splice(userList.indexOf(cb.previousSibling.innerHTML), 1)
-    alert(userList.length)
   }
 }
 
@@ -221,6 +222,7 @@ function submit(){
     }, (response) => {
       console.log(JSON.parse(response).status)
     })
+    alert("Proposal sent!")
     window.location.href = "./dashboard.html"
   }
 
