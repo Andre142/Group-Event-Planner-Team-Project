@@ -1,4 +1,33 @@
- {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {alert(JSON.parse(response).status)})
+const logout = () => {
+  localStorage.removeItem("uuid")
+  window.location.href = "./index.html"
+}
+const dashboard = () => {
+    window.location.href = "./dashboard.html"
+}
+const account = () => {
+  window.location.href = "./account.html"
+}
+const pendingInvites = () => {
+  window.location.href = "./pendinginvites.html"
+}
+const proposalResponse = () => {
+  window.location.href = "./proposalResponse.html"
+}
+const sentProposals = () => {
+window.location.href = "./sentProposals.html"
+}
+const calendar = () => {
+window.location.href = "./calendar.html"
+}
+const closeMe = (d, b) => {
+    d.style.display = "none";
+    b.style.display = "none";
+}
+
+const finalizeProp = (eventId, proposalId) =>{
+    ajaxPost(ENDPOINT_URL + "/proposal/finalized?finalized_event_id=" + eventId + "&proposal_id=" + proposalId,
+    {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {alert(JSON.parse(response).status)})
 }
 const getProposals = (resultsContainer) => {
     let senderUsername = localStorage.getItem("username");
@@ -19,6 +48,13 @@ const showResults = (json = {}, container) => {
   container.innerHTML = ""
   if (JSON.stringify(json) !== "{}") {
     if (!json.status) {
+      let msg = document.createElement("p")
+      msg.className = "error"
+      msg.innerHTML = "No results"
+      container.appendChild(msg)
+    }
+    else {
+      let msg = document.createElement("p")
       msg.innerHTML = (json.data.length.toString() + " result(s)").trim()
       container.appendChild(msg)
       console.log(json)
@@ -59,9 +95,9 @@ const showResults = (json = {}, container) => {
             divE.appendChild(a)
             proposalDiv.appendChild(divE)
             let b = document.createElement("button")
+            b.id = "prop"
             b.textContent = i==0 ? "Recommended: Select as Final Event" : "Select as Final Event";
             b.onclick = function(){finalizeProp(proposal.events[i].eventID, proposal.name)};
-            b.id = "prop"
             b.onclick = function(){
                 alert("Event "+proposal.events[i].name+" is selected as the final event for proposal "+proposal.proposalTitle+".");
             };
@@ -71,5 +107,5 @@ const showResults = (json = {}, container) => {
 
       }
     }
-    }
-    }
+  }
+}
