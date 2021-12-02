@@ -3,6 +3,13 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
+function back(){
+    window.location.href = "./dashboard.html"
+}
+
+let su = $(".search-users")
+ search("",su);
+
 document.querySelector("#search-button").onclick = (e) => {
  e.preventDefault()
  let username = document.querySelector("#username").value
@@ -18,7 +25,6 @@ const search = (username, resultsContainer) => {
 
 };
 
-// adding some indenting
 const genResults = (json = {}, container) => {
  container.empty();
  if (JSON.stringify(json) !== "{}") {
