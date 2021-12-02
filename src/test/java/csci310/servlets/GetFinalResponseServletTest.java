@@ -33,7 +33,7 @@ public class GetFinalResponseServletTest {
         servlet.doGet(req,res);
         printWriter.flush();
         Response response = HelperFunctions.shared().fromJson(stringWriter.toString(),Response.class);
-        assertTrue(response.getStatus());
+        assertTrue(response.getStatus() || (response.getStatus() == false && response.getMessage().equalsIgnoreCase("The user has not made a final response")));
 
         when(req.getParameter("username")).thenReturn("receiver");
         when(req.getParameter("proposal_id")).thenReturn("123456");
