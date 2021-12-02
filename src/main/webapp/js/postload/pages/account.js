@@ -40,9 +40,6 @@ document.querySelector("#submit-avail").onclick = (e) => {
     setAvailability(startDate, endDate);
 }
 
-let su = $(".search-users")
- search("",su);
-
 document.querySelector("#search-button").onclick = (e) => {
  e.preventDefault()
  let username = document.querySelector("#username").value
@@ -85,6 +82,10 @@ const genResults = (json = {}, container) => {
  }
  blockUser();
 }
+
+document.addEventListener('load',() => {
+let su = $(".search-users");
+ search("",su);});
 
 function blockUser() {
 let blockList = document.querySelectorAll(".blocked");
