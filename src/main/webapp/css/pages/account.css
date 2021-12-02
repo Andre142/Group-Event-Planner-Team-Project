@@ -1,101 +1,37 @@
-const logout = () => {
-  localStorage.removeItem("uuid")
-  window.location.href = "./index.html"
+#nav > div > a:not(.mobile-hide) {
+  display: inline-block;
 }
 
-function back(){
-    window.location.href = "./dashboard.html"
+.bottom{
+  display: flex;
+  padding-left: 45%;
+  padding-bottom: 10%;
 }
 
-document.addEventListener('load',() => {
-let su = $(".search-users")
- search("",su);});
-
-document.querySelector("#search-button").onclick = (e) => {
- e.preventDefault()
- let username = document.querySelector("#username").value
- let c = $(".search-users")
- search(username,c);
+.main {
+  box-sizing: border-box;
+  left: 0px;
+  margin-top: 96px;
+  width: 100vw;
+  min-height: calc(100vh - 192px);
+  /*display: flex;*/
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(50vh - 384px);
+  flex-direction: column;
 }
 
-const search = (username, resultsContainer) => {
- ajaxGet(ENDPOINT_URL + "/search/user?q=" + encodeURIComponent(username.trim()), (response) => {
-       let json = JSON.parse(response)
-       genResults(json, resultsContainer)
-     })
-
-};
-
-const genResults = (json = {}, container) => {
- container.empty();
- if (JSON.stringify(json) !== "{}") {
-   if (!json.status) {
-     let msg = document.createElement("p")
-     msg.className = "error"
-     msg.innerHTML = "No results found"
-     container.appendChild(msg)
-   }
-   else {
-     for (let i=0;i<json.data.length;i++) {
-       let str = `<li class="list-group-item">
-                                      <div class="row">
-                                      <div class="col-8">
-                                          ${json.data[i]}
-                                      </div>
-                                      <button class="col-3 blocked btn-sm">
-                                          Block
-                                      </button>
-                                      </div>
-                                  </li>`;
-     container.append(str);
-     }
-   }
- }
- blockUser();
+.main > h3 {
+  font-size: 24px;
+  font-weight: 400;
+  text-align: center;
 }
 
-function blockUser() {
-let blockList = document.querySelectorAll(".blocked");
-    for (let i = 0; i < blockList.length; i++) {
+/*.list-group
+{
+    width: 900px;
+}*/
 
-        blockList[i].onclick = function() {
-           let userName = $(this).prev().text();
-           this.parentNode.parentNode.remove(document.querySelector(".list-group-item"));
-           let str = `<li class="list-group-item">
-                                                     <div class="row">
-                                                     <div class="col-8 unblock">
-                                                         ${userName}
-                                                     </div>
-                                                     <button class="col-3 unblock btn-sm">
-                                                         Unblock
-                                                     </button>
-                                                     </div>
-                                                 </li>`;
-            $(".blocked-list").append(str);
-        unblockUser();
-        }
-    }
+footer {
+  position: relative;
 }
-function unblockUser() {
-let unblockList = document.querySelectorAll(".unblock");
-    for (let i = 0; i < unblockList.length; i++) {
-        unblockList[i].onclick = function() {
-           let userName = $(this).prev().text();
-           this.parentNode.parentNode.remove(document.querySelector(".list-group-item"));
-           let str = `<li class="list-group-item">
-                                      <div class="row">
-                                      <div class="col-8">
-                                          ${userName}
-                                      </div>
-                                      <button class="col-3 blocked btn-sm">
-                                          Block
-                                      </button>
-                                      </div>
-                                  </li>`;
-            $(".search-users").append(str);
-        blockUser();
-        }
-    }
-}
-blockUser();
-unblockUser();
