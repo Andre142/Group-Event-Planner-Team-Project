@@ -20,6 +20,25 @@ window.location.href = "./calendar.html"
 function back(){
     window.location.href = "./dashboard.html"
 }
+const setAvailability = (startDate, endDate) => {
+var user = localStorage.getItem("username");
+console.log(startDate.value.length)
+if (startDate.value.length && endDate.value.length) {
+  ajaxGet(ENDPOINT_URL + "/Availability?type=addUnavailability&username=" + user + "&start=" + startDate.value + "T14:55:00&end=" + endDate.value +"T14:55:00", (response) => {
+  let json = JSON.parse(response)
+  console.log("done")
+     })
+    }
+  else{
+  alert("Error: Please select start and end date.")
+  }
+}
+document.querySelector("#submit-avail").onclick = (e) => {
+    e.preventDefault()
+    const startDate = document.getElementById("start-date")
+    const endDate = document.getElementById("end-date")
+    setAvailability(startDate, endDate);
+}
 
 let su = $(".search-users")
  search("",su);

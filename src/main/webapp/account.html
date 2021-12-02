@@ -66,19 +66,20 @@
 </header>
 <div class="main">
 
-    <h3>Availability</h3>
+    <h3>Set Unvailability</h3>
     <form id="range">
         <label>
             Start Date <br/>
-            <input type="date" name="start-date" value="Today"/>
+            <input type="date" name="start-date" id = "start-date" value="Today"/>
         </label>
 
         <label>
             End Date <br/>
-            <input type="date" name="end-date" data-value="7" value="After one week"/>
+            <input type="date" name="end-date" id = "end-date" data-value="7" value="After one week"/>
         </label>
+        <button id = "submit-avail">Submit</button>
     </form>
-
+    <div id = "error"></div>
     <hr>
 
     <h3>Search For Users</h3>
