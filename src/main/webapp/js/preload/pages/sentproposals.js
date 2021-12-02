@@ -61,6 +61,7 @@ const showResults = (json = {}, container) => {
             let b = document.createElement("button")
             b.textContent = i==0 ? "Recommended: Select as Final Event" : "Select as Final Event";
             b.onclick = function(){finalizeProp(proposal.events[i].eventID, proposal.name)};
+            b.id = "prop"
             b.onclick = function(){
                 alert("Event "+proposal.events[i].name+" is selected as the final event for proposal "+proposal.proposalTitle+".");
             };
