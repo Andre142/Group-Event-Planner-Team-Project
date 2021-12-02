@@ -16,19 +16,21 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
-
 const account = () => {
   window.location.href = "./account.html"
 }
-
 const pendingInvites = () => {
   window.location.href = "./pendinginvites.html"
 }
-
 const proposalResponse = () => {
   window.location.href = "./proposalResponse.html"
 }
-
+const sentProposals = () => {
+window.location.href = "./sentProposals.html"
+}
+const calendar = () => {
+window.location.href = "./calendar.html"
+}
 const search = (keywords, genre, country, startDate, endDate, errMsg, code, resultsContainer) => {
   if (keywords.value.length < 1) {
     errMsg.innerHTML = "Keywords cannot be empty"
@@ -73,6 +75,7 @@ const search = (keywords, genre, country, startDate, endDate, errMsg, code, resu
 
 const genResults = (json = {}, container) => {
   container.innerHTML = ""
+  var count = 1
   if (JSON.stringify(json) !== "{}") {
     if (!json.status) {
       let msg = document.createElement("p")
@@ -96,8 +99,10 @@ const genResults = (json = {}, container) => {
         a.href = event.url
         a.innerHTML = event.name
         let b = document.createElement("b")
-        b.innerHTML = event.time
+        b.innerHTML = '<br>' + event.time
         var box = document.createElement("input");
+        box.id = "eventsBox" + count;
+        count++
         box.type = "checkbox"
         box.value = event.url
         resultContent.appendChild(p)
@@ -138,10 +143,6 @@ const country = (element) => {
 }
 
 function next(){
-
-  document.querySelector(".main").style.display = "none";
-  document.querySelector(".main2").style.display = "flex";
-
   let array = [];
   let checkedEntries = document.querySelectorAll('input[type=checkbox]:checked')
 
@@ -151,7 +152,7 @@ function next(){
   console.log(array);
 
   if(eventList.length < 1){
-    alert("Choose at least 1 event")
+    alert("Please add at least one event")
   } else {
     document.querySelector(".main").style.display = "none";
     document.querySelector(".main2").style.display = "block";
@@ -168,32 +169,34 @@ function clear(){
 
 function searchUsers(){
   let username = document.getElementById("username").value
-  console.log(username)
-  let url = "http://localhost:8080/search/user?q=" + username
-  ajaxGet(url, (response) => {
-    let json = JSON.parse(response)
-    for(let i=0; i<json.data.length; i++) {
-      if (username == json.data[i]) {
-        var names = document.createElement("span")
-        names.innerHTML = json.data[i]
-        document.querySelector("#results2").appendChild(names)
-        var box = document.createElement("input")
-        box.id = "usernameBox"
-        box.type = "checkbox"
-        box.setAttribute("onclick", "handleClick(this)")
-        document.querySelector("#results2").appendChild(box)
+  // if(username === localStorage.getItem("username")){
+  //   // alert("Sorry you cannot add yourself")
+  // } else {
+    let url = "http://localhost:8080/search/user?q=" + username
+    ajaxGet(url, (response) => {
+      let json = JSON.parse(response)
+      for(let i=0; i<json.data.length; i++) {
+        if (username == json.data[i]) {
+          var names = document.createElement("span")
+          names.innerHTML = json.data[i]
+          document.querySelector("#results2").appendChild(names)
+          var box = document.createElement("input")
+          box.id = "usersBox"
+          box.type = "checkbox"
+          box.setAttribute("onclick", "handleClick(this)")
+          document.querySelector("#results2").appendChild(box)
+        }
       }
-    }
-  })
+    })
+  // }
+
 }
 
 function handleClick(cb) {
   if(cb.checked == true){
     userList.push(cb.previousSibling.innerHTML)
-    alert(userList[0])
   } else {
     userList.splice(userList.indexOf(cb.previousSibling.innerHTML), 1)
-    alert(userList.length)
   }
 }
 
@@ -204,20 +207,25 @@ function setName(name){
 
 function submit(){
   if(userList.length < 1){
-    alert("Choose at least 1 user")
-  } else {
+    alert("Please add at least one user")
+  } else if(document.getElementById("proposalName").value === "") {
+    alert("Please add a proposal name")
+  }
+  else {
     myName = document.getElementById("proposalName").value
     console.log(myName)
     ajaxPost(ENDPOINT_URL + "/proposal/send", {
       "proposalTitle":myName,
-      senderUsername: localStorage.getItem("uuid"),
+      senderUsername: localStorage.getItem("username"),
       receiverUsernames: userList,
       events: eventList
     }, (response) => {
       console.log(JSON.parse(response).status)
     })
+    alert("Proposal sent!")
+    window.location.href = "./dashboard.html"
   }
-  window.location.href = "./dashboard.html"
+
 
 
 }

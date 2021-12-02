@@ -1,14 +1,21 @@
-##Feature: Hello
-##  Scenario: Open hello page from index page
-##    Given I am on the index page
-##    When I click the link 'Click me'
-##    Then I should see header 'Hello world!'
-##
-##  Scenario: Open other page from index page
-##    Given I am on the index page
-##    When I click the link 'Or click me'
-##    Then I should see text 'Hello servlet'
 Feature: Authentication
+
+  Scenario: Go to dashboard without login
+    Given I am on the signup page for the first time
+    And I visit dashboard.html
+    Then I should be taken to the login page
+
+  Scenario: Attempt to login and fail 3 times
+    Given I am on the login page
+    And I fill out the wrong password
+    And I click on the log in button
+    And I fill out the wrong password
+    And I click on the log in button
+    And I fill out the wrong password
+    And I click on the log in button
+    And I fill out the wrong password
+    And I click on the log in button
+    Then I should see an error at the bottom of the screen
 
   Scenario: Signup New Account
     Given I am on the signup page for the first time
@@ -61,3 +68,5 @@ Feature: Authentication
     Given I am on the signup page
     And I click the cancel button
     Then I should be taken to the login page
+
+

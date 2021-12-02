@@ -54,11 +54,12 @@
                 </a>
             </h1>
         </div>
-        <div>
-            <a onclick="#">Calendar</a>
-        </div>
-        <div>
-            <a onclick="logout()">Log Out</a>
+        <a id="profile" onclick="account()">Profile</a>
+        <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
+        <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
+        <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
+        <a id="calendar" onclick="calendar()">Calendar</a>
+        <a onclick="logout()">Log Out</a>
         </div>
     </div>
 </header>
@@ -113,9 +114,11 @@
         </ul>
     </div>
     <button id="send-button">Send</button>
+    <button id="save-button">Save Draft</button>
+    <button onclick="back()">Back</button>
 </div>
 <footer>
-    <p>&copy; Groupie 2021</p>
+    <p>&copy; Group 47</p>
 </footer>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="js/postload/pages/proposalResponse.js"></script>

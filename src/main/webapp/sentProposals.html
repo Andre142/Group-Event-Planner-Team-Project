@@ -57,6 +57,10 @@
             </div>
             <div>
                 <a id="profile" onclick="account()">Profile</a>
+                <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
+                <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
+                <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
+                <a id="calendar" onclick="calendar()">Calendar</a>
                 <a onclick="logout()">Log Out</a>
             </div>
         </div>
@@ -64,19 +68,11 @@
 
     <div class = "main">
         <h3>Sent Proposals</h3>
-        <div>
-            <input placeholder="Enter username" class = "username" id = "username"></input>
-            <button class = "display-button" id = "display-button">Display Proposals</button>
-        </div>
-        <div class="error-msg hidden" style="margin: 8px">
-            <p></p>
-        </div>
         <div class = "results" id = "results">
-
         </div>
     </div>
     <footer>
-        <p>&copy; Groupie 2021</p>
+        <p>&copy; Group 47</p>
     </footer>
     <script src="js/postload/pages/sentProposals.js"></script>
 </body>

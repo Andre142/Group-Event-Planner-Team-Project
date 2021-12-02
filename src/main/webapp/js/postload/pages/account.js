@@ -2,6 +2,27 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
+const account = () => {
+  window.location.href = "./account.html"
+}
+const pendingInvites = () => {
+  window.location.href = "./pendinginvites.html"
+}
+const proposalResponse = () => {
+  window.location.href = "./proposalResponse.html"
+}
+const sentProposals = () => {
+window.location.href = "./sentProposals.html"
+}
+const calendar = () => {
+window.location.href = "./calendar.html"
+}
+function back(){
+    window.location.href = "./dashboard.html"
+}
+
+let su = $(".search-users")
+ search("",su);
 
 document.querySelector("#search-button").onclick = (e) => {
  e.preventDefault()
@@ -18,7 +39,6 @@ const search = (username, resultsContainer) => {
 
 };
 
-// adding some indenting
 const genResults = (json = {}, container) => {
  container.empty();
  if (JSON.stringify(json) !== "{}") {

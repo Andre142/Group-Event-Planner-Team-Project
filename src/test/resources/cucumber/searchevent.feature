@@ -1,4 +1,9 @@
 Feature: SearchEvent
+  Scenario: Logout due to inactive
+    Given I am logged in
+    And I enter keywords
+    Then After timeout I should see the alert Signed out
+
   Scenario: Invalid Search
     Given I am logged in
     And I click search

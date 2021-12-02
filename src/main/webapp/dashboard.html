@@ -60,13 +60,18 @@
           <a id="profile" onclick="account()">Profile</a>
           <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
           <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
-        </div>
-        <div>
+          <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
+          <a id="calendar" onclick="calendar()">Calendar</a>
           <a onclick="logout()">Log Out</a>
         </div>
       </div>
     </header>
     <div class="main">
+      <h5 id="welcome">Welcome, </h5>
+      <script>
+        var currentUser = localStorage.getItem("username")
+        document.getElementById("welcome").innerHTML += currentUser.toUpperCase().bold()
+      </script>
       <h3>Search Events</h3>
       <div class="titles">
         <p class="subtitle">Keywords<span class="required">*</span></p>
@@ -95,7 +100,7 @@
         <p></p>
       </div>
       <div class="results" id="results"></div>
-      <button onclick="next()">Next</button>
+      <button id="next-button" onclick="next()">Next</button>
     </div>
     <div class = "main2" id="main2">
       <h3>Search Users</h3>
@@ -111,11 +116,11 @@
       <div class="grouping">
         <input id="proposalName" maxlength="64" type="text" placeholder="Type here..." class="search-bar">
       </div>
-      <button onclick="submit()">Submit</button>
+      <button id="submit-button" onclick="submit()">Submit</button>
     </div>
     <div class="results2" id="results2"></div>
     <footer>
-        <p>&copy; Groupie 2021</p>
+        <p>&copy; Group 47</p>
     </footer>
     <script src="js/postload/pages/dashboard.js"></script>
   </body>
