@@ -40,41 +40,39 @@
     <!--SCRIPTS-->
     <script src="js/base.js"></script>
     <script src="js/auth/mustBeLoggedIn.js"></script>
-    <script src="js/preload/pages/sentProposals.js"></script>
+    <script src="js/preload/pages/eventResponse.js"></script>
     <title>Groupie - Sent Proposals</title>
 </head>
 <body>
-    <!--CONTENT-->
-    <header>
-        <div id="nav">
-            <div>
-                <h1>
-                    <a href="">
-                        <img src="assets/logo/logo-192.png" width="32" height="32">
-                        groupie
-                    </a>
-                </h1>
-            </div>
-            <div>
-                <a id="profile" onclick="account()">Profile</a>
-                <a id="dashboard" onclick="dashboard()">Dashboard</a>
-                <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
-                <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
-                <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
-                <a id="calendar" onclick="calendar()">Calendar</a>
-                <a onclick="logout()">Log Out</a>
-            </div>
+<!--CONTENT-->
+<header>
+    <div id="nav">
+        <div>
+            <h1>
+                <a href="">
+                    <img src="assets/logo/logo-192.png" width="32" height="32">
+                    groupie
+                </a>
+            </h1>
         </div>
-    </header>
-
-    <div class = "main">
-        <h3>Sent Proposals</h3>
-        <div class = "results" id = "results">
+        <div>
+            <a id="profile" onclick="account()">Profile</a>
+            <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
+            <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
+            <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
+            <a id="calendar" onclick="calendar()">Calendar</a>
+            <a onclick="logout()">Log Out</a>
         </div>
     </div>
-    <footer>
-        <p>&copy; Group 47</p>
-    </footer>
-    <script src="js/postload/pages/sentProposals.js"></script>
+</header>
+
+<div class = "main">
+    <div class = "results" id = "results">
+    </div>
+</div>
+<footer>
+    <p>&copy; Group 47</p>
+</footer>
+<script src="js/postload/pages/eventResponse.js"></script>
 </body>
 </html>

@@ -9,12 +9,6 @@ Feature: SearchEvent
     And I click search
     Then I should see an error at the bottom of the screen
 
-  Scenario: Search Keyword
-    Given I am logged in
-    And I enter keywords
-    And I click search
-    Then I should see results matching my query
-
   Scenario: Search Dates
     Given I am logged in
     And I enter keywords

@@ -19,12 +19,13 @@ window.location.href = "./calendar.html"
 }
 var finalizedProposals = [];
 class FinalizedProposal {
-    constructor(name, date, time, url, genre) {
+    constructor(name, date, time, url, genre, proposalID) {
         this.name = name;
         this.date = date;
         this.time = time;
         this.url = url;
         this.genre = genre;
+        this.proposalID = proposalID
     }
 }
 
@@ -33,12 +34,26 @@ function back(){
     window.location.href = "./dashboard.html"
 }
 
-function check(){
+function check(id){
     alert("Accepted Invite")
+    var currentUser = localStorage.getItem("username")
+    let url = "http://localhost:8080/response/finalized/send?final_response=1&username=" + currentUser
+    url += "&proposal_id=" + id
+    ajaxPost(url, {final_response: 1, username: currentUser, proposal_id: id}, (response) => {
+        let json = JSON.parse(response)
+        console.log(json)
+    })
 }
 
-function cross(){
+function cross(id){
     alert("Declined Invite")
+    var currentUser = localStorage.getItem("username")
+    let url = "http://localhost:8080/response/finalized/send?final_response=0&username=" + currentUser
+    url += "&proposal_id=" + id
+    ajaxPost(url, {final_response: 0, username: currentUser, proposal_id: id}, (response) => {
+        let json = JSON.parse(response)
+        console.log(json)
+    })
 }
 
 function populate(){
@@ -57,10 +72,9 @@ function populate(){
                         var time = json.data[i].events[j].time
                         var url = json.data[i].events[j].url
                         var genre = json.data[i].events[j].genre
-                        const newFinalizedProposal = new FinalizedProposal(name, date, time, url, genre)
+                        var proposalID = json.data[i].proposalID
+                        const newFinalizedProposal = new FinalizedProposal(name, date, time, url, genre, proposalID)
                         finalizedProposals.push(newFinalizedProposal)
-                        console.log("i: " + i)
-                        console.log("json: " + json.data.length)
                     }
                 }
 
@@ -69,33 +83,39 @@ function populate(){
                 finalize()
             }
         }
-
     })
-
-
 }
 
 function finalize(){
-    let name = finalizedProposals[0].name
-    let date = finalizedProposals[0].date
-    let time = finalizedProposals[0].time
-    let url = finalizedProposals[0].url
-    let genre = finalizedProposals[0].genre
-
     let str = "";
     for(let i=0; i<finalizedProposals.length; i++){
-        str +=
-            '        <div class="card">\n' +
-            '            <img src="assets/images/invited.png" alt="" class="card_image">\n' +
-            '            <div class="card_content">\n' +
-                         `<a href="${url}">${name}</a>` + '<br>' +  `Date: ${date}` +  '<br>' + `Time: ${time}` + '<br>' + `Genre: ${genre}` +
-            '            </div>\n' +
-            '            <div class="card_info">\n' +
-            '                <span class="material-icons" name="check" onclick="check()">done</span>\n' +
-            '                <span class="material-icons" name="cross" onclick="cross()">close</span>\n' +
-            '            </div>\n' +
-            '        </div>\n';
 
+        var currentUser = localStorage.getItem("username")
+        var response;
+        var flag;
+
+        ajaxGet("http://localhost:8080/response/finalized/get?username=" + currentUser + "&proposal_id=" + finalizedProposals[i].proposalID, (response) => {
+            let json = JSON.parse(response)
+            response = json.data
+            if(response === null){
+                flag = "Not responded"
+            } else if(response === true){
+                flag = "Accepted"
+            } else {
+                flag = "Declined"
+            }
+            str +=
+                '        <div class="card">\n' +
+                '            <img src="assets/images/invited.png" alt="" class="card_image">\n' +
+                '            <div class="card_content">\n' + `<p>${flag}</p>` +
+                `<a href="${finalizedProposals[i].url}">${finalizedProposals[i].proposalID}</a>` + '<br>' +  `Date: ${finalizedProposals[i].date}` +  '<br>' + `Time: ${finalizedProposals[i].time}` + '<br>' + `Genre: ${finalizedProposals[i].genre}` +
+                '            </div>\n' +
+                '            <div class="card_info">\n' +
+                '                <span class="material-icons" name="check" onclick="check(\''+finalizedProposals[i].proposalID+'\')">done</span>\n' +
+                '                <span class="material-icons" name="cross" onclick="cross(\''+finalizedProposals[i].proposalID+'\')">close</span>\n' +
+                '            </div>\n' +
+                '        </div>\n';
+            document.getElementById("cards").innerHTML = str
+        })
     }
-    document.getElementById("cards").innerHTML = str
 }

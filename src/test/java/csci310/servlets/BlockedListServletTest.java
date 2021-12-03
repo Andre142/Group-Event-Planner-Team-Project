@@ -20,7 +20,7 @@ public class BlockedListServletTest extends TestCase {
 
     @Test
     public void testDoGet() throws IOException, SQLException {
-        BlockedListDatabase.CreateDatabase();
+        BlockedListDatabase.DeleteDatabase();
 
         //default not blocked
         HttpServletRequest request = mock(HttpServletRequest.class);

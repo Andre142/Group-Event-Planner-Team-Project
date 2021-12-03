@@ -2,6 +2,9 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
+const dashboard = () => {
+    window.location.href = "./dashboard.html"
+}
 const account = () => {
   window.location.href = "./account.html"
 }
@@ -20,9 +23,40 @@ window.location.href = "./calendar.html"
 function back(){
     window.location.href = "./dashboard.html"
 }
-
-let su = $(".search-users")
- search("",su);
+const displayAvailability = () => {
+    const container = document.getElementById("unav")
+    var user = localStorage.getItem("username");
+    ajaxGet(ENDPOINT_URL + "/Availability?type=getUnavailabilities&username=" + user, (response) => {
+      let json = JSON.parse(response)
+        let divE = document.createElement('div')
+        let st = document.createTextNode("Start: " + json.data[(json.data.length)-1].start)
+        let e = document.createTextNode("End: " + json.data[(json.data.length)-1].end)
+        divE.appendChild(st)
+        divE.appendChild(document.createElement('br'))
+        divE.appendChild(e)
+        container.appendChild(divE)
+      }
+    )
+}
+const setAvailability = (startDate, endDate) => {
+var user = localStorage.getItem("username");
+console.log(startDate.value.length)
+if (startDate.value.length && endDate.value.length) {
+  ajaxGet(ENDPOINT_URL + "/Availability?type=addUnavailability&username=" + user + "&start=" + startDate.value + "T00:00:00&end=" + endDate.value +"T00:00:00", (response) => {
+  let json = JSON.parse(response)
+  alert("Unavailability has been set!")
+     })
+    }
+  else{
+  alert("Error: Please select start and end date.")
+  }
+}
+document.querySelector("#submit-avail").onclick = (e) => {
+    e.preventDefault()
+    const startDate = document.getElementById("start-date")
+    const endDate = document.getElementById("end-date")
+    setAvailability(startDate, endDate);
+}
 
 document.querySelector("#search-button").onclick = (e) => {
  e.preventDefault()
@@ -66,6 +100,11 @@ const genResults = (json = {}, container) => {
  }
  blockUser();
 }
+
+window.onload = function loadList() {
+let su = $(".search-users");
+ search("",su);
+ }
 
 function blockUser() {
 let blockList = document.querySelectorAll(".blocked");

@@ -2,6 +2,9 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
+const dashboard = () => {
+    window.location.href = "./dashboard.html"
+}
 const account = () => {
   window.location.href = "./account.html"
 }
@@ -27,14 +30,21 @@ const finalizeProp = (eventId, proposalId) =>{
     {EVENT_ID: eventId, PROPOSAL_ID: proposalId}, (response) => {alert(JSON.parse(response).status)})
 }
 const getProposals = (resultsContainer) => {
-    var senderUsername = localStorage.getItem("username");
+    let senderUsername = localStorage.getItem("username");
       ajaxGet(ENDPOINT_URL + "/proposal/get?type=sent&username=" + senderUsername, (response) => {
-               let json = JSON.parse(response)
-               genResults(json, resultsContainer)
-             })
+          let json = JSON.parse(response)
+          showResults(json, resultsContainer)
+      })
 }
 
-const genResults = (json = {}, container) => {
+const getRecommendedEventID = (proposalID) => {
+    ajaxGet(ENDPOINT_URL + "/EventRecommender?proposalID=" + proposalID, (response) => {
+        let json = JSON.parse(response)
+        console.log(json)
+    })
+}
+
+const showResults = (json = {}, container) => {
   container.innerHTML = ""
   if (JSON.stringify(json) !== "{}") {
     if (!json.status) {
@@ -47,41 +57,52 @@ const genResults = (json = {}, container) => {
       let msg = document.createElement("p")
       msg.innerHTML = (json.data.length.toString() + " result(s)").trim()
       container.appendChild(msg)
-      for (const event of json.data) {
-        let result = document.createElement("div")
-        result.className = "result"
-        let p = document.createElement("p")
-        p.className = "subtitle"
-        for (let i = 0; i < event.events.length; i++){
-        let divE = document.createElement('div')
-        let divText = document.createTextNode("Proposal Title: " + event.proposalTitle)
-        let receive = document.createTextNode("Receiver: " + event.receiverUsernames)
-        let ev = document.createTextNode("Event: " + event.events[i].name)
-        let ti = document.createTextNode("Time: " + event.events[i].time)
-        let da = document.createTextNode("Date: " + event.events[i].date)
-        var a = document.createElement('a')
-        a.href = event.events[i].url
-        a.title = event.events[i].url
-        a.appendChild(document.createTextNode("Click here for TicketMaster link"))
-                divE.appendChild(divText)
-                divE.appendChild(document.createElement('br'))
-                divE.appendChild(receive)
-                divE.appendChild(document.createElement('br'))
-                divE.appendChild(ev)
-                divE.appendChild(document.createElement('br'))
-                divE.appendChild(ti)
-                divE.appendChild(document.createElement('br'))
-                divE.appendChild(da)
-                divE.appendChild(document.createElement('br'))
-                divE.appendChild(a)
-                result.appendChild(divE)
-                let b = document.createElement("button")
-                b.textContent = "Finalize Proposal"
-                b.onclick = function(){finalizeProp(event.events[i].eventID, event.proposalID)};
-//                b.onclick = function(){closeMe(divE, b)};
-                result.appendChild(b)
+      for (const proposal of json.data) {
+          let proposalDiv = document.createElement("div")
+          proposalDiv.style.cssText = "margin-bottom:100px";
+          proposalDiv.className = "result"
+          let p = document.createElement("p")
+          p.className = "subtitle"
+          for (let i = 0; i < proposal.events.length; i++){
+              let divE = document.createElement('div')
+              let divText = document.createTextNode("Proposal Title: " + proposal.proposalTitle)
+              let receive = document.createTextNode("Receiver: " + proposal.receiverUsernames)
+              let ev = document.createElement("a")
+              ev.href = proposal.events[i].url
+              ev.title = proposal.events[i].url
+              ev.appendChild(document.createTextNode("Event: " + proposal.events[i].name))
+              let ti = document.createTextNode("Time: " + proposal.events[i].time)
+              let da = document.createTextNode("Date: " + proposal.events[i].date)
+              let a = document.createElement('a')
+              a.onclick = function() {
+                  localStorage.setItem("eventNameForResponse",proposal.events[i].name);
+                  localStorage.setItem("eventIDForResponse",proposal.events[i].eventID);
+                  localStorage.setItem("usernamesForResponse",JSON.stringify(proposal.receiverUsernames));
+              }
+              a.href = ENDPOINT_URL+"/eventResponse.html";
+              a.appendChild(document.createTextNode("View responses"))
+            divE.appendChild(divText)
+            divE.appendChild(document.createElement('br'))
+            divE.appendChild(receive)
+            divE.appendChild(document.createElement('br'))
+            divE.appendChild(ev)
+            divE.appendChild(document.createElement('br'))
+            divE.appendChild(ti)
+            divE.appendChild(document.createElement('br'))
+            divE.appendChild(da)
+            divE.appendChild(document.createElement('br'))
+            divE.appendChild(a)
+            proposalDiv.appendChild(divE)
+            let b = document.createElement("button")
+            b.id = "prop-button";
+            b.textContent = i==0 ? "Recommended: Select as Final Event" : "Select as Final Event";
+            b.onclick = function(){
+                finalizeProp(proposal.events[i].eventID, proposal.proposalID);
+                alert("Event "+proposal.events[i].name+" is selected as the final event for proposal "+proposal.proposalTitle+".");
+            };
+            proposalDiv.appendChild(b)
         }
-        container.appendChild(result)
+        container.appendChild(proposalDiv)
 
       }
     }

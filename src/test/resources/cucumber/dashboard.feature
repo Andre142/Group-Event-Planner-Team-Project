@@ -27,3 +27,10 @@ Feature: Dashboard
     And I write a proposal name
     And I click submit
     Then I should see a success alert
+
+#  Scenario: Sending a proposal to someone who has blocked me
+#    Given I am logged in
+#    And I select an event
+#    And I click next
+#    And I select an user that has blocked me
+#    Then I should see a error alert

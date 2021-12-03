@@ -140,6 +140,10 @@ footer {
   position: relative;
 }
 
+element.style {
+    display: flex;
+}
+
 @media only screen and (max-width : 894px) {
   input[type=text] {
     width: 320px;
