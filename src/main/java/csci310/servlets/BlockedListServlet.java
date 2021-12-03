@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/BlockedList")
 public class BlockedListServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
 
@@ -28,6 +27,17 @@ public class BlockedListServlet extends HttpServlet {
         PrintWriter printWriter = response.getWriter();
 
         Response res = new Response(true, "request fulfilled");
+
+        try
+        {
+            ArrayList<String> tempBlockedList = BlockedListDatabase.GetBlockedList("test");
+        } catch (SQLException e) {
+            try {
+                BlockedListDatabase.CreateDatabase();
+                throw new SQLException();
+            } catch (SQLException ex) {
+            }
+        }
 
         try
         {

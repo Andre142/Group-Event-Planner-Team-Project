@@ -10,10 +10,10 @@ import org.junit.runner.RunWith;
  * Run all the cucumber tests in the current package.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(strict = true)
-//@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/x.feature", "src/test/resources/cucumber/y.feature"}) will run only feature files x.feature and y.feature.
+//@CucumberOptions(strict = true)
+@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/sentProposals.feature"})
+//will run only feature files x.feature and y.feature.
 public class RunCucumberTests {
-
 	@BeforeClass
 	public static void setup() {
 		WebDriverManager.chromedriver().setup();

@@ -40,6 +40,7 @@
     <script src="js/base.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
     <title>Groupie - Account</title>
 </head>
 <body>
@@ -55,28 +56,37 @@
             </h1>
         </div>
         <div>
-            <a onclick="#">Calendar</a>
-        </div>
-        <div>
+            <a id="profile" onclick="account()">Profile</a>
+            <a id="dashboard" onclick="dashboard()">Dashboard</a>
+            <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
+            <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
+            <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
+            <a id="calendar" onclick="calendar()">Calendar</a>
             <a onclick="logout()">Log Out</a>
         </div>
     </div>
 </header>
 <div class="main">
 
-    <h3>Availability</h3>
+    <h3>Set Unavailability</h3>
     <form id="range">
         <label>
             Start Date <br/>
-            <input type="date" name="start-date" value="Today"/>
+            <input type="date" name="start-date" id = "start-date" value="Today"/>
         </label>
 
         <label>
             End Date <br/>
-            <input type="date" name="end-date" data-value="7" value="After one week"/>
+            <input type="date" name="end-date" id = "end-date" data-value="7" value="After one week"/>
         </label>
+        <button id = "submit-avail">Submit</button>
     </form>
+    <hr>
 
+    <h3>Display Unavailability</h3>
+    <div id = unav class="unav">
+        <button onclick="displayAvailability()">Display</button>
+    </div>
     <hr>
 
     <h3>Search For Users</h3>
@@ -133,8 +143,11 @@
         </ul>
     </div>
 </div>
+<div class="bottom">
+    <button onclick="back()">Back</button>
+</div>
 <footer>
-    <p>&copy; Groupie 2021</p>
+    <p>&copy; Group 47</p>
 </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="js/postload/pages/account.js"></script>

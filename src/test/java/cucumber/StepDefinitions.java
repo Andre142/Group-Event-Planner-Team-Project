@@ -1,8 +1,7 @@
 package cucumber;
 
-import csci310.models.Events;
-import csci310.models.RawResult;
-import csci310.models.User;
+import csci310.models.*;
+import csci310.servlets.SendProposalServlet;
 import csci310.utilities.*;
 import io.cucumber.java.After;
 import io.cucumber.java.en.And;
@@ -11,21 +10,30 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.Before;
 
+import io.cucumber.java.en_old.Ac;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import static org.junit.Assert.*;
-import java.io.IOException;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.*;
+import java.lang.reflect.Array;
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -39,6 +47,19 @@ public class StepDefinitions {
     private static String startDate = null;
     private static String endDate = null;
     private static String countrycode = null;
+    private static SendProposalServlet servlet = null;
+
+    @Before()
+    public void before() {
+        User u = new User("asdf", "asdf");
+        DatabaseManager.object().insertUser(u);
+        User user9 = new User("user9", "9");
+        DatabaseManager.object().insertUser(user9);
+        User user10 = new User("user10", "10");
+        DatabaseManager.object().insertUser(user10);
+        servlet = new SendProposalServlet();
+    }
+
 
 
     @Given("I am on the index page")
@@ -59,23 +80,6 @@ public class StepDefinitions {
     @Then("I should see text {string}")
     public void i_should_see_text(String text) {
         assertTrue(driver.getPageSource().contains(text));
-    }
-
-    @After()
-    public void after() {
-        driver.quit();
-        User u = new User("asdf", "asdf");
-        DatabaseManager.object().deleteUser(u);
-        keywords = null;
-        startDate = null;
-        endDate = null;
-        countrycode = null;
-    }
-
-    @Before()
-    public void before() {
-        User u = new User("asdf", "asdf");
-        DatabaseManager.object().insertUser(u);
     }
 
     @Given("I am on the signup page")
@@ -150,9 +154,8 @@ public class StepDefinitions {
     @And("I click on the log in button")
     public void iClickOnTheLogInButton() {
         driver.findElement(By.cssSelector(".on-enter-target")).click();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {}
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.or(ExpectedConditions.presenceOfElementLocated(By.id("profile")), ExpectedConditions.visibilityOfElementLocated(By.className("error-msg"))));
     }
 
     @When("I click on the create account button")
@@ -546,5 +549,234 @@ public class StepDefinitions {
                 "Block\n" +
                 "user3\n" +
                 "Block");
+    }
+}
+
+}
+    @Given("User10 has a proposal")
+    public void userHasAProposal()  {
+        Event event = new Event("testEvent1","2021-12-30","01:00:00","google.com","movie");
+        Proposal proposal = new Proposal("testProp1",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+    }
+
+    @And("I am logged in to user10")
+    public void iAmLoggedInToUser() {
+        driver.get(ROOT_URL + "login.html");
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("user10");
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("10");
+        iClickOnTheLogInButton();
+    }
+
+    @And("I am on the calendar page")
+    public void iAmOnTheCalendarPage() {
+        driver.get(ROOT_URL + "calendar.html");
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement switchButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("switchButton")));
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+    }
+
+    @And("I click the switch button")
+    public void iClickTheSwitchButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement switchButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("switchButton")));
+        switchButton.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("eventList")));
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+    }
+
+    @Then("I should see the proposal on both the calendar and the list")
+    public void iShouldSeeTheProposalOnBothTheCalendarAndTheList() {
+        assertTrue(driver.findElements(By.className("fc-event-title")).size() > 0);//There is an element in the calendar
+        iClickTheSwitchButton();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+        assertTrue(driver.findElements(By.className("listItem")).size() > 0);
+    }
+
+    @Given("User10 has two proposals")
+    public void userHasTwoProposals() throws IOException {
+        Event event = new Event("testEvent1","2021-12-30","01:00:00","google.com","movie");
+        Proposal proposal = new Proposal("testProp1",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        System.out.println(proposal.getProposalID() + " - " + proposal.getProposalTitle() + " - " + proposal.getSenderUsername());
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+
+        event = new Event("testEvent2","2021-12-31","01:00:00","google.com","movie");
+        proposal = new Proposal("testProp2",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+    }
+
+    String firstEventName;
+
+    @And("I change the sort option")
+    public void iChangeTheSortOption() {
+        firstEventName = driver.findElement(By.className("listItem")).findElement(By.tagName("a")).getText();
+        Select sort = new Select(driver.findElement(By.id("listSortSelector")));
+        sort.selectByVisibleText("Latest First");
+    }
+
+    @Then("The order of the list should change")
+    public void theOrderOfTheListShouldChange() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+        assertNotEquals(driver.findElement(By.className("listItem")).findElement(By.tagName("a")).getText(), firstEventName);
+    }
+
+    @Given("User10 has a not finalized proposal")
+    public void userHasANotFinalizedProposal() throws IOException {
+        Event event = new Event("eventNotFinalized","2021-12-30","01:00:00","google.com","movie");
+        Proposal proposal = new Proposal("testPropNotFinalized",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+    }
+
+    @And("I switch to show only finalized")
+    public void iSwitchToShowOnlyFinalized() {
+        Select sort = new Select(driver.findElement(By.id("finalizedSelector")));
+        sort.selectByVisibleText("Only Finalized");
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+    }
+
+    @Then("I shouldnt see the not finalized proposals events")
+    public void iShouldntSeeTheNotFinalizedProposalsEvents() {
+        List<WebElement> listItems = driver.findElements(By.className("listItem"));
+        for (int i =0; i < listItems.size(); i++)
+        {
+            assertNotEquals(listItems.get(i).findElement(By.tagName("a")).getText(), "eventNotFinalized");
+        }
+    }
+
+    @Given("User10 has a finalized proposal")
+    public void userHasAFinalizedProposal() throws IOException {
+        Event event = new Event("eventFinalized","2021-12-30","01:00:00","google.com","movie");
+        Proposal proposal = new Proposal("testPropFinalized",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+
+        DatabaseManager.object().updateFinalizedProposal(proposal.getEvents().get(0).getEventID(),proposal.getProposalID());
+    }
+
+    @And("I switch to show only not finalized")
+    public void iSwitchToShowOnlyNotFinalized() {
+        Select sort = new Select(driver.findElement(By.id("finalizedSelector")));
+        sort.selectByVisibleText("Only Not Finalized");
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+    }
+
+    @Then("I shouldnt see the finalized proposals events")
+    public void iShouldntSeeTheFinalizedProposalsEvents() {
+        List<WebElement> listItems = driver.findElements(By.className("listItem"));
+        for (int i =0; i < listItems.size(); i++)
+        {
+            assertNotEquals(listItems.get(i).findElement(By.tagName("a")).getText(), "eventFinalized");
+        }
+    }
+
+    @And("User10 has an event without a response")
+    public void userHasAnEventWithoutAResponse() throws IOException {
+        Event event = new Event("eventNoResponse","2021-12-30","01:00:00","google.com","movie");
+        Proposal proposal = new Proposal("testPropNoResponse",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+    }
+
+    @And("I switch to show only not responded")
+    public void iSwitchToShowOnlyNotResponded() {
+        Select sort = new Select(driver.findElement(By.id("respondedSelector")));
+        sort.selectByVisibleText("Only Not Responded");
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+    }
+
+    @Then("I shouldnt see the responded event")
+    public void iShouldntSeeTheRespondedEvent() {
+        List<WebElement> listItems = driver.findElements(By.className("listItem"));
+        for (int i =0; i < listItems.size(); i++)
+        {
+            assertNotEquals(listItems.get(i).findElement(By.tagName("a")).getText(), "eventResponded");
+        }
+    }
+
+    @And("User10 has an event with a response")
+    public void userHasAnEventWithAResponse() throws IOException {
+        Event event = new Event("eventResponded","2021-12-30","01:00:00","google.com","movie");
+        Proposal proposal = new Proposal("testPropResponded",
+                "user9",
+                new ArrayList<>(Arrays.asList("user10")),
+                new ArrayList<>(Arrays.asList(event)));
+        DatabaseManager.object().insertSentProposal(proposal.getProposalID(), proposal.getProposalTitle(), proposal.getSenderUsername());
+        DatabaseManager.object().insertReceivedProposal("user10", proposal.getProposalID());
+        DatabaseManager.object().insertEvent(event, proposal.getProposalID());
+
+        EventResponse response = new EventResponse(event.getEventID(), 2, 2, "user10");
+        DatabaseManager.object().insertRespondedEvent(response);
+    }
+
+    @And("I switch to show only responded")
+    public void iSwitchToShowOnlyResponded() {
+        Select sort = new Select(driver.findElement(By.id("respondedSelector")));
+        sort.selectByVisibleText("Only Responded");
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+    }
+
+    @Then("I shouldnt see the not responded event")
+    public void iShouldntSeeTheNotRespondedEvent() {
+        List<WebElement> listItems = driver.findElements(By.className("listItem"));
+        for (int i =0; i < listItems.size(); i++)
+        {
+            assertNotEquals(listItems.get(i).findElement(By.tagName("a")).getText(), "eventNoResponse");
+        }
+    }
+
+    @After()
+    public void after() {
+        driver.quit();
+        User u = new User("asdf", "asdf");
+        DatabaseManager.object().deleteUser(u);
+        DatabaseManager.object().close();
+        keywords = null;
+        startDate = null;
+        endDate = null;
+        countrycode = null;
     }
 }
