@@ -2,7 +2,21 @@ const logout = () => {
   localStorage.removeItem("uuid")
   window.location.href = "./index.html"
 }
-
+const account = () => {
+  window.location.href = "./account.html"
+}
+const pendingInvites = () => {
+  window.location.href = "./pendinginvites.html"
+}
+const proposalResponse = () => {
+  window.location.href = "./proposalResponse.html"
+}
+const sentProposals = () => {
+window.location.href = "./sentProposals.html"
+}
+const calendar = () => {
+window.location.href = "./calendar.html"
+}
 function back(){
     window.location.href = "./dashboard.html"
 }
@@ -21,48 +35,56 @@ function back(){
          }
          else {
            for (let i=0;i<json.data.length;i++) {
+           for (let j=0;j<json.data[i].events.length;j++){
              let str = `<li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-2">
-                                                <strong>${json.data[i].proposalTitle}</strong>
+                                            <div class="col-12">
+                                                <strong><a href="${json.data[i].events[j].url}">${json.data[i].proposalTitle}</a></strong>
                                                 <br>
-                                                Event Name: ${json.data[i].events[0].name}
+                                                Event Name: ${json.data[i].events[j].name}
                                                 <br>
-                                                Date: ${json.data[i].events[0].date}
+                                                Date: ${json.data[i].events[j].date}
                                                 <br>
-                                                Time: ${json.data[i].events[0].time}
+                                                Time: ${json.data[i].events[j].time}
                                                 <br>
-                                                URL: ${json.data[i].events[0].url}
+                                                Genre: ${json.data[i].events[j].genre}
                                                 <br>
-                                                Genre: ${json.data[i].events[0].genre}
+Excitement:
+                                                  <select id="${i}${j}">
+                                                  <option selected disabled hidden style='display: none' value=''></option>
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                                  <option value="4">4</option>
+                                                  <option value="5">5</option>
+                                                  </select>                                                
                                         </div>
-                                            <div class="col-3">
-                                                <input type="radio" class="btn-check" name="yes-no${i}" id="yes${i}" autocomplete="off">
+                                            <div class="col-md-3">
+                                                <input type="radio" class="btn-check" name="yes-no${i}${j}" id="yes${i}${j}" autocomplete="off">
                                             </div>
-                                            <div class="col-2">
-                                                <label class="btn btn-outline-success" name="yes-no${i}" for="yes${i}">Yes</label>
+                                            <div class="col-md-1">
+                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="yes${i}${j}">Yes</label>
                                             </div>
-                                            <div class="col-3">
-                                            <input type="radio" class="btn-check" name="yes-no${i}" id="no${i}" autocomplete="off">
+                                            <div class="col-md-3">
+                                                <input type="radio" class="btn-check" name="yes-no${i}${j}" id="maybe${i}${j}" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="maybe${i}${j}">Maybe</label>
+                                                  
+    </div>
+                                            <div class="col-md-3">
+                                            <input type="radio" class="btn-check" name="yes-no${i}${j}" id="no${i}${j}" autocomplete="off">
                                         </div>
-                                            <div class="col-2">
-                                                <label class="btn btn-outline-success" name="yes-no${i}" for="no${i}">No</label>
-                                                <br><br><br>
-                                                Excitement:
-                                                <select id="${i}">
-                                                <option selected disabled hidden style='display: none' value=''></option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                </select>
+                                            <div class="col-md-1">
+                                                <label class="btn btn-outline-success" name="yes-no${i}${j}" for="no${i}${j}">No</label>
+
                                             </div>
       
                                         </div>
                                     </li>`;
            container.append(str);
            }
+         }
          }
        }
        }
@@ -80,38 +102,59 @@ const search = (username, resultsContainer) => {
 var xhReq = new XMLHttpRequest();
 xhReq.open("GET", ENDPOINT_URL + "/proposal/get?type=received&username=" + username, false);
 xhReq.send(null);
-var json = JSON.parse(xhReq.responseText);  
+var json = JSON.parse(xhReq.responseText);
+for (let i=0;i<json.data.length;i++) {
+for (let j=0;j<json.data[i].events.length;j++){
+ if (!($('input[name=yes-no'+i+j+']:checked').length > 0 && $("#"+i+j+" option:selected").length > 0)) {
+ alert("Please fill out all entries.");
+ return;
+ }
+ }
+ }
  for (let i=0;i<json.data.length;i++) {
+for (let j=0;j<json.data[i].events.length;j++){
+ if ($('input[name=yes-no'+i+j+']:checked').length > 0 && $("#"+i+j+" option:selected").length > 0) {
 
- if ($('input[name=yes-no'+i+']:checked').length > 0 && $("#"+i+" option:selected").length > 0) {
-
- let ele = document.getElementsByName('yes-no'+i);
+ let ele = document.getElementsByName('yes-no'+i+j);
  let availabilityVal;
-             for(let j = 0; j < ele.length; j+=2) {
-                 if(ele[j].checked && j == 0) {
+             for(let k = 0; k < ele.length; k+=2) {
+                 if(ele[k].checked && k == 0) {
                     availabilityVal = 1;
+                 }
+                 else if (ele[k].checked && k==2) {
+                    availabilityVal = 2;
+                    break;
                  }
                  else
                  {
                     availabilityVal = 0;
                  }
              }
-   let excitementVal = document.getElementById(""+i).value;
+   let excitementVal = document.getElementById(""+i+j).value;
+   if (availabilityVal === 2)
+   {
+    continue;
+   }
+   else {
 $.ajax({
     type: "POST",
     url: "http://localhost:8080/response/send",
-    data: JSON.stringify({ "eventID": ""+json.data[0].events[0].eventID,
+    data: JSON.stringify({ "eventID": ""+json.data[i].events[j].eventID,
                                   "availability": availabilityVal,
                                   "excitement": excitementVal,
                                   "receiverUsername": ""+username
                                   }),
     contentType: "application/json; charset=utf-8",
     dataType: "json",
-    success: function(data){},
+    success: function(data){
+        alert("Successful!")
+    },
     error: function(errMsg) {
         alert(errMsg);
     }
 });
+}
+}
      }
      }
      });

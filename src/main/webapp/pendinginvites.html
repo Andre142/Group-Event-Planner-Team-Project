@@ -48,9 +48,32 @@
 </head>
 
 <body onload="populate()">
+<header>
+    <div id="nav">
+        <div>
+            <h1>
+                <a href="">
+                    <img src="assets/logo/logo-192.png" width="32" height="32">
+                    groupie
+                </a>
+            </h1>
+        </div>
+        <div>
+            <a id="profile" onclick="account()">Profile</a>
+            <a id="pendinginvites" onclick="pendingInvites()">Pending Invites</a>
+            <a id="proposalresponse" onclick="proposalResponse()">Proposal Response</a>
+            <a id="sentproposals" onclick="sentProposals()">Sent Proposals</a>
+            <a id="calendar" onclick="calendar()">Calendar</a>
+            <a onclick="logout()">Log Out</a>
+        </div>
+    </div>
+</header>
 <div class="cards" id="cards" ></div>
     <div class="bottom">
         <button onclick="back()">Back</button>
     </div>
+<footer>
+    <p>&copy; Group 47</p>
+</footer>
 </body>
 </html>
