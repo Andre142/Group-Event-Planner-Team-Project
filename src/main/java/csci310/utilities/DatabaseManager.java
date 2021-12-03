@@ -440,4 +440,18 @@ public class DatabaseManager {
         }
         catch (SQLException e) {}
     }
+
+    public Boolean close() {
+        try
+        {
+            con.close();
+            databaseManager = null;
+
+            throw new SQLException();
+        }
+        catch (Exception e)
+        {
+            return true;
+        }
+    }
 }
