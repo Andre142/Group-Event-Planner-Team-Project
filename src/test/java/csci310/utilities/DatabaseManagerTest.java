@@ -285,6 +285,8 @@ public class DatabaseManagerTest {
         DatabaseManager.object().updateFinalResponse(1,"id233",receiverUsername);
         assertEquals(true,DatabaseManager.object().getFinalResponse("id233",receiverUsername));
         assertNull(DatabaseManager.object().getFinalResponse("randomIDsome123",receiverUsername));
+        DatabaseManager.object().updateFinalResponse(0,"id233",receiverUsername);
+        assertEquals(false,DatabaseManager.object().getFinalResponse("id233",receiverUsername));
     }
 
     @Test
