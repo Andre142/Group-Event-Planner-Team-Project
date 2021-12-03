@@ -434,4 +434,8 @@ public class DatabaseManager {
         }
         catch (SQLException e) {}
     }
+
+    public Boolean close() {
+        return true;
+    }
 }
