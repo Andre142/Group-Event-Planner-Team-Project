@@ -10,3 +10,8 @@ Feature: Account
     And I input an end date
     When I click on the submit button
     Then I should see the alert Unavailability has been set!
+
+  Scenario: Block User
+    Given I am on the profile page
+    And I click block
+    Then the user should show up in the blocked list
