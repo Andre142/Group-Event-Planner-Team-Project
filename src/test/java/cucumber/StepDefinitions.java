@@ -40,6 +40,7 @@ public class StepDefinitions {
     private static String endDate = null;
     private static String countrycode = null;
 
+
     @Given("I am on the index page")
     public void i_am_on_the_index_page() {
         driver.get(ROOT_URL);
@@ -129,7 +130,9 @@ public class StepDefinitions {
     }
     @And("I fill out the wrong password")
     public void iFillOutTheWrongPassword() {
+        driver.findElement(By.cssSelector("#input-username")).clear();
         driver.findElement(By.cssSelector("#input-username")).sendKeys("asdf");
+        driver.findElement(By.cssSelector("#input-password")).clear();
         driver.findElement(By.cssSelector("#input-password")).sendKeys("o");
     }
 
@@ -194,6 +197,14 @@ public class StepDefinitions {
     public void iEnterKeywords() {
         keywords = "lit";
         driver.findElement(By.id("keywords")).sendKeys(keywords);
+    }
+
+    @Then("After timeout I should see the alert Signed out")
+    public void iShouldSeeTheAlertSignedOut() throws InterruptedException {
+        Thread.sleep(61000);
+        Alert alert = driver.switchTo().alert();
+        String alertMessage= driver.switchTo().alert().getText();
+        assertEquals(alertMessage, "You have been safely logged out due to being inactive for more than 60 seconds.");
     }
 
     @Then("I should see results matching my query")
@@ -286,6 +297,11 @@ public class StepDefinitions {
         iAmOnTheSignupPage();
     }
 
+    @And("I visit dashboard.html")
+    public void iVisitDashboardHtml() {
+        driver.get(ROOT_URL + "dashboard.html");
+    }
+
     @And("I specify my location as North Korea")
     public void iSpecifyMyLocationAsNorthKorea() {
         driver.findElement(By.id("country")).sendKeys("KP");
@@ -312,80 +328,223 @@ public class StepDefinitions {
     @Given("I am on the Pending Invites page")
     public void iAmOnThePendingInvitesPages() {
         iAmOnTheLoginPage();
-        iFillOutMyCredentials();
+        driver.findElement(By.cssSelector("#input-username")).sendKeys("test");
+        driver.findElement(By.cssSelector("#input-password")).sendKeys("a");
+        try {
+            driver.findElement(By.cssSelector("#input-password-confirm")).sendKeys("a");
+        } catch(NoSuchElementException e) {}
         iClickOnTheLogInButton();
         driver.get("http://localhost:8080/pendinginvites.html");
     }
 
     @When("I click the check mark")
     public void iClickTheCheckMark(){
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        String path = "/html/body/div[1]/div[1]/div[2]/span[1]";
-        WebElement check = driver.findElement(By.name("check"));
-        check.click();
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement Category_Body = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("check")));
+        Category_Body.click();
     }
 
     @Then("I should see the alert Accepted Invite")
     public void iShouldSeeTheAlertAcceptedInvite(){
-        // Switching to Alert
-        Alert alert = driver.switchTo().alert();
-        // Capturing alert message.
-        String alertMessage= driver.switchTo().alert().getText();
-        assertEquals(alertMessage, "Accepted Invite");
+        assertEquals(driver.switchTo().alert().getText(), "Accepted Invite");
     }
 
     @When("I click the cross mark")
     public void iClickTheCrossMark(){
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        String path = "/html/body/div[1]/div[1]/div[2]/span[2]";
-        WebElement check = driver.findElement(By.name("cross"));
-        check.click();
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement Category_Body = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("cross")));
+        Category_Body.click();
     }
 
     @Then("I should see the alert Declined Invite")
     public void iShouldSeeTheAlertDeclinedInvite(){
-        // Switching to Alert
-        Alert alert = driver.switchTo().alert();
-        // Capturing alert message.
-        String alertMessage= driver.switchTo().alert().getText();
-        assertEquals(alertMessage, "Declined Invite");
+        assertEquals(driver.switchTo().alert().getText(), "Declined Invite");
     }
 
+    // proposalResponse.feature
     @Given("I am on the proposal response page")
-    public void iAmOnTheProposalResponsePage() {
+    public void iAmOnTheProposalResponsePage() throws InterruptedException {
         iAmOnTheLoginPage();
         iFillOutMyCredentials();
         iClickOnTheLogInButton();
+//        i_select_an_event();
+//        i_click_submit();
+//
+//        i_click_submit();
         driver.get(ROOT_URL + "proposalResponse.html");
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        WebDriverWait wait = new WebDriverWait(driver, 1);
     }
 
     @And("I click yes")
     public void iClickYes() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        driver.findElement(By.cssSelector("#yes0")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 1);
+        driver.findElement(By.cssSelector("#yes00")).click();
     }
 
     @Then("the button corresponding to yes should be clicked")
     public void theButtonCorrespondingToYesShouldBeClicked() {
-        assertTrue(driver.findElement(By.cssSelector("input[id*='yes0']")).isSelected());
+        assertTrue(driver.findElement(By.cssSelector("input[id*='yes00']")).isSelected());
     }
 
     @And("I click 1 in the excitement menu")
     public void iClick1InTheExcitementMenu() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
-        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebDriverWait wait = new WebDriverWait(driver, 1);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("00")));
+        Select dropdown = new Select(driver.findElement(By.id("00")));
         dropdown.selectByVisibleText("1");
 
     }
 
     @Then("One should be selected for excitement")
     public void oneShouldBeSelectedForExcitement() {
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
-        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebDriverWait wait = new WebDriverWait(driver, 1);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("00")));
+        Select dropdown = new Select(driver.findElement(By.id("00")));
         WebElement w = dropdown.getFirstSelectedOption();
         assertEquals(1, Integer.parseInt(w.getAttribute("value")));
+    }
+
+    // dashboard.feature
+    @And("I click next")
+    public void i_click_next() {
+        driver.findElement(By.id("next-button")).click();
+    }
+
+    @Then("I should see a no events alert")
+    public void i_should_see_a_no_events_alert() {
+        assertEquals(driver.switchTo().alert().getText(), "Please add at least one event");
+    }
+
+    @And("I select an event")
+    public void i_select_an_event() throws InterruptedException {
+        driver.findElement(By.id("keywords")).sendKeys("b");
+        driver.findElement(By.id("search-button")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        WebElement Category_Body = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("eventsBox1")));
+        Category_Body.click();
+    }
+
+    @And("I click submit")
+    public void i_click_submit() {
+        driver.findElement(By.id("submit-button")).click();
+    }
+
+    @Then("I should see a no users alert")
+    public void i_should_see_a_no_users_alert() {
+        assertEquals(driver.switchTo().alert().getText(), "Please add at least one user");
+    }
+
+    @And("I select an user")
+    public void i_select_an_user() {
+        WebDriverWait wait = new WebDriverWait(driver, 1);
+        driver.findElement(By.id("username")).sendKeys("asdf");
+        driver.findElement(By.id("username")).sendKeys(Keys.ENTER);
+        driver.findElement(By.id("usersBox")).click();
+    }
+
+    @Then("I should see a no proposal name alert")
+    public void i_should_see_a_no_proposal_name_alert() {
+        assertEquals(driver.switchTo().alert().getText(), "Please add a proposal name");
+    }
+
+    @And("I write a proposal name")
+    public void i_write_a_proposal_name() {
+        driver.findElement(By.id("proposalName")).sendKeys("testing");
+    }
+
+    @Then("I should see a success alert")
+    public void i_should_see_a_success_alert() {
+        assertEquals(driver.switchTo().alert().getText(), "Proposal sent!");
+    }
+
+    //sent proposals page
+//    @Given("I am on the sent proposals page")
+//    public void iAmOnTheSentProposalsPage() throws InterruptedException {
+//        //create a proposal
+//        iAmOnTheLoginPage();
+//        iFillOutMyCredentials();
+//        iClickOnTheLogInButton();
+//        i_select_an_event();
+//        i_click_next();
+//        i_select_an_user();
+//        i_write_a_proposal_name();
+//        i_click_submit();
+//        driver.switchTo().alert().accept();
+//        //go to the sent proposals page
+//        driver.get("http://localhost:8080/sentProposals.html");
+//    }
+//
+//    @When("I click on the finalize proposals button")
+//    public void iClickOnTheFinalizeProposalsButton(){
+//        driver.findElement(By.id("prop-button")).click();
+//    }
+//
+//    @Then("I should see the alert is not empty")
+//    public void iShouldSeeTheAlertIsNotEmpty(){
+//        assertNotNull(driver.switchTo().alert().getText());
+//    }
+
+    //profile availability
+    @Given("I am on the profile page")
+    public void iAmOnTheProfilePage() {
+        iAmOnTheLoginPage();
+        iFillOutMyCredentials();
+        iClickOnTheLogInButton();
+        driver.get("http://localhost:8080/account.html");
+    }
+
+    @And("I input a start date")
+    public void iInputAStartDate(){
+        driver.findElement(By.id("start-date")).click();
+        driver.findElement(By.id("start-date")).sendKeys("2021-12-02");
+    }
+
+    @And("I input an end date")
+    public void iInputAnEndDate(){
+        driver.findElement(By.id("end-date")).click();
+        driver.findElement(By.id("end-date")).sendKeys("2021-12-09");
+    }
+    @When("I click on the submit button")
+    public void iClickOnTheSubmitButton(){
+        driver.findElement(By.id("submit-avail")).click();
+    }
+    @Then("I should see the alert Unavailability has been set!")
+    public void iShouldSeeTheAlertUnavailabilityHasBeenSet(){
+        assertEquals(driver.switchTo().alert().getText(), "Unavailability has been set!");
+    }
+
+    //blocked list feature
+    @Given("I click block")
+    public void i_click_block() {
+        driver.findElement(By.cssSelector(".blocked")).click();
+    }
+
+    @Then("the user should show up in the blocked list")
+    public void the_user_should_show_up_in_the_blocked_list() {
+        assertEquals(driver.findElement(By.cssSelector(".blocked-list")).getText(),"user3\n" +
+                "Unblock\n" +
+                "user4\n" +
+                "Unblock\n" +
+                "ExistingName\n" +
+                "Unblock");
+    }
+
+    @Given("I click unblock")
+    public void i_click_unblock() {
+        driver.findElement(By.cssSelector(".unblock")).click();
+    }
+
+    @Then("the user should show up in the unblocked list")
+    public void the_user_should_show_up_in_the_unblocked_list() {
+        assertEquals(driver.findElement(By.cssSelector(".search-users")).getText(),"ExistingName\n" +
+                "Block\n" +
+                "NonExistingName\n" +
+                "Block\n" +
+                "a\n" +
+                "Block\n" +
+                "asdf\n" +
+                "Block\n" +
+                "user3\n" +
+                "Block");
     }
 }
