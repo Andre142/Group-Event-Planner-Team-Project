@@ -671,6 +671,7 @@ public class StepDefinitions {
 
     @After()
     public void after() {
+        driver.quit();
         User u = new User("asdf", "asdf");
         DatabaseManager.object().deleteUser(u);
         DatabaseManager.object().close();
