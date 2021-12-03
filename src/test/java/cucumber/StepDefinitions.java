@@ -673,6 +673,7 @@ public class StepDefinitions {
     public void after() {
         User u = new User("asdf", "asdf");
         DatabaseManager.object().deleteUser(u);
+        DatabaseManager.object().close();
         keywords = null;
         startDate = null;
         endDate = null;

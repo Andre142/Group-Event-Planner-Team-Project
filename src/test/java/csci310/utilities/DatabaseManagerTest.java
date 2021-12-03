@@ -286,4 +286,9 @@ public class DatabaseManagerTest {
         assertEquals(true,DatabaseManager.object().getFinalResponse("id233",receiverUsername));
         assertNull(DatabaseManager.object().getFinalResponse("randomIDsome123",receiverUsername));
     }
+
+    @Test
+    public void testClose() {
+        assertTrue(DatabaseManager.object().close());
+    }
 }

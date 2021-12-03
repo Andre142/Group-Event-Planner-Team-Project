@@ -387,9 +387,15 @@ public class DatabaseManager {
             getFinalResponsePs.setString(1,proposalID);
             getFinalResponsePs.setString(2,receiverUsername);
             ResultSet rs = getFinalResponsePs.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 int response = rs.getInt(1);
-                return response == 1;
+                if (rs.wasNull())
+                {
+                    return null;
+                }
+                else {
+                    return response == 1;
+                }
             }
             throw new SQLException();
         } catch (SQLException e) {}
@@ -433,5 +439,19 @@ public class DatabaseManager {
             throw new SQLException();
         }
         catch (SQLException e) {}
+    }
+
+    public Boolean close() {
+        try
+        {
+            con.close();
+            databaseManager = null;
+
+            throw new SQLException();
+        }
+        catch (Exception e)
+        {
+            return true;
+        }
     }
 }
