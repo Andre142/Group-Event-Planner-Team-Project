@@ -61,6 +61,7 @@ public class StepDefinitions {
     }
 
 
+
     @Given("I am on the index page")
     public void i_am_on_the_index_page() {
         driver.get(ROOT_URL);
@@ -530,6 +531,27 @@ public class StepDefinitions {
                 "ExistingName\n" +
                 "Unblock");
     }
+
+    @Given("I click unblock")
+    public void i_click_unblock() {
+        driver.findElement(By.cssSelector(".unblock")).click();
+    }
+
+    @Then("the user should show up in the unblocked list")
+    public void the_user_should_show_up_in_the_unblocked_list() {
+        assertEquals(driver.findElement(By.cssSelector(".search-users")).getText(),"ExistingName\n" +
+                "Block\n" +
+                "NonExistingName\n" +
+                "Block\n" +
+                "a\n" +
+                "Block\n" +
+                "asdf\n" +
+                "Block\n" +
+                "user3\n" +
+                "Block");
+    }
+}
+
 }
     @Given("User10 has a proposal")
     public void userHasAProposal()  {
