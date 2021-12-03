@@ -436,6 +436,16 @@ public class DatabaseManager {
     }
 
     public Boolean close() {
-        return true;
+        try
+        {
+            con.close();
+            databaseManager = null;
+
+            throw new SQLException();
+        }
+        catch (Exception e)
+        {
+            return true;
+        }
     }
 }
