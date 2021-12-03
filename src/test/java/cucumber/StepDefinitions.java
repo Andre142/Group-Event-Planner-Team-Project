@@ -460,32 +460,45 @@ public class StepDefinitions {
         assertEquals(driver.switchTo().alert().getText(), "Proposal sent!");
     }
 
+//    @And("I select an user that has blocked me")
+//    public void i_select_an_user_that_has_blocked_me() {
+//        WebDriverWait wait = new WebDriverWait(driver, 1);
+//        driver.findElement(By.id("username")).sendKeys("blockee");
+//        driver.findElement(By.id("username")).sendKeys(Keys.ENTER);
+//        driver.findElement(By.id("usersBox")).click();
+//    }
+//
+//    @Then("I should see a error alert")
+//    public void i_should_see_a_error_alert() {
+//        assertEquals(driver.switchTo().alert().getText(), "This user has blocked you");
+//    }
+
     //sent proposals page
-//    @Given("I am on the sent proposals page")
-//    public void iAmOnTheSentProposalsPage() throws InterruptedException {
-//        //create a proposal
-//        iAmOnTheLoginPage();
-//        iFillOutMyCredentials();
-//        iClickOnTheLogInButton();
-//        i_select_an_event();
-//        i_click_next();
-//        i_select_an_user();
-//        i_write_a_proposal_name();
-//        i_click_submit();
-//        driver.switchTo().alert().accept();
-//        //go to the sent proposals page
-//        driver.get("http://localhost:8080/sentProposals.html");
-//    }
-//
-//    @When("I click on the finalize proposals button")
-//    public void iClickOnTheFinalizeProposalsButton(){
-//        driver.findElement(By.id("prop-button")).click();
-//    }
-//
-//    @Then("I should see the alert is not empty")
-//    public void iShouldSeeTheAlertIsNotEmpty(){
-//        assertNotNull(driver.switchTo().alert().getText());
-//    }
+    @Given("I am on the sent proposals page")
+    public void iAmOnTheSentProposalsPage() throws InterruptedException {
+        //create a proposal
+        iAmOnTheLoginPage();
+        iFillOutMyCredentials();
+        iClickOnTheLogInButton();
+        i_select_an_event();
+        i_click_next();
+        i_select_an_user();
+        i_write_a_proposal_name();
+        i_click_submit();
+        driver.switchTo().alert().accept();
+        //go to the sent proposals page
+        driver.get("http://localhost:8080/sentProposals.html");
+    }
+
+    @When("I click on the finalize proposals button")
+    public void iClickOnTheFinalizeProposalsButton(){
+        driver.findElement(By.id("prop-button")).click();
+    }
+
+    @Then("I should see the alert is not empty")
+    public void iShouldSeeTheAlertIsNotEmpty(){
+        assertNotNull(driver.switchTo().alert().getText());
+    }
 
     //profile availability
     @Given("I am on the profile page")
