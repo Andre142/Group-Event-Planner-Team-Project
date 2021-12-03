@@ -61,6 +61,7 @@ public class StepDefinitions {
     }
 
 
+
     @Given("I am on the index page")
     public void i_am_on_the_index_page() {
         driver.get(ROOT_URL);
@@ -549,7 +550,7 @@ public class StepDefinitions {
                 "user3\n" +
                 "Block");
     }
-
+  
     @Given("User10 has a proposal")
     public void userHasAProposal()  {
         Event event = new Event("testEvent1","2021-12-30","01:00:00","google.com","movie");
