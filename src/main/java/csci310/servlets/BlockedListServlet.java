@@ -30,6 +30,17 @@ public class BlockedListServlet extends HttpServlet {
 
         try
         {
+            ArrayList<String> tempBlockedList = BlockedListDatabase.GetBlockedList("test");
+        } catch (SQLException e) {
+            try {
+                BlockedListDatabase.CreateDatabase();
+                throw new SQLException();
+            } catch (SQLException ex) {
+            }
+        }
+
+        try
+        {
             try
             {
                 if (request.getParameter("throw").equalsIgnoreCase("true"))
