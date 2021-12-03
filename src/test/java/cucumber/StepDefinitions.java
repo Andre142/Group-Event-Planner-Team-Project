@@ -58,6 +58,7 @@ public class StepDefinitions {
         User user10 = new User("user10", "10");
         DatabaseManager.object().insertUser(user10);
         servlet = new SendProposalServlet();
+        DatabaseManager.object().close();
     }
 
 
