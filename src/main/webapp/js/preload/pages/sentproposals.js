@@ -97,10 +97,8 @@ const showResults = (json = {}, container) => {
             let b = document.createElement("button")
             b.id = "prop-button";
             b.textContent = i==0 ? "Recommended: Select as Final Event" : "Select as Final Event";
-            b.onclick = function(){finalizeProp(proposal.events[i].eventID, proposal.name)};
-            b.onclick = function(){
-                alert("Event "+proposal.events[i].name+" is selected as the final event for proposal "+proposal.proposalTitle+".");
-            };
+            b.onclick = function(){finalizeProp(proposal.events[i].eventID, proposal.name);
+            alert("Event "+proposal.events[i].name+" is selected as the final event for proposal "+proposal.proposalTitle+".");};
             proposalDiv.appendChild(b)
         }
         container.appendChild(proposalDiv)
