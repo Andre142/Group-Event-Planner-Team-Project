@@ -563,7 +563,7 @@ public class StepDefinitions {
                 "user3\n" +
                 "Block");
     }
-  
+
     @Given("User10 has a proposal")
     public void userHasAProposal()  {
         Event event = new Event("testEvent1","2021-12-30","01:00:00","google.com","movie");
