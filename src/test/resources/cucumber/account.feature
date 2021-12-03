@@ -15,3 +15,8 @@ Feature: Account
     Given I am on the profile page
     And I click block
     Then the user should show up in the blocked list
+
+  Scenario: Unblock User
+    Given I am on the profile page
+    And I click unblock
+    Then the user should show up in the unblocked list
