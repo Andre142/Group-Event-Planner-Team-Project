@@ -170,10 +170,6 @@ function clear(){
 function searchUsers(){
   let username = document.getElementById("username").value
   var currentUser = localStorage.getItem("username")
-  // let url1 = "http://localhost:8080/BlockedList?type=getBlocked&blocker=" + username + "&blockee=" + currentUser
-  // ajaxGet(url1, (response) => {
-  //   let json = JSON.parse(response)
-  //   if(json.data === false) {
       let url = "http://localhost:8080/search/user?q=" + username
       ajaxGet(url, (response) => {
         let json = JSON.parse(response)
@@ -190,10 +186,6 @@ function searchUsers(){
           }
         }
       })
-    // } else {
-    //   alert("This user has blocked you")
-    // }
-  // })
 }
 
 function handleClick(cb) {
@@ -206,7 +198,6 @@ function handleClick(cb) {
 
 function setName(name){
   proposalName = name.innerHTML;
-  console.log(proposalName)
 }
 
 function submit(){
@@ -217,7 +208,6 @@ function submit(){
   }
   else {
     myName = document.getElementById("proposalName").value
-    console.log(myName)
     ajaxPost(ENDPOINT_URL + "/proposal/send", {
       "proposalTitle":myName,
       senderUsername: localStorage.getItem("username"),

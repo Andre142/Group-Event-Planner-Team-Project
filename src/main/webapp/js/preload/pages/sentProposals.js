@@ -104,7 +104,6 @@ const showResults = (json = {}, container) => {
             proposalDiv.appendChild(b)
         }
         container.appendChild(proposalDiv)
-
       }
     }
   }
