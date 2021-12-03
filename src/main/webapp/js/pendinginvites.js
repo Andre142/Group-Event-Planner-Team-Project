@@ -75,8 +75,6 @@ function populate(){
                         var proposalID = json.data[i].proposalID
                         const newFinalizedProposal = new FinalizedProposal(name, date, time, url, genre, proposalID)
                         finalizedProposals.push(newFinalizedProposal)
-                        console.log("i: " + i)
-                        console.log("json: " + json.data.length)
                     }
                 }
 
@@ -85,25 +83,20 @@ function populate(){
                 finalize()
             }
         }
-
     })
-
-
 }
 
 function finalize(){
     let str = "";
     for(let i=0; i<finalizedProposals.length; i++){
-        var id = finalizedProposals[i].proposalID
 
         var currentUser = localStorage.getItem("username")
         var response;
         var flag;
 
-        ajaxGet("http://localhost:8080/response/finalized/get?username=" + currentUser + "&proposal_id=" + id, (response) => {
+        ajaxGet("http://localhost:8080/response/finalized/get?username=" + currentUser + "&proposal_id=" + finalizedProposals[i].proposalID, (response) => {
             let json = JSON.parse(response)
             response = json.data
-            console.log(finalizedProposals[0])
             if(response === null){
                 flag = "Not responded"
             } else if(response === true){
@@ -115,17 +108,14 @@ function finalize(){
                 '        <div class="card">\n' +
                 '            <img src="assets/images/invited.png" alt="" class="card_image">\n' +
                 '            <div class="card_content">\n' + `<p>${flag}</p>` +
-                `<a href="${finalizedProposals[i].url}">${finalizedProposals[i].name}</a>` + '<br>' +  `Date: ${finalizedProposals[i].date}` +  '<br>' + `Time: ${finalizedProposals[i].time}` + '<br>' + `Genre: ${finalizedProposals[i].genre}` +
+                `<a href="${finalizedProposals[i].url}">${finalizedProposals[i].proposalID}</a>` + '<br>' +  `Date: ${finalizedProposals[i].date}` +  '<br>' + `Time: ${finalizedProposals[i].time}` + '<br>' + `Genre: ${finalizedProposals[i].genre}` +
                 '            </div>\n' +
                 '            <div class="card_info">\n' +
-                '                <span class="material-icons" name="check" onclick="check(\''+id+'\')">done</span>\n' +
-                '                <span class="material-icons" name="cross" onclick="cross(\''+id+'\')">close</span>\n' +
+                '                <span class="material-icons" name="check" onclick="check(\''+finalizedProposals[i].proposalID+'\')">done</span>\n' +
+                '                <span class="material-icons" name="cross" onclick="cross(\''+finalizedProposals[i].proposalID+'\')">close</span>\n' +
                 '            </div>\n' +
                 '        </div>\n';
             document.getElementById("cards").innerHTML = str
         })
-
-
     }
-
 }

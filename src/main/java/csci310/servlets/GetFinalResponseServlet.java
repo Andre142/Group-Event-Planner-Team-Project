@@ -16,6 +16,7 @@ public class GetFinalResponseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
+        System.out.println("test");
         String username = req.getParameter("username");
         String proposalID = req.getParameter("proposal_id");
         Boolean finalResponse = DatabaseManager.object().getFinalResponse(proposalID,username);
