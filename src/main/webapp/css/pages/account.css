@@ -27,11 +27,10 @@
   text-align: center;
 }
 
-/*.list-group
-{
-    width: 900px;
-}*/
-
 footer {
   position: relative;
+}
+
+.unav{
+    margin-left: 600px;
 }

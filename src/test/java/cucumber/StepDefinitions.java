@@ -60,6 +60,7 @@ public class StepDefinitions {
         servlet = new SendProposalServlet();
     }
 
+
     @Given("I am on the index page")
     public void i_am_on_the_index_page() {
         driver.get(ROOT_URL);
@@ -364,10 +365,14 @@ public class StepDefinitions {
 
     // proposalResponse.feature
     @Given("I am on the proposal response page")
-    public void iAmOnTheProposalResponsePage() {
+    public void iAmOnTheProposalResponsePage() throws InterruptedException {
         iAmOnTheLoginPage();
         iFillOutMyCredentials();
         iClickOnTheLogInButton();
+//        i_select_an_event();
+//        i_click_submit();
+//
+//        i_click_submit();
         driver.get(ROOT_URL + "proposalResponse.html");
         WebDriverWait wait = new WebDriverWait(driver, 1);
     }
@@ -375,19 +380,19 @@ public class StepDefinitions {
     @And("I click yes")
     public void iClickYes() {
         WebDriverWait wait = new WebDriverWait(driver, 1);
-        driver.findElement(By.cssSelector("#yes0")).click();
+        driver.findElement(By.cssSelector("#yes00")).click();
     }
 
     @Then("the button corresponding to yes should be clicked")
     public void theButtonCorrespondingToYesShouldBeClicked() {
-        assertTrue(driver.findElement(By.cssSelector("input[id*='yes0']")).isSelected());
+        assertTrue(driver.findElement(By.cssSelector("input[id*='yes00']")).isSelected());
     }
 
     @And("I click 1 in the excitement menu")
     public void iClick1InTheExcitementMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 1);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
-        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("00")));
+        Select dropdown = new Select(driver.findElement(By.id("00")));
         dropdown.selectByVisibleText("1");
 
     }
@@ -395,8 +400,8 @@ public class StepDefinitions {
     @Then("One should be selected for excitement")
     public void oneShouldBeSelectedForExcitement() {
         WebDriverWait wait = new WebDriverWait(driver, 1);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("0")));
-        Select dropdown = new Select(driver.findElement(By.id("0")));
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("00")));
+        Select dropdown = new Select(driver.findElement(By.id("00")));
         WebElement w = dropdown.getFirstSelectedOption();
         assertEquals(1, Integer.parseInt(w.getAttribute("value")));
     }
@@ -454,6 +459,78 @@ public class StepDefinitions {
         assertEquals(driver.switchTo().alert().getText(), "Proposal sent!");
     }
 
+    //sent proposals page
+//    @Given("I am on the sent proposals page")
+//    public void iAmOnTheSentProposalsPage() throws InterruptedException {
+//        //create a proposal
+//        iAmOnTheLoginPage();
+//        iFillOutMyCredentials();
+//        iClickOnTheLogInButton();
+//        i_select_an_event();
+//        i_click_next();
+//        i_select_an_user();
+//        i_write_a_proposal_name();
+//        i_click_submit();
+//        driver.switchTo().alert().accept();
+//        //go to the sent proposals page
+//        driver.get("http://localhost:8080/sentProposals.html");
+//    }
+//
+//    @When("I click on the finalize proposals button")
+//    public void iClickOnTheFinalizeProposalsButton(){
+//        driver.findElement(By.id("prop-button")).click();
+//    }
+//
+//    @Then("I should see the alert is not empty")
+//    public void iShouldSeeTheAlertIsNotEmpty(){
+//        assertNotNull(driver.switchTo().alert().getText());
+//    }
+
+    //profile availability
+    @Given("I am on the profile page")
+    public void iAmOnTheProfilePage() {
+        iAmOnTheLoginPage();
+        iFillOutMyCredentials();
+        iClickOnTheLogInButton();
+        driver.get("http://localhost:8080/account.html");
+    }
+
+    @And("I input a start date")
+    public void iInputAStartDate(){
+        driver.findElement(By.id("start-date")).click();
+        driver.findElement(By.id("start-date")).sendKeys("2021-12-02");
+    }
+
+    @And("I input an end date")
+    public void iInputAnEndDate(){
+        driver.findElement(By.id("end-date")).click();
+        driver.findElement(By.id("end-date")).sendKeys("2021-12-09");
+    }
+    @When("I click on the submit button")
+    public void iClickOnTheSubmitButton(){
+        driver.findElement(By.id("submit-avail")).click();
+    }
+    @Then("I should see the alert Unavailability has been set!")
+    public void iShouldSeeTheAlertUnavailabilityHasBeenSet(){
+        assertEquals(driver.switchTo().alert().getText(), "Unavailability has been set!");
+    }
+
+    //blocked list feature
+    @Given("I click block")
+    public void i_click_block() {
+        driver.findElement(By.cssSelector(".blocked")).click();
+    }
+
+    @Then("the user should show up in the blocked list")
+    public void the_user_should_show_up_in_the_blocked_list() {
+        assertEquals(driver.findElement(By.cssSelector(".blocked-list")).getText(),"user3\n" +
+                "Unblock\n" +
+                "user4\n" +
+                "Unblock\n" +
+                "ExistingName\n" +
+                "Unblock");
+    }
+}
     @Given("User10 has a proposal")
     public void userHasAProposal()  {
         Event event = new Event("testEvent1","2021-12-30","01:00:00","google.com","movie");

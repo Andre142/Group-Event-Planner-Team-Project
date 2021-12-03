@@ -3,6 +3,7 @@ const logout = () => {
   window.location.href = "./index.html"
 }
 
+
 const account = () => {
   window.location.href = "./account.html"
 }

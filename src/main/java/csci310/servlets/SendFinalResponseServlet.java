@@ -21,6 +21,7 @@ public class SendFinalResponseServlet extends HttpServlet {
         String proposalID = req.getParameter("proposal_id");
         DatabaseManager.object().updateFinalResponse(finalResponse.equals("1") ? 1:0, proposalID, username);
 
+
         Response response = new Response(true);
         resp.getWriter().print(HelperFunctions.shared().toJson(response));
     }
