@@ -1,0 +1,8 @@
+Best Practice Coverage Report
+Owner: team47
+Grade: 11.9/12
+Comments: 
+Using commit: https://github.com/CSCI310/20213-project-team47/commit/19f02131558235bb4735fa6932807c64b0acfb61
+Reported statement coverage: 0.9987063389391979
+Reported branch coverage: 0.9925373134328358
+Average coverage: 0.9956218261860168
