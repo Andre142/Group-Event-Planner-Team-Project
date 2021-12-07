@@ -1,0 +1,21 @@
+			Grading Table - Team 47
+
+| Section                               | Grade               | Note                                    |
+|---------------------------------------|---------------------|-----------------------------------------|
+| Sprint Planning                       | 9.0/9               |                                         |
+| Scrums                                | 25.0/25             | Scrum 1:Good                            |
+|                                       |                     | Scrum 2:Good                            |
+|                                       |                     | Scrum 3:                                |
+|                                       |                     | Scrum 4:                                |
+|                                       |                     | Scrum 5:                                |
+| Retrospective                         | 6.0/6               | No retrospective required for Sprint 5. |
+| TDD                                   | 12.0/12             |                                         |
+| GitFlow                               | 12.0/12             |                                         |
+| Continuous Integration                | 10.0/12             |                                         |
+| Refactor                              | 12.0/12             |                                         |
+| Coverage                              | 11.9/12             |                                         |
+| ------------------------              | ------------------- |                                         |
+| Total                                 | 97.9                |                                         |
+| ------------------------              | ------------------- |                                         |
+| Adjustment Points                     |                     |                                         |
+| Implementation Score After Adjustment | 177/250             |                                         |
