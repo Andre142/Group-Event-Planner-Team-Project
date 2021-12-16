@@ -9,12 +9,12 @@
 |                          |                     | Scrum 4:Good                                                                                                                                             |
 |                          |                     | Scrum 5:Good                                                                                                                                             |
 | Retrospective            | 3.0/6               | No discussion on process improvement plans for Sprint Planning, TDD, or Gitflow (-3).  Note it is required to address all feedback in the grade reports. |
-| TDD                      | 11.1/12             |                                                                                                                                                          |
+| TDD                      | 12.0/12             |                                                                                                                                                          |
 | GitFlow                  | 11.0/12             |                                                                                                                                                          |
 | Continuous Integration   | 12.0/12             |                                                                                                                                                          |
 | Refactor                 | 12.0/12             |                                                                                                                                                          |
 | Coverage                 | 12.0/12             |                                                                                                                                                          |
 | ------------------------ | ------------------- |                                                                                                                                                          |
-| Total                    | 94.1                |                                                                                                                                                          |
+| Total                    | 95.0                |                                                                                                                                                          |
 | ------------------------ | ------------------- |                                                                                                                                                          |
 | Implementation Score     | 70/250              |                                                                                                                                                          |
